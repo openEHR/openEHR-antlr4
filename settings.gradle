@@ -1,0 +1,5 @@
+rootProject.name = 'openEHR-antlr4'
+include 'odin'
+include 'adl'
+include 'el'
+

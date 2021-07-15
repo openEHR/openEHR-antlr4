@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module external.system.module.type="sourceSet" type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <output url="file://$MODULE_DIR$/../../../ADL/build/classes/java/main" />
+    <exclude-output />
+    <content url="file://$MODULE_DIR$/../../../ADL/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../../ADL/src/main/java" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/../../../ADL/src/main/resources" type="java-resource" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="jdk" jdkName="1.8" jdkType="JavaSDK" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4:4.9.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr4-runtime:4.9.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:ST4:4.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.antlr:antlr-runtime:3.5.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.abego.treelayout:org.abego.treelayout.core:1.0.3" level="project" />
+    <orderEntry type="library" name="Gradle: org.glassfish:javax.json:1.0.4" level="project" />
+    <orderEntry type="library" name="Gradle: com.ibm.icu:icu4j:61.1" level="project" />
+  </component>
+</module>

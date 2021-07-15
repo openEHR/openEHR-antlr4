@@ -1,0 +1,9 @@
+description = "grammars for parsing ADL"
+
+generateGrammarSource { //antlr4
+//    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main".toString())
+    arguments = [
+            '-package', 'org.openehr.adlParser',
+            '-lib', '${projectDir}/build/generated-src/antlr/main".toString()'
+    ] + arguments
+}

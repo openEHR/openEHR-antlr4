@@ -1,0 +1,40 @@
+allprojects {
+    version = '0.1.0'
+    group = 'org.openehr'
+    ext.gradleScriptDir = "${rootProject.projectDir}/gradle"
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:all', '-quiet')
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'antlr'
+
+    ext.antlrVersion = '4.9.2'
+    generateGrammarSource { //antlr4
+        arguments = ['-encoding', 'utf-8'] + arguments
+    }
+    classes {
+        dependsOn generateGrammarSource
+    }
+    dependencies {
+        antlr 'org.antlr:antlr4:4.9.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+        compile 'org.antlr:antlr4:4.9.2'
+        compile 'org.antlr:antlr4-runtime:4.9.2'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    test {
+        useJUnitPlatform()
+    }
+}
