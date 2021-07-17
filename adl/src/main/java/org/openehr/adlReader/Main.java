@@ -2,8 +2,8 @@ package org.openehr.adlReader;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.openehr.adlParser.AdlLexer;
-import org.openehr.adlParser.AdlParser;
+import org.openehr.adlparser.AdlLexer;
+import org.openehr.adlparser.AdlParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
