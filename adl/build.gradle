@@ -3,9 +3,7 @@ description = "grammars for parsing ADL"
 generateGrammarSource { //antlr4
     outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/openehr/adlparser".toString())
     arguments = [
-            '-package', 'org.openehr.adlparser',
-            '-encoding', 'utf-8'
-
+            '-package', 'org.openehr.adlparser'
     ] + arguments
 }
 
