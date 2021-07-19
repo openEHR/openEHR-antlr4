@@ -3,11 +3,11 @@ description = "grammars for parsing ODIN"
 generateGrammarSource { //antlr4
     outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/openehr/odinparser".toString())
     arguments = [
-            '-package', 'org.openehr.odinparser',
-            '-lib', "${rootProject}/base/src/main/antlr".toString()
+            '-package', 'org.openehr.odinparser' //,
+//            '-lib', "${rootProject}/base/src/main/antlr".toString()
     ] + arguments
 
-    includes = ["${rootProject}/base/src/main/antlr".toString()]
+//    includes = ["${rootProject}/base/src/main/antlr".toString()]
 
 }
 
