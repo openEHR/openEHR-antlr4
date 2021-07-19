@@ -14,14 +14,14 @@ options { tokenVocab=AdlLexer; }
 //  ============== Parser rules ==============
 //
 
-adl: ( authored_archetype | template | template_overlay | operational_template ) EOF ;
+adl: ( authoredArchetype | template | templateOverlay | operationalTemplate ) EOF ;
 
 //
 // --------------- parser ----------------
 //
 
-authored_archetype:
-    SYM_ARCHETYPE meta_data? EOL
+authoredArchetype:
+    SYM_ARCHETYPE metaData? EOL
     ALPHANUM_ID EOL?
     ( SPECIALIZE_SECTION
         ALPHANUM_ID  EOL? ) ?
@@ -39,7 +39,7 @@ authored_archetype:
     ;
 
 template:
-    SYM_TEMPLATE meta_data? EOL
+    SYM_TEMPLATE metaData? EOL
         ALPHANUM_ID EOL?
     SPECIALIZE_SECTION
         ALPHANUM_ID EOL?
@@ -55,10 +55,10 @@ template:
         TERMINOLOGY_LINE+
     ( ANNOTATIONS_SECTION
         ANNOTATIONS_LINE+ )?
-    ( H_CMT_LINE+ template_overlay )*
+    ( H_CMT_LINE+ templateOverlay )*
     ;
 
-template_overlay:
+templateOverlay:
     SYM_TEMPLATE_OVERLAY EOL
         ALPHANUM_ID EOL?
     SPECIALIZE_SECTION
@@ -69,8 +69,8 @@ template_overlay:
         TERMINOLOGY_LINE+
     ;
 
-operational_template:
-    SYM_OPERATIONAL_TEMPLATE meta_data? EOL
+operationalTemplate:
+    SYM_OPERATIONAL_TEMPLATE metaData? EOL
         ALPHANUM_ID EOL?
     LANGUAGE_SECTION
         LANGUAGE_LINE+
@@ -88,9 +88,9 @@ operational_template:
         COMPONENT_TERMINOLOGIES_LINE+ )?
     ;
 
-meta_data: SYM_LPAREN meta_data_item  (SYM_SEMI_COLON meta_data_item )* SYM_RPAREN ;
+metaData: SYM_LPAREN metaDataItem  (SYM_SEMI_COLON metaDataItem )* SYM_RPAREN ;
 
-meta_data_item:
+metaDataItem:
       SYM_ADL_VERSION SYM_EQUAL WS? ALPHANUM_ID
     | SYM_UID SYM_EQUAL WS? ALPHANUM_ID
     | SYM_BUILD_UID SYM_EQUAL WS? ALPHANUM_ID
