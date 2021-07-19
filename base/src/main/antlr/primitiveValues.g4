@@ -53,14 +53,14 @@ timeIntervalValue :
     ;
 timeIntervalListValue : timeIntervalValue ( ( ',' timeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-date_timeValue : ISO8601_DATE_TIME ;
-date_timeListValue : date_timeValue ( ( ',' date_timeValue )+ | ',' SYM_LIST_CONTINUE ) ;
-date_timeIntervalValue :
-      '|' SYM_GT? date_timeValue SYM_INTERVAL_SEP SYM_LT? date_timeValue '|'
-    | '|' relop? date_timeValue '|'
-    | '|' date_timeValue SYM_PLUS_OR_MINUS durationValue '|'
+dateTimeValue : ISO8601_DATE_TIME ;
+dateTimeListValue : dateTimeValue ( ( ',' dateTimeValue )+ | ',' SYM_LIST_CONTINUE ) ;
+dateTimeIntervalValue :
+      '|' SYM_GT? dateTimeValue SYM_INTERVAL_SEP SYM_LT? dateTimeValue '|'
+    | '|' relop? dateTimeValue '|'
+    | '|' dateTimeValue SYM_PLUS_OR_MINUS durationValue '|'
     ;
-date_timeIntervalListValue : date_timeIntervalValue ( ( ',' date_timeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+dateTimeIntervalListValue : dateTimeIntervalValue ( ( ',' dateTimeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
 durationValue : ISO8601_DURATION ;
 durationListValue : durationValue ( ( ',' durationValue )+ | ',' SYM_LIST_CONTINUE ) ;

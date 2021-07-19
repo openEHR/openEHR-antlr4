@@ -8,7 +8,7 @@
 //
 
 grammar odin;
-import basePatterns;
+import primitiveValues;
 
 //
 // -------------------------- Parse Rules --------------------------
@@ -32,7 +32,7 @@ odinObjectBlock :
 
 odinObjectValueBlock : ( '(' rmTypeId ')' )? '<' ( primitiveObject | odinAttrVals? | odinKeyedObject* ) '>' ;
 
-odinKeyedObject : '[' .*? ']' '=' odinObjectBlock ;
+odinKeyedObject : '[' primitiveValue ']' '=' odinObjectBlock ;
 
 // ----------- references -------------
 
