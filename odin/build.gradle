@@ -1,19 +1,17 @@
-plugins {
-    id 'java'
+description = "grammars for parsing ODIN"
+
+generateGrammarSource { //antlr4
+    outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/openehr/odinparser".toString())
+    arguments = [
+            '-package', 'org.openehr.odinparser',
+            '-lib', "${rootProject}/base/src/main/antlr".toString()
+    ] + arguments
+
+    includes = ["${rootProject}/base/src/main/antlr".toString()]
+
 }
 
-group 'org.openehr'
-version '0.1.0'
-
-repositories {
-    mavenCentral()
+classes {
+    dependsOn generateGrammarSource
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-}
-
-test {
-    useJUnitPlatform()
-}
