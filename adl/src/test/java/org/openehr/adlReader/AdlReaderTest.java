@@ -2,7 +2,8 @@ package org.openehr.adlReader;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.junit.Test;
+
+import org.junit.jupiter.api.Test;
 import org.openehr.adlparser.AdlLexer;
 import org.openehr.adlparser.AdlParser;
 
