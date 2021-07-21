@@ -42,6 +42,10 @@ fragment VERSION_REF: DIGIT+ ('.' DIGIT+ ('.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.
 VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
 fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
 
+// ------------------ special values --------------
+
+SYM_TRUE  : [Tt][Rr][Uu][Ee] ;
+SYM_FALSE : [Ff][Aa][Ll][Ss][Ee] ;
 
 // --------------------- URIs --------------------
 
@@ -50,7 +54,7 @@ fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
 
 URI : URI_SCHEME ':' URI_HIER_PART ( '?' URI_QUERY )? ('#' URI_FRAGMENT)? ;
 
-fragment URI_HIER_PART : 
+fragment URI_HIER_PART :
       ( '//' URI_AUTHORITY ) URI_PATH_ABEMPTY
     | URI_PATH_ABSOLUTE
     | URI_PATH_ROOTLESS
@@ -110,9 +114,6 @@ ALPHA_UNDERSCORE_ID : '_' WORD_CHAR* ;     // usually used for meta-model ids
 
 // --------------------- atomic primitive types -------------------
 
-SYM_TRUE  : [Tt][Rr][Uu][Ee] ;
-SYM_FALSE : [Ff][Aa][Ll][Ss][Ee] ;
-
 INTEGER : DIGIT+ E_SUFFIX? ;
 REAL :    DIGIT+ '.' DIGIT+ E_SUFFIX? ;
 fragment E_SUFFIX : [eE][+-]? DIGIT+ ;
@@ -138,6 +139,4 @@ fragment UTF8CHAR    : '\\u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
 
 fragment DIGIT     : [0-9] ;
 fragment HEX_DIGIT : [0-9a-fA-F] ;
-
-
 

@@ -7,8 +7,8 @@
 // license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-grammar odin;
-import primitiveValues;
+grammar Odin;
+import PrimitiveValues;
 
 //
 // -------------------------- Parse Rules --------------------------
@@ -27,7 +27,7 @@ odinKey : ALPHA_UC_ID | ALPHA_UNDERSCORE_ID | rmAttributeId ;
 
 odinObjectBlock :
       odinObjectValueBlock
-    | odinObject_referenceBlock
+    | odinObjectReferenceBlock
     ;
 
 odinObjectValueBlock : ( '(' rmTypeId ')' )? '<' ( primitiveObject | odinAttrVals? | odinKeyedObject* ) '>' ;
@@ -36,7 +36,7 @@ odinKeyedObject : '[' primitiveValue ']' '=' odinObjectBlock ;
 
 // ----------- references -------------
 
-odinObject_referenceBlock : '<' odinPathList '>' ;
+odinObjectReferenceBlock : '<' odinPathList '>' ;
 
 odinPathList : path ( ( ',' path )+ | SYM_LIST_CONTINUE )? ;
 path         : pathSegment? ( '/' pathSegment? )+ ;
@@ -90,4 +90,9 @@ primitiveIntervalValue :
     | durationIntervalValue
     ;
 
+//
+// -------------- lexer rules ---------------
+//
 
+CMT_LINE   : '--' .*? '\r'? '\n'  -> skip ;
+WS : [ \t\r\n]+    -> channel(HIDDEN) ;
