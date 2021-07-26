@@ -14,7 +14,7 @@ import PrimitiveValues;
 // -------------------------- Parse Rules --------------------------
 //
 
-odinText :
+odinObject :
       odinAttrVals
     | odinObjectValueBlock
     ;
@@ -34,7 +34,7 @@ odinObjectValueBlock : ( '(' rmTypeId ')' )? '<' ( primitiveObject | odinAttrVal
 
 odinKeyedObject : '[' primitiveValue ']' '=' odinObjectBlock ;
 
-// ----------- references -------------
+// ----------------- references ------------------
 
 odinObjectReferenceBlock : '<' odinPathList '>' ;
 
@@ -42,43 +42,43 @@ odinPathList : path ( ( ',' path )+ | SYM_LIST_CONTINUE )? ;
 path         : pathSegment? ( '/' pathSegment? )+ ;
 pathSegment : ALPHA_LC_ID ('[' .*? ']')? ;
 
-// -------- from base/basePatterns ----------
+// ---------------- model references --------------
 rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : ALPHA_LC_ID ;
 
-// ------ leaf types ------
+// ------------------- leaf types -----------------
 
 primitiveObject :
-      primitiveValue 
-    | primitiveListValue 
-    | primitiveIntervalValue 
+      primitiveValue
+    | primitiveListValue
+    | primitiveIntervalValue
     ;
 
 primitiveValue :
-      stringValue 
-    | integerValue 
-    | realValue 
-    | booleanValue 
-    | characterValue 
+      stringValue
+    | integerValue
+    | realValue
+    | booleanValue
+    | characterValue
     | termCodeValue
     | dateValue
-    | timeValue 
-    | dateTimeValue 
-    | durationValue 
-    | uriValue 
+    | timeValue
+    | dateTimeValue
+    | durationValue
+    | uriValue
     ;
 
-primitiveListValue : 
-      stringListValue 
-    | integerListValue 
-    | realListValue 
-    | booleanListValue 
-    | characterListValue 
+primitiveListValue :
+      stringListValue
+    | integerListValue
+    | realListValue
+    | booleanListValue
+    | characterListValue
     | termCodeListValue
     | dateListValue
-    | timeListValue 
-    | dateTimeListValue 
-    | durationListValue 
+    | timeListValue
+    | dateTimeListValue
+    | durationListValue
     ;
 
 primitiveIntervalValue :
@@ -94,5 +94,7 @@ primitiveIntervalValue :
 // -------------- lexer rules ---------------
 //
 
-CMT_LINE   : '--' .*? '\r'? '\n'  -> skip ;
-WS : [ \t\r\n]+    -> channel(HIDDEN) ;
+// ---------- lines and comments ----------
+CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
+WS         : [ \t\r]+     -> channel(HIDDEN) ;

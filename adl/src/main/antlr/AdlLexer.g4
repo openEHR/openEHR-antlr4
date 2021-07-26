@@ -11,10 +11,10 @@ lexer grammar AdlLexer;
 
 // ---------- lines and comments ----------
 
-EOL : '\n' ;
-H_CMT_LINE : '--------' '-'*? '\r'? EOL  ;         // long comment line for splitting template overlays
-CMT_LINE   : '--' .*? '\r'? EOL  -> skip ;   // (increment line count)
-WS : [ \t\r]+    -> channel(HIDDEN) ;
+H_CMT_LINE : '--------' '-'*? EOL  ;            // long comment line for splitting template overlays
+CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
+WS         : [ \t\r]+     -> channel(HIDDEN) ;
 
 // ----------------- ADL keywords ---------------
 

@@ -8,7 +8,7 @@
 //
 
 grammar Cadl;
-import Odin, El;
+import CPrimitiveValues, Odin, El;
 
 //
 //  ======================= Top-level Objects ========================
@@ -68,56 +68,19 @@ cAttributeTuple : '[' rmAttributeId ( ',' rmAttributeId )* ']' SYM_MATCHES '{' c
 
 cPrimitiveTuple : '[' '{' cInlinePrimitiveObject '}' ( ',' '{' cInlinePrimitiveObject '}' )* ']' ;
 
-// ------------ Primitive type constraints -------------
 
-cInlinePrimitiveObject:
-      cInteger
-    | cReal
-    | cDate
-    | cTime
-    | cDateTime
-    | cDuration
-    | cString
-    | cTerminology_code
-    | cBoolean
-    ;
-
-cInteger: ( integerValue | integerListValue | integerIntervalValue | integerIntervalListValue ) assumedIntegerValue? ;
-assumedIntegerValue: ';' integerValue ;
-
-cReal: ( realValue | realListValue | realIntervalValue | realIntervalListValue ) assumedRealValue? ;
-assumedRealValue: ';' realValue ;
-
-cDateTime: ( DATE_TIME_CONSTRAINT_PATTERN | dateTimeValue | dateTimeListValue | dateTimeIntervalValue | dateTimeIntervalListValue ) assumedDateTimeValue? ;
-assumedDateTimeValue: ';' dateTimeValue ;
-
-cDate: ( DATE_CONSTRAINT_PATTERN | dateValue | dateListValue | dateIntervalValue | dateIntervalListValue ) assumedDateValue? ;
-assumedDateValue: ';' dateValue ;
-
-cTime: ( TIME_CONSTRAINT_PATTERN | timeValue | timeListValue | timeIntervalValue | timeIntervalListValue ) assumedTimeValue? ;
-assumedTimeValue: ';' timeValue ;
-
-cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | durationValue ))?
-    | durationValue | durationListValue | durationIntervalValue | durationIntervalListValue ) assumedDurationValue?
-    ;
-assumedDurationValue: ';' durationValue ;
-
-cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
-assumedStringValue: ';' stringValue ;
-
-// ADL2 term types: [ac3], [ac3; at5], [at5]
-// NOTE: an assumed at-code (the ';' AT_CODE pattern) can only occur after an ac-code not after the single at-code
-cTerminology_code: '[' ( ( AC_CODE ( ';' AT_CODE )? ) | AT_CODE ) ']' ;
-
-cBoolean: ( booleanValue | booleanListValue ) assumedBooleanValue? ;
-assumedBooleanValue: ';' booleanValue ;
-
-// -------- from base/basePatterns ----------
+// ---------------- model references --------------
 rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : ALPHA_LC_ID ;
 
-// =================== CADL lexer rules ================
+// =================== CADL lexer rules ===================
 
+// ------------------ lines and comments ------------------
+CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
+WS         : [ \t\r]+     -> channel(HIDDEN) ;
+
+// ----------------------- keywords -----------------------
 SYM_EXISTENCE   : [Ee][Xx][Ii][Ss][Tt][Ee][Nn][Cc][Ee] ;
 SYM_OCCURRENCES : [Oo][Cc][Cc][Uu][Rr][Rr][Ee][Nn][Cc][Ee][Ss] ;
 SYM_CARDINALITY : [Cc][Aa][Rr][Dd][Ii][Nn][Aa][Ll][Ii][Tt][Yy] ;
@@ -135,39 +98,13 @@ SYM_CLOSED      : [Cc][Ll][Oo][Ss][Ee][Dd] ;
 
 SYM_DEFAULT     : '_'[Dd][Ee][Ff][Aa][Uu][Ll][Tt] ;
 
-// ---------- Delimited Regex matcher ------------
-// In ADL, a regexp can only exist between {}.
-// allows for '/' or '^' delimiters
-// logical form - REGEX: '/' ( '\\/' | ~'/' )+ '/' | '^' ( '\\^' | ~'^' )+ '^';
+SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
 
-DELIMITED_REGEX: SLASH_REGEX | CARET_REGEX ;
-fragment SLASH_REGEX: '/' SLASH_REGEX_CHAR+ '/';
-fragment SLASH_REGEX_CHAR: ~[/\n\r] | ESCAPE_SEQ | '\\/';
-
-fragment CARET_REGEX: '^' CARET_REGEX_CHAR+ '^';
-fragment CARET_REGEX_CHAR: ~[^\n\r] | ESCAPE_SEQ | '\\^';
-
-// ---------- various ADL2 codes -------
+// ---------------- various ADL codes --------------------
 
 ROOT_ID_CODE : 'id1' '.1'* ;
 ID_CODE      : 'id' CODE_STR ;
 AT_CODE      : 'at' CODE_STR ;
 AC_CODE      : 'ac' CODE_STR ;
 fragment CODE_STR : ('0' | [1-9][0-9]*) ( '.' ('0' | [1-9][0-9]* ))* ;
-
-
-// ---------- ISO8601-based date/time/duration constraint patterns
-
-DATE_CONSTRAINT_PATTERN      : YEAR_PATTERN '-' MONTH_PATTERN '-' DAY_PATTERN ;
-TIME_CONSTRAINT_PATTERN      : HOUR_PATTERN ':' MINUTE_PATTERN ':' SECOND_PATTERN ;
-DATE_TIME_CONSTRAINT_PATTERN : DATE_CONSTRAINT_PATTERN 'T' TIME_CONSTRAINT_PATTERN ;
-DURATION_CONSTRAINT_PATTERN  : 'P' [yY]?[mM]?[Ww]?[dD]? ( 'T' [hH]?[mM]?[sS]? )? ;
-
-fragment YEAR_PATTERN   : ( 'yyy' 'y'? ) | ( 'YYY' 'Y'? ) ;
-fragment MONTH_PATTERN  : 'mm' | 'MM' | '??' | 'XX' | 'xx' ;
-fragment DAY_PATTERN    : 'dd' | 'DD' | '??' | 'XX' | 'xx'  ;
-fragment HOUR_PATTERN   : 'hh' | 'HH' | '??' | 'XX' | 'xx'  ;
-fragment MINUTE_PATTERN : 'mm' | 'MM' | '??' | 'XX' | 'xx'  ;
-fragment SECOND_PATTERN : 'ss' | 'SS' | '??' | 'XX' | 'xx'  ;
-
 

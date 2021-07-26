@@ -8,139 +8,111 @@
 //
 
 grammar El;
-import PrimitiveValues, ElLexer;
+import PathLexer, Cadl;
+
+elText: statement+ ;
+
+statement: variableDeclaration | assignment | assertion;
+
+variableDeclaration: VARIABLE_ID ':' typeId ( SYM_ASSIGNMENT expression )? ;
+
+assignment: VARIABLE_ID SYM_ASSIGNMENT expression ;
+
+assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
 
 //
-// Statements: currently, assignment or assertion
-// TODO: the direct assignment of symbol to path ('mappedDataRef')
-// is ambiguous; to be reviewed in next version
+// Expressions
 //
-
-statement: assignment | assertion;
-
-assignment: 
-      VARIABLE_ID ':' ALPHA_UC_ID SYM_ASSIGNMENT mappedDataRef
-    | VARIABLE_ID ( ':' ALPHA_UC_ID )? SYM_ASSIGNMENT expression 
-    ;
-
-assertion: ( identifier ':' )? booleanExpr 
-    ;
-
-
-//
-// General expressions
-//
-
 expression:
-      simpleExpression
-    | forAllExpr
-    | thereExistsExpr
-    ;
-    
-simpleExpression:
       booleanExpr
     | arithmeticExpr
     ;
-    
-// Universal and existential quantifier
-
-forAllExpr:
-      SYM_FOR_ALL VARIABLE_ID ':' valueRef '|'? booleanExpr
-    ;
-
-thereExistsExpr:
-      SYM_THERE_EXISTS VARIABLE_ID ':' valueRef '|'? booleanExpr
-    ;
 
 //
-// Expressions evaluating to boolean values
+// Expressions evaluating to boolean values, using standard precedence
+// The equalityBinop ones are not strictly necessary, but allow the use
+// of booleanLeaf = true, which some people like
 //
-
 booleanExpr:
-      booleanExpr SYM_AND booleanLeaf
-    | booleanExpr SYM_XOR booleanLeaf
-    | booleanExpr SYM_OR booleanLeaf
-    | booleanExpr SYM_IMPLIES booleanLeaf
+      SYM_NOT booleanExpr
+    | booleanExpr SYM_AND booleanExpr
+    | booleanExpr SYM_XOR booleanExpr
+    | booleanExpr SYM_OR booleanExpr
+    | booleanExpr SYM_IMPLIES booleanExpr
+    | booleanLeaf equalityBinop booleanLiteral
     | booleanLeaf
     ;
 
-// basic boolean expression elements
-
+//
+// Atomic boolean expression elements
+//
 booleanLeaf:
       booleanLiteral
     | instanceRef
+    | forAllExpr
+    | thereExistsExpr
     | '(' booleanExpr ')'
     | relationalExpr
-    | comparisonExpr
+    | equalityExpr
     | constraintExpr
     | SYM_EXISTS mappedDataRef
-    | SYM_NOT booleanLeaf
     ;
 
-constraintExpr: 
-      mappedDataRef SYM_MATCHES '{' cPrimitiveObject '}' 
+// Universal and existential quantifier
+// TODO: 'in' probably isn't needed in the long term
+forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
+
+thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
+
+// Constraint expressions
+constraintExpr:
+      instanceRef SYM_MATCHES '{' cInlinePrimitiveObject '}'
     ;
 
 booleanLiteral:
       SYM_TRUE
     | SYM_FALSE
     ;
-    
-//
-// Comparison expression between any operand
-//
-
-comparisonExpr: 
-      simpleExpression equalityBinop simpleExpression
-    ;
 
 //
-// Relational expressions of arithmetic operands
+// Expressions evaluating to arithmetic values, using standard precedence
 //
-
-relationalExpr: 
-      arithmeticExpr relationalBinop arithmeticExpr
-    ;
-
-equalityBinop:
-      SYM_EQ
-    | SYM_NE
-    ;
-    
-relationalBinop:
-      equalityBinop
-    | SYM_GT
-    | SYM_LT
-    | SYM_LE
-    | SYM_GE
-    ;
-
-//
-// Expressions evaluating to arithmetic values
-//
-
-arithmeticExpr: 
+arithmeticExpr:
       <assoc=right> arithmeticExpr '^' arithmeticLeaf
-    | arithmeticExpr multOp arithmeticLeaf
-    | arithmeticExpr addOp arithmeticLeaf
+    | arithmeticExpr ( '/' | '*' ) arithmeticLeaf
+    | arithmeticExpr ( '+' | '-' ) arithmeticLeaf
     | arithmeticLeaf
     ;
 
 arithmeticLeaf:
       integerValue
     | realValue
-    | instanceRef   
+    | instanceRef
     | '(' arithmeticExpr ')'
     ;
 
-multOp:
-      '/'
-    | '*'
+//
+// Equality expression between any arithmetic value; precedence is
+// lowest, so only needed between leaves, since () will be needed for
+// larger expressions anyway
+//
+equalityExpr: arithmeticExpr equalityBinop arithmeticExpr ;
+
+equalityBinop:
+      SYM_EQ
+    | SYM_NE
     ;
 
-addOp:
-      '+'
-    | '-'
+//
+// Relational expressions of arithmetic operands
+//
+relationalExpr: arithmeticExpr relationalBinop arithmeticExpr ;
+
+relationalBinop:
+      SYM_GT
+    | SYM_LT
+    | SYM_LE
+    | SYM_GE
     ;
 
 //
@@ -148,25 +120,47 @@ addOp:
 // TODO: Currently treat ADL paths as 'mapped' data references;
 // which is ambiguous, since an ADL path may match multiple runtime objects
 //
-
 instanceRef:
-      valueRef
-    | functionCall
+      functionCall
+    | valueRef
     ;
 
 valueRef:
       mappedDataRef
-    | variableId
+    | VARIABLE_ID
     ;
 
 mappedDataRef: ADL_PATH ;
 
-variableId: ALPHA_LC_ID ;
+functionCall: ALPHA_LC_ID '(' ( expression ( ',' expression )* )? ')' ;
 
-identifier: ALPHA_LC_ID | ALPHA_UC_ID ;
-
-functionCall: ALPHA_LC_ID '(' ( expression (',' expression)* )? ')' ;
+typeId: ALPHA_UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
 
-	
-    
+//
+// ---------- Lexer definitions ----------
+//
+
+// ---------- lines and comments ----------
+CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
+WS         : [ \t\r]+     -> channel(HIDDEN) ;
+
+// --------- symbols ----------
+SYM_ASSIGNMENT: ':=' | '::=' ;
+
+SYM_NE : '/=' | '!=' | '≠' ;
+SYM_EQ : '=' ;
+
+SYM_THEN     : [Tt][Hh][Ee][Nn] ;
+SYM_AND      : [Aa][Nn][Dd] | '∧' ;
+SYM_OR       : [Oo][Rr] | '∨' ;
+SYM_XOR      : [Xx][Oo][Rr] ;
+SYM_NOT      : [Nn][Oo][Tt] | '!' | '~' | '¬' ;
+SYM_IMPLIES  : [Ii][Mm][Pp][Ll][Ii][Ee][Ss] | '⇒' ;
+SYM_FOR_ALL  : 'for_all' | '∀' ;
+SYM_THERE_EXISTS: 'there_exists' | '∃' ;
+SYM_EXISTS   : 'exists' ;
+SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
+
+VARIABLE_ID: '$' ALPHA_LC_ID;

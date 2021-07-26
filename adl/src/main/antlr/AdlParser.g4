@@ -7,6 +7,10 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
+//
+// This grammar is separated to allow modes in the lexical part.
+// Combined grammars can't have modes.
+//
 parser grammar AdlParser;
 options { tokenVocab=AdlLexer; }
 
@@ -14,17 +18,17 @@ options { tokenVocab=AdlLexer; }
 //  ============== Parser rules ==============
 //
 
-adl: ( authoredArchetype | template | templateOverlay | operationalTemplate ) EOF ;
+adlObject: ( authoredArchetype | template | templateOverlay | operationalTemplate ) EOF ;
 
 //
 // --------------- parser ----------------
 //
 
 authoredArchetype:
-    SYM_ARCHETYPE metaData? EOL
-    ALPHANUM_ID EOL?
+    SYM_ARCHETYPE metaData?
+    ALPHANUM_ID
     ( SPECIALIZE_SECTION
-        ALPHANUM_ID  EOL? ) ?
+        ALPHANUM_ID ) ?
     LANGUAGE_SECTION
         LANGUAGE_LINE+
     DESCRIPTION_SECTION

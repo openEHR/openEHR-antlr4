@@ -5,7 +5,7 @@
 //  copyright:   Copyright (c) 2018- openEHR Foundation <http://www.openEHR.org>
 //
 
-lexer grammar baseLexer;
+lexer grammar BaseLexer;
 
 // ---------- ISO8601 Date/Time values ----------
 
@@ -32,15 +32,6 @@ ISO8601_DURATION : '-'?'P' (DIGIT+ [yY])? (DIGIT+ [mM])? (DIGIT+ [wW])? (DIGIT+[
 
 TERM_CODE_REF : '[' TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ']' ;  // e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
 fragment TERM_CODE_CHAR: NAME_CHAR | '.' ;
-
-// ---------------------- openEHR Identifiers ---------------------
-
-ARCHETYPE_HRID      : ARCHETYPE_HRID_ROOT '.v' VERSION_ID ;
-ARCHETYPE_REF       : ARCHETYPE_HRID_ROOT '.v' VERSION_REF ;
-fragment ARCHETYPE_HRID_ROOT : (NAMESPACE '::')? ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '.' LABEL ;
-fragment VERSION_REF: DIGIT+ ('.' DIGIT+ ('.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )?)?)? ;
-VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
-fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
 
 // ------------------ special values --------------
 
@@ -107,6 +98,8 @@ fragment NAMESPACE : LABEL ('.' LABEL)* ;
 fragment LABEL : ALPHA_CHAR (NAME_CHAR | URI_PCT_ENCODED)* ;
 
 GUID : HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ ;
+
+// ------------------ identifiers ----------------
 
 ALPHA_UC_ID :   ALPHA_UCHAR WORD_CHAR* ;   // used for type ids
 ALPHA_LC_ID :   ALPHA_LCHAR WORD_CHAR* ;   // used for attribute / method ids

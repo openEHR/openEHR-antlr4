@@ -5,8 +5,8 @@
 // copyright:   Copyright (c) 2018- openEHR Foundation <http://www.openEHR.org>
 //
 
-grammar primitiveValues;
-import baseLexer;
+grammar PrimitiveValues;
+import BaseLexer;
 
 stringValue : STRING ;
 stringListValue : stringValue ( ( ',' stringValue )+ | ',' SYM_LIST_CONTINUE ) ;
@@ -84,8 +84,6 @@ SYM_GT : '>' ;
 SYM_LT : '<' ;
 SYM_LE : '<=' | '≤' ;
 SYM_GE : '>=' | '≥' ;
-//SYM_NE : '/=' | '!=' | '≠' ;
-//SYM_EQ : '=' ;
 SYM_PLUS_OR_MINUS : '+/-' | '±' ;
 
 SYM_INTERVAL_SEP: '..' ;
