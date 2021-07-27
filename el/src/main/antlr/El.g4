@@ -1,5 +1,5 @@
 //
-//  description: Antlr4 grammar for openEHR Rules core syntax.
+//  description: Antlr4 grammar for openEHR Expression Language.
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -8,7 +8,7 @@
 //
 
 grammar El;
-import PathLexer, Cadl;
+import PathLexer, CPrimitiveValues;
 
 elText: statement+ ;
 
@@ -151,6 +151,10 @@ SYM_ASSIGNMENT: ':=' | '::=' ;
 
 SYM_NE : '/=' | '!=' | '≠' ;
 SYM_EQ : '=' ;
+SYM_GT : '>' ;
+SYM_LT : '<' ;
+SYM_LE : '<=' | '≤' ;
+SYM_GE : '>=' | '≥' ;
 
 SYM_THEN     : [Tt][Hh][Ee][Nn] ;
 SYM_AND      : [Aa][Nn][Dd] | '∧' ;

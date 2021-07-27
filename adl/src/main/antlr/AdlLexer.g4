@@ -1,5 +1,6 @@
 //
-//  description: Antlr4 grammar for Archetype Definition Language (ADL2)
+//  description: Antlr4 lexer rules for Archetype Definition Language (ADL2), based on two-pass
+//               approach used in associated AdlParser.
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>

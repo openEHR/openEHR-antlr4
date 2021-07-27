@@ -1,6 +1,7 @@
 //
-// grammar defining ODIN terminal value types, including atoms, lists and intervals
-// author:      Pieter Bos <pieter.bos@nedap.com>
+// Grammar defining compact terminal value types, including atoms, lists and intervals that
+// may be used in ODIN but also other formalisms such as JSON (schema driven) and YAML.
+// author:      Pieter Bos <pieter.bos@nedap.com>, Thomas Beale <thomas.beale@openEHR.org>
 // support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
 // copyright:   Copyright (c) 2018- openEHR Foundation <http://www.openEHR.org>
 //

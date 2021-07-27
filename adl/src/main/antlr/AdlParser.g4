@@ -1,5 +1,7 @@
 //
-//  description: Antlr4 grammar for Archetype Definition Language (ADL2)
+//  description: Antlr4 grammar for Archetype Definition Language (ADL2). This is a line-oriented
+//               grammar designed to extract the verious sub-parts of an archetype and parse them
+//               in a second pass, using the appropriate sub-language parser, ie. Cadl, EL, ODIN etc.
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -39,14 +41,15 @@ authoredArchetype:
         RULES_LINE+ )?
     TERMINOLOGY_SECTION
         TERMINOLOGY_LINE+
-    ( ANNOTATIONS_SECTION ANNOTATIONS_LINE+ )?
+    ( ANNOTATIONS_SECTION
+        ANNOTATIONS_LINE+ )?
     ;
 
 template:
-    SYM_TEMPLATE metaData? EOL
-        ALPHANUM_ID EOL?
+    SYM_TEMPLATE metaData?
+        ALPHANUM_ID
     SPECIALIZE_SECTION
-        ALPHANUM_ID EOL?
+        ALPHANUM_ID
     LANGUAGE_SECTION
         LANGUAGE_LINE+
     DESCRIPTION_SECTION
@@ -63,10 +66,10 @@ template:
     ;
 
 templateOverlay:
-    SYM_TEMPLATE_OVERLAY EOL
-        ALPHANUM_ID EOL?
+    SYM_TEMPLATE_OVERLAY
+        ALPHANUM_ID
     SPECIALIZE_SECTION
-        ALPHANUM_ID EOL?
+        ALPHANUM_ID
     DEFINITION_SECTION
         DEFINITION_LINE+
     TERMINOLOGY_SECTION
@@ -74,8 +77,8 @@ templateOverlay:
     ;
 
 operationalTemplate:
-    SYM_OPERATIONAL_TEMPLATE metaData? EOL
-        ALPHANUM_ID EOL?
+    SYM_OPERATIONAL_TEMPLATE metaData?
+        ALPHANUM_ID
     LANGUAGE_SECTION
         LANGUAGE_LINE+
     DESCRIPTION_SECTION
@@ -92,7 +95,7 @@ operationalTemplate:
         COMPONENT_TERMINOLOGIES_LINE+ )?
     ;
 
-metaData: SYM_LPAREN metaDataItem  (SYM_SEMI_COLON metaDataItem )* SYM_RPAREN ;
+metaData: SYM_LPAREN metaDataItem (SYM_SEMI_COLON metaDataItem )* SYM_RPAREN ;
 
 metaDataItem:
       SYM_ADL_VERSION SYM_EQUAL WS? ALPHANUM_ID
