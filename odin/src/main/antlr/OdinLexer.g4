@@ -23,13 +23,19 @@ SYM_LT : '<' ;
 SYM_LBRACKET : '[';
 SYM_RBRACKET : ']';
 
-SYM_IVL_DELIM: '|' ;
+// -------------------- symbols for lists ------------------------
+SYM_LIST_CONTINUE: '...' ;
 SYM_COMMA: ',' ;
+
+// ------------------ symbols for intervals ----------------------
+SYM_LE : '<=' | '≤' ;
+SYM_GE : '>=' | '≥' ;
+SYM_PLUS_OR_MINUS : '+/-' | '±' ;
+
+SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
 
 // -------------------- ODIN paths ------------------------
 ODIN_PATH : ODIN_PATH_PREDICATE? ODIN_PATH_SEGMENT+ ;
 fragment ODIN_PATH_SEGMENT: '/' ALPHA_LC_ID ODIN_PATH_PREDICATE? ;
 fragment ODIN_PATH_PREDICATE: '[' .+? ']' ;
-
-SYM_LIST_CONTINUE: '...' ;

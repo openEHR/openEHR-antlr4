@@ -12,10 +12,12 @@ options { tokenVocab=OdinLexer; }
 import PrimitiveValuesParser;
 
 //
-// -------------------------- Parse Rules --------------------------
+//  ======================= Top-level Objects ========================
 //
 
 odinObject : ( odinAttrVal+ | odinObjectValueBlock ) EOF ;
+
+// ----------------- complex objects ------------------
 
 odinAttrVal : odinAttrName '=' odinObjectBlock ';'? ;
 
@@ -38,7 +40,7 @@ odinObjectReferenceBlock : '<' odinPathList '>' ;
 
 odinPathList : ODIN_PATH ( ',' SYM_LIST_CONTINUE | ( ',' ODIN_PATH )+ )? ;
 
-// ---------------- model references --------------
+// ---------------- model identifiers --------------
 rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : ALPHA_LC_ID ;
 
