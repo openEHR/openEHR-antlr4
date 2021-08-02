@@ -15,9 +15,15 @@ motor = <
 		gasket = <"EM gasket no 1">
 		extractor = <"Extractor left-hand, 3 cyl">
 	>
-	exhaust_manifold_right = </motor/exhaust_manifold_left>
+	exhaust_manifold_right = </motor/exhaust_manifold_left, ...>
+	front_wheels = </wheels["front_left"], /wheels["front_right"]>
+	back_wheels = </wheels["back_left"], ...>
 >
 wheels = <
+    ["front_left"] = <"wheel">
+    ["front_right"] = <"wheel">
+    ["rear_left"] = <"wheel">
+    ["rear_right"] = <"wheel">
 >
 body = <
 >

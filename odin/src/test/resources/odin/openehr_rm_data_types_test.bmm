@@ -1,0 +1,145 @@
+------------------------------------------------------
+-- BMM version on which these schemas are based.
+------------------------------------------------------
+bmm_version = <"2.1">
+
+------------------------------------------------------
+-- schema identification
+-- (schema_id computed as <rm_publisher>_<schema_name>_<rm_release>)
+------------------------------------------------------
+rm_publisher = <"openehr">
+schema_name = <"rm_data_types">
+rm_release = <"1.0.4">
+
+------------------------------------------------------
+-- packages
+------------------------------------------------------
+
+packages = <
+	["org.openehr.rm.data_types"] = <
+		name = <"org.openehr.rm.data_types">
+		packages = (XXX) <
+			["basic"] = <
+				name = <"basic", ...>
+				classes = <"DATA_VALUE", "DV_BOOLEAN", "DV_STATE", "DV_IDENTIFIER">
+			>
+			["text"] = <
+				name = <"text">
+				classes = <"DV_TEXT", "DV_CODED_TEXT", "TERM_MAPPING", "CODE_PHRASE", "DV_PARAGRAPH">
+			>
+		>
+	>
+>
+
+------------------------------------------------------
+-- classes
+------------------------------------------------------
+
+class_definitions = <
+
+	["DATA_VALUE"] = <
+		name = <"DATA_VALUE">
+		ancestors = <"Any", ...>
+		is_abstract = <True>
+	>
+
+	["DV_BOOLEAN"] = <
+		name = <"DV_BOOLEAN">
+		ancestors = <"DATA_VALUE", ...>
+		properties = <
+			["value"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"value">
+				type = <"Boolean">
+				is_mandatory = <True>
+			>
+		>
+	>
+
+
+	["DV_IDENTIFIER"] = <
+		name = <"DV_IDENTIFIER">
+		ancestors = <"DATA_VALUE", ...>
+		properties = <
+			["issuer"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"issuer">
+				type = <"String">
+			>
+			["id"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"id">
+				type = <"String">
+				is_mandatory = <True>
+				is_im_runtime = <True>
+			>
+			["type"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"type">
+				type = <"String">
+			>
+			["assigner"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"assigner">
+				type = <"String">
+			>
+		>
+	>
+
+	["DV_STATE"] = <
+		name = <"DV_STATE">
+		ancestors = <"DATA_VALUE", ...>
+		properties = <
+			["value"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"value">
+				type = <"DV_CODED_TEXT">
+				is_mandatory = <True>
+			>
+			["is_terminal"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"is_terminal">
+				type = <"Boolean">
+				is_mandatory = <True>
+			>
+		>
+	>
+
+	["DV_TEXT"] = <
+		name = <"DV_TEXT">
+		ancestors = <"DATA_VALUE", ...>
+		properties = <
+			["value"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"value">
+				type = <"String">
+				is_mandatory = <True>
+			>
+			["hyperlink"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"hyperlink">
+				type = <"DV_URI">
+				is_im_runtime = <True>
+			>
+			["language"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"language">
+				type = <"CODE_PHRASE">
+				is_im_infrastructure = <True>
+			>
+			["encoding"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"encoding">
+				type_ref = <
+					type = <"CODE_PHRASE">
+					value_constraint = <"openEHR::languages">
+				>
+				is_im_infrastructure = <True>
+			>
+			["formatting"] = (P_BMM_SINGLE_PROPERTY) <
+				name = <"formatting">
+				type = <"String">
+				is_im_runtime = <True>
+			>
+			["mappings"] = (P_BMM_CONTAINER_PROPERTY) <
+				name = <"mappings">
+				type_def = <
+					container_type = <"Set">
+					type = <"TERM_MAPPING">
+				>
+				cardinality = <|>=0|>
+				is_im_runtime = <True>
+			>
+		>
+	>
+>
+
