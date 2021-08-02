@@ -7,7 +7,7 @@
 
 lexer grammar BaseLexer;
 
-// ---------- ISO8601 Date/Time values ----------
+// -------------------- ISO8601 Date/Time patterns -------------------
 
 ISO8601_DATE      : YEAR '-' MONTH ( '-' DAY )? | YEAR '-' MONTH '-' UNKNOWN_DT | YEAR '-' UNKNOWN_DT '-' UNKNOWN_DT ;
 ISO8601_TIME      : ( HOUR ':' MINUTE ( ':' SECOND ( SECOND_DEC_SEP DIGIT+ )?)? | HOUR ':' MINUTE ':' UNKNOWN_DT | HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? ;
@@ -30,7 +30,8 @@ ISO8601_DURATION : '-'?'P' (DIGIT+ [yY])? (DIGIT+ [mM])? (DIGIT+ [wW])? (DIGIT+[
 
 // ------------------- special primitive values used in openEHR --------------
 
-TERM_CODE_REF : '[' TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ']' ;  // e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
+// e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
+TERM_CODE_REF : '[' TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ']' ;
 fragment TERM_CODE_CHAR: NAME_CHAR | '.' ;
 
 // ------------------ special values --------------
@@ -92,20 +93,23 @@ fragment URI_SUB_DELIMS: [!$&'()*+,;=] ;
 
 // ------------------ miscellaneous identifier fragments ----------------
 
-// According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and http://tools.ietf.org/html/rfc1035[RFC 1035],
-// as clarified by http://tools.ietf.org/html/rfc2181[RFC 2181] (section 11)
+// According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and
+// http://tools.ietf.org/html/rfc1035[RFC 1035], as clarified by
+// http://tools.ietf.org/html/rfc2181[RFC 2181] (section 11)
 fragment NAMESPACE : LABEL ('.' LABEL)* ;
 fragment LABEL : ALPHA_CHAR (NAME_CHAR | URI_PCT_ENCODED)* ;
 
+// ---------------------- machine identifiers --------------------------
+
 GUID : HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ ;
 
-// ------------------ identifiers ----------------
+// ------------------- human-readable identifiers ----------------------
 
 ALPHA_UC_ID :   ALPHA_UCHAR WORD_CHAR* ;   // used for type ids
 ALPHA_LC_ID :   ALPHA_LCHAR WORD_CHAR* ;   // used for attribute / method ids
 ALPHA_UNDERSCORE_ID : '_' WORD_CHAR* ;     // usually used for meta-model ids
 
-// --------------------- atomic primitive types -------------------
+// --------------------- atomic primitive types ----------------------
 
 INTEGER : DIGIT+ E_SUFFIX? ;
 REAL :    DIGIT+ '.' DIGIT+ E_SUFFIX? ;
@@ -133,3 +137,22 @@ fragment UTF8CHAR    : '\\u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
 fragment DIGIT     : [0-9] ;
 fragment HEX_DIGIT : [0-9a-fA-F] ;
 
+// -------------------- common symbols ---------------------
+
+SYM_COMMA: ',' ;
+SYM_SEMI_COLON : ';' ;
+
+SYM_LPAREN   : '(';
+SYM_RPAREN   : ')';
+SYM_LBRACKET : '[';
+SYM_RBRACKET : ']';
+SYM_LCURLY   : '{' ;
+SYM_RCURLY   : '}' ;
+
+SYM_EQ : '=' ;
+
+SYM_PLUS  : '+' ;
+SYM_MINUS : '-' ;
+
+SYM_STAR  : '*' ;
+SYM_SLASH : '/' ;
