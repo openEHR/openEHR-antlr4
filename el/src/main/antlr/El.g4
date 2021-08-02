@@ -8,10 +8,15 @@
 //
 
 grammar El;
-import PathLexer, CPrimitiveValues;
+import PathLexer, CPrimitiveValuesParser;
 
-elText: statement+ ;
+//
+//  ======================= Top-level Objects ========================
+//
 
+statementBlock: statement+ EOF ;
+
+// ------------------------- statements ---------------------------
 statement: variableDeclaration | assignment | assertion;
 
 variableDeclaration: VARIABLE_ID ':' typeId ( SYM_ASSIGNMENT expression )? ;
@@ -21,7 +26,7 @@ assignment: VARIABLE_ID SYM_ASSIGNMENT expression ;
 assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
 
 //
-// Expressions
+// -------------------------- Expressions --------------------------
 //
 expression:
       booleanExpr
@@ -44,7 +49,7 @@ booleanExpr:
     ;
 
 //
-// Atomic boolean expression elements
+// Atomic Boolean-valued expression elements
 //
 booleanLeaf:
       booleanLiteral
@@ -58,7 +63,13 @@ booleanLeaf:
     | SYM_EXISTS mappedDataRef
     ;
 
-// Universal and existential quantifier
+booleanLiteral:
+      SYM_TRUE
+    | SYM_FALSE
+    ;
+
+//
+//  Universal and existential quantifier
 // TODO: 'in' probably isn't needed in the long term
 forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
 
@@ -67,11 +78,6 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? boole
 // Constraint expressions
 constraintExpr:
       instanceRef SYM_MATCHES '{' cInlinePrimitiveObject '}'
-    ;
-
-booleanLiteral:
-      SYM_TRUE
-    | SYM_FALSE
     ;
 
 //
@@ -104,7 +110,7 @@ equalityBinop:
     ;
 
 //
-// Relational expressions of arithmetic operands
+// Relational expressions of arithmetic operands generating Boolean values
 //
 relationalExpr: arithmeticExpr relationalBinop arithmeticExpr ;
 
