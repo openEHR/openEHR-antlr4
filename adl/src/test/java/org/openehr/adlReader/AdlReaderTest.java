@@ -1,10 +1,6 @@
 package org.openehr.adlReader;
 
-import org.antlr.v4.runtime.CharStreams;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Test;
-import org.openehr.adlparser.AdlLexer;
-import org.openehr.adlparser.AdlParser;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -15,20 +11,14 @@ import java.util.stream.Collectors;
 public class AdlReaderTest {
 
     @Test
-    public void simpleTest() {
-        String adlTestFile = "/resources/aom_structures/basic/adl/ADL2_test_set/aom_structures/basic/openehr-TEST_PKG-WHOLE.most_minimal.v2.0.0.adls";
-        String adlText;
-        try {
-            adlText = getResourceFileAsString (adlTestFile);
-            System.out.println(adlTestFile);
-            System.out.println(adlText);
-            AdlLexer adlLexer = new AdlLexer(CharStreams.fromString(adlText));
-            AdlParser adlParser = new AdlParser(new CommonTokenStream(adlLexer));
+    public void simpleTest() throws IOException {
+        String adlTestFile = "adl/ADL2_test_set/aom_structures/basic/openehr-TEST_PKG-WHOLE.most_minimal.v2.0.0.adls";
+        // String adlTestFile = "adl/ADL2_test_set/templates/openEHR-DEMOGRAPHIC-PERSON.t_patient_ds_sf.v1.0.0.adls";
 
-            assert (true);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        AdlReader adlReader = new AdlReader();
+        String adlText = getResourceFileAsString (adlTestFile);
+
+        adlReader.readArchetype(adlText);
     }
 
     /**
@@ -48,4 +38,5 @@ public class AdlReaderTest {
             }
         }
     }
+
 }
