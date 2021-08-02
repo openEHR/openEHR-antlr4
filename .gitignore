@@ -10,3 +10,6 @@ gradle-app.setting
 
 # Cache of project
 .gradletasknamecache
+
+# Antlr gen areas
+**/gen/
