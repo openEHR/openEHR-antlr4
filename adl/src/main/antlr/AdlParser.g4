@@ -17,92 +17,92 @@ parser grammar AdlParser;
 options { tokenVocab=AdlLexer; }
 
 //
-//  ============== Parser rules ==============
+//  ======================= Top-level Objects ========================
 //
 
 adlObject: ( authoredArchetype | template | templateOverlay | operationalTemplate ) EOF ;
 
 //
-// --------------- parser ----------------
+// ------------------ Archetypes -------------------
 //
-
 authoredArchetype:
-    SYM_ARCHETYPE metaData?
-    ALPHANUM_ID
-    ( SPECIALIZE_SECTION
-        ALPHANUM_ID ) ?
-    LANGUAGE_SECTION
-        LANGUAGE_LINE+
-    DESCRIPTION_SECTION
-        DESCRIPTION_LINE+
-    DEFINITION_SECTION
-        DEFINITION_LINE+
-    ( RULES_SECTION
-        RULES_LINE+ )?
-    TERMINOLOGY_SECTION
-        TERMINOLOGY_LINE+
-    ( ANNOTATIONS_SECTION
-        ANNOTATIONS_LINE+ )?
+    SYM_ARCHETYPE header
+    specializeSection?
+    languageSection
+    descriptionSection
+    definitionSection
+    rulesSection?
+    terminologySection
+    annotationsSection?
     ;
 
+//
+// --------- Templates, including overlays ----------
+//
 template:
-    SYM_TEMPLATE metaData?
-        ALPHANUM_ID
-    SPECIALIZE_SECTION
-        ALPHANUM_ID
-    LANGUAGE_SECTION
-        LANGUAGE_LINE+
-    DESCRIPTION_SECTION
-        DESCRIPTION_LINE+
-    DEFINITION_SECTION
-        DEFINITION_LINE+
-    ( RULES_SECTION
-        RULES_LINE+ )?
-    TERMINOLOGY_SECTION
-        TERMINOLOGY_LINE+
-    ( ANNOTATIONS_SECTION
-        ANNOTATIONS_LINE+ )?
-    ( H_CMT_LINE+ templateOverlay )*
+    SYM_TEMPLATE header
+    specializeSection
+    languageSection
+    descriptionSection
+    definitionSection
+    rulesSection?
+    terminologySection
+    annotationsSection?
+    templateOverlay*
     ;
 
 templateOverlay:
-    SYM_TEMPLATE_OVERLAY
-        ALPHANUM_ID
-    SPECIALIZE_SECTION
-        ALPHANUM_ID
-    DEFINITION_SECTION
-        DEFINITION_LINE+
-    TERMINOLOGY_SECTION
-        TERMINOLOGY_LINE+
+    SYM_TEMPLATE_OVERLAY header
+    specializeSection
+    definitionSection
+    terminologySection
     ;
 
+//
+// ------------- Operational Templates --------------
+//
 operationalTemplate:
-    SYM_OPERATIONAL_TEMPLATE metaData?
-        ALPHANUM_ID
-    LANGUAGE_SECTION
-        LANGUAGE_LINE+
-    DESCRIPTION_SECTION
-        DESCRIPTION_LINE+
-    DEFINITION_SECTION
-        DEFINITION_LINE+
-    ( RULES_SECTION
-        RULES_LINE+ )?
-    TERMINOLOGY_SECTION
-        TERMINOLOGY_LINE+
-    ( ANNOTATIONS_SECTION
-        ANNOTATIONS_LINE+ )?
-    ( COMPONENT_TERMINOLOGIES_SECTION
-        COMPONENT_TERMINOLOGIES_LINE+ )?
+    SYM_OPERATIONAL_TEMPLATE header
+    languageSection
+    descriptionSection
+    definitionSection
+    rulesSection?
+    terminologySection
+    annotationsSection?
+    componentTerminologiesSection?
     ;
 
-metaData: SYM_LPAREN metaDataItem (SYM_SEMI_COLON metaDataItem )* SYM_RPAREN ;
+//
+// ------------------- sub-parts --------------------
+//
+
+// Header: meta-data items in parentheses followed by archetype ID
+header: metaData? ALPHANUM_ID ;
+
+metaData: METADATA_LDELIM metaDataItem ( METADATA_SEP metaDataItem )* METADATA_RDELIM ;
 
 metaDataItem:
-      SYM_ADL_VERSION SYM_EQUAL WS? ALPHANUM_ID
-    | SYM_UID SYM_EQUAL WS? ALPHANUM_ID
-    | SYM_BUILD_UID SYM_EQUAL WS? ALPHANUM_ID
-    | SYM_RM_RELEASE SYM_EQUAL WS? ALPHANUM_ID
-    | SYM_CONTROLLED
-    | SYM_GENERATED
-    | ALPHANUM_ID ( SYM_EQUAL WS? ALPHANUM_ID )?
+      metaDataValue
+    | metaDataFlag
     ;
+
+metaDataValue : ALPHANUM_ID SYM_EQUAL ALPHANUM_ID ;
+metaDataFlag  : ALPHANUM_ID ;
+
+// Specialise section
+specializeSection  : SPECIALIZE_SECTION ALPHANUM_ID ;
+
+//
+// Archetype content sections follow the pattern
+//   SectionId Lines*
+// The lines (i.e. text block) of each section is passed to the appropriate kind of
+// specific parser.
+//
+languageSection    : LANGUAGE_SECTION ODIN_LINE+ ;
+descriptionSection : DESCRIPTION_SECTION ODIN_LINE+ ;
+definitionSection  : DEFINITION_SECTION CADL_LINE+ ;
+rulesSection       : RULES_SECTION EL_LINE+ ;
+terminologySection : TERMINOLOGY_SECTION ODIN_LINE+ ;
+annotationsSection : ANNOTATIONS_SECTION ODIN_LINE+ ;
+componentTerminologiesSection: COMPONENT_TERMINOLOGIES_SECTION ODIN_LINE+ ;
+

@@ -1,0 +1,30 @@
+	OBSERVATION[id1.1] matches {	-- Blood Glucose Test Result
+		/data[id2]/events[id3]/state matches {
+			ITEM_TREE[id0.8] matches {
+				items matches {
+					ELEMENT[id0.9] occurrences matches {0..1} matches {	-- Fasting state
+						value matches {
+							DV_BOOLEAN[id0.17] matches {
+								value matches {True}
+							}
+						}
+					}
+				}
+			}
+		}
+		/data[id2]/events matches {
+			POINT_EVENT[id0.2] occurrences matches {0..1} matches {	-- Baseline Measurement
+				offset matches {
+					DV_DURATION[id0.21] matches {
+						value matches {PT0S}
+					}
+				}
+				data matches {
+					use_node ITEM_TREE[id0.22] /data[id2]/events[id3]/data[id4]	-- /data[id2]/events[id3]/data[id4]
+				}
+				state matches {
+					use_node ITEM_TREE[id0.23] /data[id2]/events[id3]/state[id0.8]	-- /data[id2]/events[id3]/state[id0.8]
+				}
+			}
+		}
+	}

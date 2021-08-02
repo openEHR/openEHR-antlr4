@@ -1,0 +1,14 @@
+--
+-- ODIN embedded in ADL
+--
+THING[id3] ∈ {
+    value ∈ {
+        TYPE[id8] ∈ {
+            _default = (TYPE) <
+                attribute_1 = <"aaaa">
+                attribute_2 = <123>
+                attribute_N = <25.77>
+            >
+        }
+    }
+}

@@ -12,9 +12,9 @@ lexer grammar AdlLexer;
 
 // ---------- lines and comments ----------
 
-H_CMT_LINE : '--------' '-'*? EOL  ;            // long comment line for splitting template overlays
+H_CMT_LINE : '--------' '-'*? EOL  ;            // long comment line for splitting ADL2 template overlays
 CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
-EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // throw out EOLs in default mode
 WS         : [ \t\r]+     -> channel(HIDDEN) ;
 
 // ----------------- ADL keywords ---------------
@@ -30,53 +30,67 @@ fragment SYM_SPECIALIZE  : [Ss][Pp][Ee][Cc][Ii][Aa][Ll][Ii][SsZz][Ee] ;
 LANGUAGE_SECTION : EOL SYM_LANGUAGE WS? EOL -> mode (LANGUAGE) ;
 fragment SYM_LANGUAGE    : [Ll][Aa][Nn][Gg][Uu][Aa][Gg][Ee] ;
 
-// ---------------- meta-data keywords and symbols
-SYM_EQUAL:          '=' ;
-SYM_SEMI_COLON:     ';' ;
-SYM_LPAREN:         '(' ;
-SYM_RPAREN:         ')' ;
-SYM_ADL_VERSION:    'adl_version' ;
-SYM_UID:            'uid' ;
-SYM_BUILD_UID:      'build_uid' ;
-SYM_RM_RELEASE:     'rm_release' ;
-SYM_CONTROLLED:     'controlled' ;
-SYM_GENERATED:      'generated' ;
+// have to look for definition section in default mode for template overlays
+DEFINITION_SECTION       : EOL SYM_DEFINITION WS? EOL -> mode (DEFINITION) ;
+fragment SYM_DEFINITION  : [Dd][Ee][Ff][Ii][Nn][Ii][Tt][Ii][Oo][Nn] ;
 
-ALPHANUM_ID : [a-zA-Z0-9][a-zA-Z0-9_.+-]* ;
+// ---------------- meta-data keywords and symbols ---------------
+SYM_EQUAL       : '=' ;
+METADATA_SEP    : ';' ;
+METADATA_LDELIM : '(' ;
+METADATA_RDELIM : ')' ;
 
+ALPHANUM_ID : [a-zA-Z0-9][a-zA-Z0-9_.-]* ;
+
+//
+// ---------------- modal lexing of main sections ----------------
+//
+
+// language section: look for 'description' section, otherwise grab complete lines
 mode LANGUAGE;
 DESCRIPTION_SECTION : EOL SYM_DESCRIPTION WS? EOL -> mode (DESCRIPTION) ;
 fragment SYM_DESCRIPTION : [Dd][Ee][Ss][Cc][Rr][Ii][Pp][Tt][Ii][Oo][Nn] ;
-LANGUAGE_LINE : NON_EOL+ EOL ;
+ODIN_LINE : NON_EOL* EOL ;
 fragment NON_EOL : ~'\n' ;
 
+// description section: look for 'definition' section, otherwise grab complete lines
 mode DESCRIPTION ;
-DEFINITION_SECTION       : EOL SYM_DEFINITION WS? EOL -> mode (DEFINITION) ;
-fragment SYM_DEFINITION  : [Dd][Ee][Ff][Ii][Nn][Ii][Tt][Ii][Oo][Nn] ;
-DESCRIPTION_LINE         : NON_EOL+ EOL ;
+DEFINITION_SECTION2       : EOL SYM_DEFINITION WS? EOL -> mode (DEFINITION), type(DEFINITION_SECTION);
+ODIN_LINE_DESC           : NON_EOL* EOL -> type (ODIN_LINE);
 
+// definition section: look for 'rules' and/or 'terminology' sections,
+// otherwise grab complete lines
 mode DEFINITION ;
 RULES_SECTION       : EOL SYM_RULES WS? EOL -> mode (RULES);
 fragment SYM_RULES  : [Rr][Uu][Ll][Ee][Ss] ;
 TERMINOLOGY_SECTION : EOL SYM_TERMINOLOGY WS? EOL -> mode (TERMINOLOGY);
 fragment SYM_TERMINOLOGY : [Tt][Ee][Rr][Mm][Ii][Nn][Oo][Ll][Oo][Gg][Yy] ;
-DEFINITION_LINE     : NON_EOL+ EOL ;
+CADL_LINE       : NON_EOL* EOL ;
 
+// rules section: look for 'terminology' section, otherwise grab complete lines
 mode RULES ;
 TERMINOLOGY_SECTION2 : EOL SYM_TERMINOLOGY WS? EOL -> mode (TERMINOLOGY), type (TERMINOLOGY_SECTION);
-RULES_LINE           : NON_EOL+ EOL ;
+EL_LINE           : NON_EOL* EOL ;
 
+// terminology section: look for 'annotations' and/or 'component_terminologies' sections or end,
+// otherwise grab complete lines; allow for final line with no EOL
 mode TERMINOLOGY;
 ANNOTATIONS_SECTION : EOL SYM_ANNOTATIONS WS? EOL -> mode (ANNOTATIONS);
 fragment SYM_ANNOTATIONS : [Aa][Nn][Nn][Oo][Tt][Aa][Tt][Ii][Oo][Nn][Ss] ;
 COMPONENT_TERMINOLOGIES_SECTION : EOL SYM_COMPONENT_TERMINOLOGIES WS? EOL+ -> mode (COMPONENT_TERMINOLOGIES);
 fragment SYM_COMPONENT_TERMINOLOGIES : [Cc][Oo][Mm][Pp][Oo][Nn][Ee][Nn][Tt]'_'[Tt][Ee][Rr][Mm][Ii][Nn][Oo][Ll][Oo][Gg][Ii][Ee][Ss] ;
-TERMINOLOGY_LINE : NON_EOL+ EOL ;
+TEMPLATE_DIVIDER: H_CMT_LINE -> channel(HIDDEN), mode (DEFAULT_MODE) ;
+ODIN_LINE_TERM : ( NON_EOL* EOL | NON_EOL+ ) -> type (ODIN_LINE) ;
 
+// annotations section: look for 'component_terminologies' section or end,
+// otherwise grab complete lines; allow for final line with no EOL
 mode ANNOTATIONS;
-COMPONENT_TERMINOLOGIES_SECTION2 : EOL SYM_COMPONENT_TERMINOLOGIES WS? EOL+  -> mode (COMPONENT_TERMINOLOGIES), type (COMPONENT_TERMINOLOGIES_SECTION);
-ANNOTATIONS_LINE : NON_EOL+ EOL ;
+COMPONENT_TERMINOLOGIES_SECTION2 : EOL SYM_COMPONENT_TERMINOLOGIES WS? EOL+ -> mode (COMPONENT_TERMINOLOGIES), type (COMPONENT_TERMINOLOGIES_SECTION);
+TEMPLATE_DIVIDER2: H_CMT_LINE -> channel(HIDDEN), mode (DEFAULT_MODE) ;
+ODIN_LINE_ANNOT : ( NON_EOL* EOL | NON_EOL+ ) -> type (ODIN_LINE) ;
 
+// component_terminologies section
+// grab complete lines; allow for final line with no EOL
 mode COMPONENT_TERMINOLOGIES;
-COMPONENT_TERMINOLOGIES_LINE : NON_EOL+ EOL ;
+ODIN_LINE_CT : ( NON_EOL* EOL | NON_EOL+ ) -> type (ODIN_LINE) ;
 
