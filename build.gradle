@@ -15,6 +15,12 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'antlr'
 
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+
+    compileJava.options.encoding = "UTF-8"
+    compileTestJava.options.encoding = "UTF-8"
+
     ext.antlrVersion = '4.9.2'
     generateGrammarSource { //antlr4
         arguments = ['-encoding', 'utf-8'] + arguments

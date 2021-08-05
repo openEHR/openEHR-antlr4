@@ -10,3 +10,7 @@ generateGrammarSource { //antlr4
 classes {
     dependsOn generateGrammarSource
 }
+
+dependencies {
+    implementation project(':cadl')
+}

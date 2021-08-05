@@ -3,4 +3,6 @@ include 'odin'
 include 'adl'
 include 'el'
 include 'base'
+include 'cadl'
+
 
