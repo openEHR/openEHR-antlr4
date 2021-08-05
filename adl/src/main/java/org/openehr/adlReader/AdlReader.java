@@ -1,6 +1,6 @@
 package org.openehr.adlReader;
 
-import adlReader.OdinSimpleListener;
+import odinReader.OdinSimpleListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -14,9 +14,7 @@ import org.openehr.elparser.ElLexer;
 import org.openehr.elparser.ElParser;
 import org.openehr.odinparser.*;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class AdlReader {
     
@@ -26,6 +24,7 @@ public class AdlReader {
     public void readArchetype(String adlText) {
         // Create an ADL lexer and parser and get top-level context
         AdlLexer adlLexer = new AdlLexer(CharStreams.fromString(adlText));
+        CommonTokenStream adlTokens = new CommonTokenStream(adlLexer);
         AdlParser adlParser = new AdlParser(new CommonTokenStream(adlLexer));
         AdlParser.AdlObjectContext adlObjectCtx = adlParser.adlObject();
 
