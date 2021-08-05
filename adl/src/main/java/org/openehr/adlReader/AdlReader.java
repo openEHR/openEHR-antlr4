@@ -1,5 +1,6 @@
 package org.openehr.adlReader;
 
+import adlReader.OdinSimpleListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -7,6 +8,11 @@ import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.adlparser.*;
+import org.openehr.cadlparser.CadlLexer;
+import org.openehr.cadlparser.CadlParser;
+import org.openehr.elparser.ElLexer;
+import org.openehr.elparser.ElParser;
+import org.openehr.odinparser.*;
 
 import java.io.IOException;
 import java.util.List;
@@ -42,14 +48,14 @@ public class AdlReader {
         AdlParser.HeaderContext header = archCtx.header();
         System.out.println("--------- header -----------");
         System.out.println(archCtx.SYM_ARCHETYPE().getText());
-        System.out.println("\t" + header.ALPHANUM_ID().getText());
+        System.out.println("\t" + header.ARCHETYPE_HRID().getText());
         readMetaData (header.metaData());
 
         // Specialise section
         AdlParser.SpecializeSectionContext specSectionCtx = archCtx.specializeSection();
         if (specSectionCtx != null) {
             System.out.println("--------- specialise section -----------");
-            System.out.print (specSectionCtx.ALPHANUM_ID().getText());
+            System.out.print (specSectionCtx.ARCHETYPE_REF().getText());
         }
 
         // Language section: ODIN
@@ -166,9 +172,9 @@ public class AdlReader {
             //metaDataItemCtx.xx;
             if (metaDataItemCtx.metaDataFlag() != null)
                 System.out.println("\t" + metaDataItemCtx.metaDataFlag().ALPHANUM_ID().getText());
-            else if (metaDataItemCtx.metaDataValue() != null)
-                System.out.println("\t" + metaDataItemCtx.metaDataValue().ALPHANUM_ID(0).getText() +
-                        " = " + metaDataItemCtx.metaDataValue().ALPHANUM_ID(0).getText());
+            else if (metaDataItemCtx.metaDataValueItem() != null)
+                System.out.println("\t" + metaDataItemCtx.metaDataValueItem().getText() +
+                        " = " + metaDataItemCtx.metaDataValueItem().metaDataItemValue().getText());
         }
     }
 
