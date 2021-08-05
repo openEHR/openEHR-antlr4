@@ -15,7 +15,7 @@ import PrimitiveValuesParser;
 //  ======================= Top-level Objects ========================
 //
 
-odinObject : ( odinAttrVal+ | odinObjectValueBlock ) EOF ;
+odinObject : ( odinAttrVal+ | odinObjectValueBlock ) EOF? ;
 
 // ----------------- complex objects ------------------
 
