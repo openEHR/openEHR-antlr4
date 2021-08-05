@@ -14,18 +14,6 @@ import PrimitiveValuesParser;
 
 // ------------ Primitive type constraints -------------
 
-cInlinePrimitiveObject:
-      cInteger
-    | cReal
-    | cDate
-    | cTime
-    | cDateTime
-    | cDuration
-    | cString
-    | cTerminologyCode
-    | cBoolean
-    ;
-
 cInteger: ( integerValue | integerListValue | integerIntervalValue | integerIntervalListValue ) assumedIntegerValue? ;
 assumedIntegerValue: ';' integerValue ;
 
@@ -41,17 +29,18 @@ assumedDateValue: ';' dateValue ;
 cTime: ( TIME_CONSTRAINT_PATTERN | timeValue | timeListValue | timeIntervalValue | timeIntervalListValue ) assumedTimeValue? ;
 assumedTimeValue: ';' timeValue ;
 
-cDuration: ( DURATION_CONSTRAINT_PATTERN ( SYM_SLASH ( durationIntervalValue | durationValue ))?
+cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | durationValue ))?
     | durationValue | durationListValue | durationIntervalValue | durationIntervalListValue ) assumedDurationValue?
     ;
 assumedDurationValue: ';' durationValue ;
 
-cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
+cString: ( stringValue | stringListValue | regexConstraint ) assumedStringValue? ;
+regexConstraint: SLASH_REGEX | CARET_REGEX ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]
 // NOTE: an assumed at-code (the ';' AT_CODE pattern) can only occur after an ac-code not after the single at-code
-cTerminologyCode: SYM_LBRACKET ( ( AC_CODE ( ';' AT_CODE )? ) | AT_CODE ) SYM_RBRACKET ;
+cTerminologyCode: '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']' ;
 
 cBoolean: ( booleanValue | booleanListValue ) assumedBooleanValue? ;
 assumedBooleanValue: ';' booleanValue ;

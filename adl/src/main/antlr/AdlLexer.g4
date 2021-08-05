@@ -9,6 +9,7 @@
 //
 
 lexer grammar AdlLexer;
+import OpenehrPatterns;
 
 // ---------- lines and comments ----------
 
@@ -35,12 +36,9 @@ DEFINITION_SECTION       : EOL SYM_DEFINITION WS? EOL -> mode (DEFINITION) ;
 fragment SYM_DEFINITION  : [Dd][Ee][Ff][Ii][Nn][Ii][Tt][Ii][Oo][Nn] ;
 
 // ---------------- meta-data keywords and symbols ---------------
-SYM_EQUAL       : '=' ;
-METADATA_SEP    : ';' ;
-METADATA_LDELIM : '(' ;
-METADATA_RDELIM : ')' ;
+SYM_EQ         : '=' ;
 
-ALPHANUM_ID : [a-zA-Z0-9][a-zA-Z0-9_.-]* ;
+ALPHANUM_ID : [a-zA-Z0-9][a-zA-Z0-9_]* ;
 
 //
 // ---------------- modal lexing of main sections ----------------

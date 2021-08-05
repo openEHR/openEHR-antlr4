@@ -14,10 +14,16 @@ import BaseLexer;
 
 ARCHETYPE_HRID      : ARCHETYPE_HRID_ROOT '.v' VERSION_ID ;
 ARCHETYPE_REF       : ARCHETYPE_HRID_ROOT '.v' VERSION_REF ;
-fragment ARCHETYPE_HRID_ROOT : (NAMESPACE '::')? ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '.' LABEL ;
-fragment VERSION_REF: DIGIT+ ('.' DIGIT+ ('.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )?)?)? ;
+fragment ARCHETYPE_HRID_ROOT : ( NAMESPACE '::' )? ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '.' LABEL ;
+fragment VERSION_REF: DIGIT+ ( '.' DIGIT+ ( '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? )? )? ;
 VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
 fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
+
+// According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and
+// http://tools.ietf.org/html/rfc1035[RFC 1035], as clarified by
+// http://tools.ietf.org/html/rfc2181[RFC 2181] (section 11)
+fragment NAMESPACE : LABEL ( '.' LABEL )* ;
+fragment LABEL : ALPHA_CHAR ( NAME_CHAR | URI_PCT_ENCODED )* ;
 
 // ---------- various ADL codes -------
 
@@ -25,6 +31,5 @@ ROOT_ID_CODE : 'id1' '.1'* ;
 ID_CODE      : 'id' CODE_STR ;
 AT_CODE      : 'at' CODE_STR ;
 AC_CODE      : 'ac' CODE_STR ;
-fragment CODE_STR : ('0' | [1-9][0-9]*) ( '.' ('0' | [1-9][0-9]* ))* ;
-
-
+fragment CODE_STR : CODE_STR_SEGMENT ( '.' CODE_STR_SEGMENT )* ;
+fragment CODE_STR_SEGMENT: '0' | [1-9][0-9]* ;

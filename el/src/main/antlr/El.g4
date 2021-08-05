@@ -19,9 +19,9 @@ statementBlock: statement+ EOF ;
 // ------------------------- statements ---------------------------
 statement: variableDeclaration | assignment | assertion;
 
-variableDeclaration: VARIABLE_ID ':' typeId ( SYM_ASSIGNMENT expression )? ;
+variableDeclaration: localVariable ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-assignment: VARIABLE_ID SYM_ASSIGNMENT expression ;
+assignment: localVariable SYM_ASSIGNMENT expression ;
 
 assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
 
@@ -53,14 +53,14 @@ booleanExpr:
 //
 booleanLeaf:
       booleanLiteral
-    | instanceRef
+    | valueRef
     | forAllExpr
     | thereExistsExpr
     | '(' booleanExpr ')'
     | relationalExpr
     | equalityExpr
     | constraintExpr
-    | SYM_EXISTS mappedDataRef
+    | SYM_EXISTS boundVariable
     ;
 
 booleanLiteral:
@@ -77,7 +77,7 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? boole
 
 // Constraint expressions
 constraintExpr:
-      instanceRef SYM_MATCHES '{' cInlinePrimitiveObject '}'
+      valueRef SYM_MATCHES '{' cInlinePrimitiveObject '}'
     ;
 
 //
@@ -93,7 +93,11 @@ arithmeticExpr:
 arithmeticLeaf:
       integerValue
     | realValue
-    | instanceRef
+    | dateValue
+    | dateTimeValue
+    | timeValue
+    | durationValue
+    | valueRef
     | '(' arithmeticExpr ')'
     ;
 
@@ -126,17 +130,15 @@ relationalBinop:
 // TODO: Currently treat ADL paths as 'mapped' data references;
 // which is ambiguous, since an ADL path may match multiple runtime objects
 //
-instanceRef:
-      functionCall
-    | valueRef
-    ;
-
 valueRef:
-      mappedDataRef
-    | VARIABLE_ID
+      functionCall
+    | localVariable
+    | boundVariable
     ;
 
-mappedDataRef: ADL_PATH ;
+localVariable: VARIABLE_ID ;
+
+boundVariable: ADL_PATH ;
 
 functionCall: ALPHA_LC_ID '(' ( expression ( ',' expression )* )? ')' ;
 

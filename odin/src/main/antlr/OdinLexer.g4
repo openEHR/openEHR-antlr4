@@ -16,13 +16,6 @@ CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
 EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
 WS         : [ \t\r]+     -> channel(HIDDEN) ;
 
-// -------------------- Symbols ------------------------
-SYM_GT : '>' ;
-SYM_LT : '<' ;
-
-SYM_LBRACKET : '[';
-SYM_RBRACKET : ']';
-
 // -------------------- symbols for lists ------------------------
 SYM_LIST_CONTINUE: '...' ;
 SYM_COMMA: ',' ;
@@ -30,6 +23,9 @@ SYM_COMMA: ',' ;
 // ------------------ symbols for intervals ----------------------
 SYM_LE : '<=' | '≤' ;
 SYM_GE : '>=' | '≥' ;
+SYM_GT : '>' ;
+SYM_LT : '<' ;
+SYM_EQ : '=' ;
 SYM_PLUS_OR_MINUS : '+/-' | '±' ;
 
 SYM_IVL_DELIM: '|' ;

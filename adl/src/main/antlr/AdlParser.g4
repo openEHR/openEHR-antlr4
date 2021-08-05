@@ -77,20 +77,22 @@ operationalTemplate:
 //
 
 // Header: meta-data items in parentheses followed by archetype ID
-header: metaData? ALPHANUM_ID ;
+header: metaData? ARCHETYPE_HRID ;
 
-metaData: METADATA_LDELIM metaDataItem ( METADATA_SEP metaDataItem )* METADATA_RDELIM ;
+metaData: '(' metaDataItem ( ';' metaDataItem )* ')' ;
 
 metaDataItem:
-      metaDataValue
+      metaDataValueItem
     | metaDataFlag
     ;
 
-metaDataValue : ALPHANUM_ID SYM_EQUAL ALPHANUM_ID ;
+metaDataValueItem : ALPHANUM_ID '=' metaDataItemValue ;
 metaDataFlag  : ALPHANUM_ID ;
 
+metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID ;
+
 // Specialise section
-specializeSection  : SPECIALIZE_SECTION ALPHANUM_ID ;
+specializeSection  : SPECIALIZE_SECTION ARCHETYPE_REF ;
 
 //
 // Archetype content sections follow the pattern

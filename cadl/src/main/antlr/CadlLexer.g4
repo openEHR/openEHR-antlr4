@@ -1,5 +1,8 @@
 //
-// description: Antlr4 grammar for cADL non-primitves sub-syntax of Archetype Definition Language (ADL2)
+// description: Antlr4 grammar for cADL non-primitves sub-syntax of Archetype Definition Language (ADL2).
+//              This has to include
+//              other relevant Lexer grammars in the correct order, in order to generate a
+//              correct total tokens file for use by the parser grammar.
 // author:      Thomas Beale <thomas.beale@openehr.org>
 // contributors:Pieter Bos <pieter.bos@nedap.com>
 // support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -8,21 +11,12 @@
 //
 
 lexer grammar CadlLexer;
-import PathLexer, BaseLexer;
+import CPrimitiveValuesLexer, PathLexer, BaseLexer;
 
 // ------------------ lines and comments ------------------
 CMT_LINE : '--' .*? EOL -> skip ;             // increment line count
 EOL      : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
 WS       : [ \t\r]+     -> channel(HIDDEN) ;
-
-// --------------------- general symbols ------------------------
-SYM_GT : '>' ;
-SYM_LT : '<' ;
-SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
-
-// ------------------ symbols for intervals ---------------------
-SYM_IVL_DELIM: '|' ;
-SYM_IVL_SEP  : '..' ;
 
 // ----------------------- keywords -----------------------
 SYM_EXISTENCE   : [Ee][Xx][Ii][Ss][Tt][Ee][Nn][Cc][Ee] ;
@@ -40,12 +34,18 @@ SYM_AFTER       : [Aa][Ff][Tt][Ee][Rr] ;
 SYM_BEFORE      : [Bb][Ee][Ff][Oo][Rr][Ee] ;
 SYM_CLOSED      : [Cc][Ll][Oo][Ss][Ee][Dd] ;
 
-// ---------------- various ADL codes --------------------
-ROOT_ID_CODE : 'id1' '.1'* ;
-ID_CODE      : 'id' CODE_STR ;
-AT_CODE      : 'at' CODE_STR ;
-AC_CODE      : 'ac' CODE_STR ;
-fragment CODE_STR : ('0' | [1-9][0-9]*) ( '.' ('0' | [1-9][0-9]* ))* ;
+// --------------------- general symbols ------------------------
+SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
+SYM_STAR  : '*' ;
+SYM_LE : '<=' | '≤' ;
+SYM_GE : '>=' | '≥' ;
+SYM_GT : '>' ;
+SYM_LT : '<' ;
+SYM_SLASH: '/' ;
+
+// ------------------ symbols for intervals ---------------------
+SYM_IVL_DELIM: '|' ;
+SYM_IVL_SEP  : '..' ;
 
 // ------------------ default blocks --------------------
 DEFAULT_BLOCK_START : '_'[Dd][Ee][Ff][Aa][Uu][Ll][Tt] WS? '=' -> mode (OBJECT_BLOCK);

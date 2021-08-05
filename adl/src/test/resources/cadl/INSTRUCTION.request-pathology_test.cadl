@@ -1,8 +1,0 @@
-	INSTRUCTION[id1.1] matches {	-- PathologyTest Request
-		/activities[id2]/description[id10]/items[id122.1]/name matches {
-			DV_TEXT[id0.146] 
-		}
-		/activities[id2]/description[id10]/items[id136.1]/name matches {
-			DV_TEXT[id0.147] 
-		}
-	}
