@@ -119,15 +119,15 @@ public class AdlReader {
         System.out.print(odinText);
 
         // Create an ODIN lexer and parser and get top-level context
-        OdinLexer odinLexer = new OdinLexer(CharStreams.fromString(odinText));
-        OdinParser odinParser = new OdinParser(new CommonTokenStream(odinLexer));
+        OdinLexer odinLexer = new OdinLexer (CharStreams.fromString (odinText));
+        OdinParser odinParser = new OdinParser (new CommonTokenStream (odinLexer));
         ParseTree tree = odinParser.odinObject();
 
         OdinParser.OdinObjectContext odinObjectCtx = odinParser.odinObject();
 
         // execute listener on structure
         ParseTreeWalker walker = new ParseTreeWalker();
-        walker.walk(new OdinSimpleListener(), tree);
+        walker.walk (new OdinSimpleListener(), tree);
     }
 
     /**
