@@ -1,0 +1,15 @@
+CLUSTER[id1.1.1] matches {	-- Triglycerides
+    /items matches {
+        ELEMENT[id2.0.1] matches {	-- Triglycerides value
+            value matches {
+                DV_QUANTITY[id0.16] matches {
+                    property matches {[at0.0.1]}
+                    [magnitude, units] matches {
+                        [{|0.0..1000.0|}, {"mg/dL"}],
+                        [{|0.0..20.0|}, {"mmol/L"}]
+                    }
+                }
+            }
+        }
+    }
+}

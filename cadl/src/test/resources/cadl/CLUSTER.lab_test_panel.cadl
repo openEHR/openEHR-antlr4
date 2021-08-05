@@ -1,0 +1,35 @@
+CLUSTER[id1] ∈ {	-- Laboratory test panel
+    items ∈ {
+        CLUSTER[id3] ∈ {	-- Laboratory Result
+            items ∈ {
+                ELEMENT[id2] occurrences ∈ {0..1} 	-- Result Value
+                ELEMENT[id4] ∈ {	-- Result Comment
+                    value ∈ {
+                        DV_TEXT[id15] 
+                    }
+                }
+                ELEMENT[id5] occurrences ∈ {0..1} ∈ {	-- Reference Range Guidance
+                    value ∈ {
+                        DV_TEXT[id16] 
+                    }
+                }
+                ELEMENT[id6] occurrences ∈ {0..1} ∈ {	-- Result Value Status
+                    value ∈ {
+                        DV_CODED_TEXT[id17] ∈ {
+                            defining_code ∈ {[ac1]}		-- Result Value Status (synthesised)
+                        }
+                    }
+                }
+                ELEMENT[id7] occurrences ∈ {0..1} ∈ {	-- DateTime Result Value Status
+                    value ∈ {
+                        DV_DATE_TIME[id18] 
+                    }
+                }
+            }
+        }
+        allow_archetype CLUSTER[id14] ∈ {	-- Other Detail
+            include
+                archetype_id/value ∈ {/.*/}
+        }
+    }
+}
