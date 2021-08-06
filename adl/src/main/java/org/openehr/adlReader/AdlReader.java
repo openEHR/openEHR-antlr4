@@ -1,6 +1,6 @@
 package org.openehr.adlReader;
 
-import odinReader.OdinSimpleListener;
+import org.openehr.odinReader.OdinSimpleListener;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.ParserRuleContext;
@@ -10,8 +10,8 @@ import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.adlparser.*;
 import org.openehr.cadlparser.CadlLexer;
 import org.openehr.cadlparser.CadlParser;
-import org.openehr.elparser.ElLexer;
-import org.openehr.elparser.ElParser;
+import org.openehr.elReader.ElLexer;
+import org.openehr.elReader.ElParser;
 import org.openehr.odinparser.*;
 
 import java.util.List;

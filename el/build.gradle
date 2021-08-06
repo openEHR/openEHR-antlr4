@@ -13,4 +13,5 @@ classes {
 
 dependencies {
     implementation project(':cadl')
+    implementation project(':base')
 }

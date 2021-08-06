@@ -12,5 +12,6 @@ classes {
 }
 
 dependencies {
-    implementation project(':odin')
+    implementation project(':base')
 }
+

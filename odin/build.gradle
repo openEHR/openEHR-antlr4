@@ -4,7 +4,7 @@ generateGrammarSource { //antlr4
     outputDirectory = new File("${project.buildDir}/generated-src/antlr/main/org/openehr/odinparser".toString())
     arguments = [
             '-package', 'org.openehr.odinparser' //,
-//            '-lib', "${rootProject}/base/src/main/antlr".toString()
+            //'-lib', "${rootProject.projectDir}/base/src/main/antlr".toString()
     ] + arguments
 
 //    includes = ["${rootProject}/base/src/main/antlr".toString()]
@@ -15,3 +15,6 @@ classes {
     dependsOn generateGrammarSource
 }
 
+dependencies {
+    implementation project(':base')
+}
