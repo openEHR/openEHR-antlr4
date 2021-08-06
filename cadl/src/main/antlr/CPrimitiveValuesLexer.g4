@@ -40,10 +40,6 @@ fragment MINUTE_PATTERN : 'mm' | 'MM' | '??' | 'XX' | 'xx'  ;
 fragment SECOND_PATTERN : 'ss' | 'SS' | '??' | 'XX' | 'xx'  ;
 
 // -------------------- Symbols ------------------------
-SYM_LBRACKET : '[';
-SYM_RBRACKET : ']';
-
-SYM_COMMA: ',' ;
 
 SYM_SLASH: '/' ;
 
