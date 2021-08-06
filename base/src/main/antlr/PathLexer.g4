@@ -11,7 +11,7 @@ import OpenehrPatterns;
 // ---------- path patterns -----------
 
 ADL_PATH : ADL_ABSOLUTE_PATH | ADL_RELATIVE_PATH ;
-fragment ADL_ABSOLUTE_PATH : ( '/' ADL_PATH_SEGMENT )+ ;
+ADL_ABSOLUTE_PATH : ( '/' ADL_PATH_SEGMENT )+ ;
 fragment ADL_RELATIVE_PATH : ADL_PATH_SEGMENT ( '/' ADL_PATH_SEGMENT )+ ;
 fragment ADL_PATH_SEGMENT  : ALPHA_LC_ID ( '[' ADL_PATH_PREDICATE ']' )?;
 
