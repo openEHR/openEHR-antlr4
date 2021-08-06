@@ -1,5 +1,5 @@
 // Generated from Odin.g4 by ANTLR 4.9.2
-package odinReader;
+package org.openehr.odinReader;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;

@@ -87,12 +87,12 @@ metaDataItem:
     ;
 
 metaDataValueItem : ALPHANUM_ID '=' metaDataItemValue ;
-metaDataFlag  : ALPHANUM_ID ;
+metaDataFlag : ALPHANUM_ID ;
 
 metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID ;
 
 // Specialise section
-specializeSection  : SPECIALIZE_SECTION ARCHETYPE_REF ;
+specializeSection : SPECIALIZE_SECTION ARCHETYPE_REF ;
 
 //
 // Archetype content sections follow the pattern
