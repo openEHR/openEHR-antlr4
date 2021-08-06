@@ -9,6 +9,48 @@
 parser grammar PrimitiveValuesParser;
 options { tokenVocab=PrimitiveValuesLexer; }
 
+primitiveObject :
+      primitiveValue
+    | primitiveListValue
+    | primitiveIntervalValue
+    ;
+
+primitiveValue :
+      stringValue
+    | integerValue
+    | realValue
+    | booleanValue
+    | characterValue
+    | termCodeValue
+    | dateValue
+    | timeValue
+    | dateTimeValue
+    | durationValue
+    | uriValue
+    ;
+
+primitiveListValue :
+      stringListValue
+    | integerListValue
+    | realListValue
+    | booleanListValue
+    | characterListValue
+    | termCodeListValue
+    | dateListValue
+    | timeListValue
+    | dateTimeListValue
+    | durationListValue
+    ;
+
+primitiveIntervalValue :
+      integerIntervalValue
+    | realIntervalValue
+    | dateIntervalValue
+    | timeIntervalValue
+    | dateTimeIntervalValue
+    | durationIntervalValue
+    ;
+
 stringValue : STRING ;
 stringListValue : stringValue ( ( ',' stringValue )+ | ',' SYM_LIST_CONTINUE ) ;
 

@@ -17,11 +17,28 @@ import PathLexer, CPrimitiveValuesParser;
 statementBlock: statement+ EOF ;
 
 // ------------------------- statements ---------------------------
-statement: variableDeclaration | assignment | assertion;
+statement: declaration | assignment | assertion;
+
+declaration:
+      variableDeclaration
+    | constantDeclaration
+    ;
 
 variableDeclaration: localVariable ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-assignment: localVariable SYM_ASSIGNMENT expression ;
+constantDeclaration: constantName ':' typeId  ( SYM_EQ primitiveObject )? ;
+
+assignment:
+      binding
+    | localAssignment
+    ;
+
+//
+// The following is the means of binding a data context path to a local variable
+// TODO: remove this rule when proper external bindings are supported
+binding: localVariable SYM_ASSIGNMENT boundPath ;
+
+localAssignment: localVariable SYM_ASSIGNMENT expression ;
 
 assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
 
@@ -50,7 +67,7 @@ booleanExpr:
 
 //
 // Atomic Boolean-valued expression elements
-//
+// TODO: SYM_EXISTS alternative to be replaced by defined() predicate
 booleanLeaf:
       booleanLiteral
     | valueRef
@@ -60,7 +77,7 @@ booleanLeaf:
     | relationalExpr
     | equalityExpr
     | constraintExpr
-    | SYM_EXISTS boundVariable
+    | SYM_EXISTS ( boundPath | subPathLocalVariable )
     ;
 
 booleanLiteral:
@@ -76,8 +93,9 @@ forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
 thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
 
 // Constraint expressions
+// TODO: non-primitive objects might be supported on the RHS in future.
 constraintExpr:
-      valueRef SYM_MATCHES '{' cInlinePrimitiveObject '}'
+      arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}'
     ;
 
 //
@@ -127,20 +145,29 @@ relationalBinop:
 
 //
 // instances references: data references, variables, and function calls.
-// TODO: Currently treat ADL paths as 'mapped' data references;
-// which is ambiguous, since an ADL path may match multiple runtime objects
+// TODO: Remove boundPath from this rule when external binding supported
 //
 valueRef:
       functionCall
+    | boundPath
+    | subPathLocalVariable
     | localVariable
-    | boundVariable
+    | constantName
     ;
 
 localVariable: VARIABLE_ID ;
 
-boundVariable: ADL_PATH ;
+// TODO: change to [] form, e.g.     book_list [{title.contains("Quixote")}]
+subPathLocalVariable: VARIABLE_WITH_PATH;
 
-functionCall: ALPHA_LC_ID '(' ( expression ( ',' expression )* )? ')' ;
+// TODO: Remove this rule when external binding supported
+boundPath: ADL_PATH ;
+
+constantName: ALPHA_UC_ID ;
+
+functionCall: ALPHA_LC_ID '(' functionArgs? ')' ;
+
+functionArgs: expression ( ',' expression )* ;
 
 typeId: ALPHA_UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
@@ -175,4 +202,7 @@ SYM_THERE_EXISTS: 'there_exists' | '∃' ;
 SYM_EXISTS   : 'exists' ;
 SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
 
-VARIABLE_ID: '$' ALPHA_LC_ID;
+// TODO: remove when [] path predicates supported
+VARIABLE_WITH_PATH: VARIABLE_ID ADL_ABSOLUTE_PATH ;
+
+VARIABLE_ID: '$' ALPHA_LC_ID ;
