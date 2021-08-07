@@ -61,7 +61,7 @@ booleanExpr:
     | booleanExpr SYM_XOR booleanExpr
     | booleanExpr SYM_OR booleanExpr
     | booleanExpr SYM_IMPLIES booleanExpr
-    | booleanLeaf equalityBinop booleanLiteral
+    | booleanLeaf equalityBinop booleanLeaf
     | booleanLeaf
     ;
 
