@@ -70,14 +70,14 @@ booleanExpr:
 // TODO: SYM_EXISTS alternative to be replaced by defined() predicate
 booleanLeaf:
       booleanLiteral
-    | valueRef
     | forAllExpr
     | thereExistsExpr
+    | SYM_EXISTS ( boundPath | subPathLocalVariable )
     | '(' booleanExpr ')'
     | relationalExpr
     | equalityExpr
     | constraintExpr
-    | SYM_EXISTS ( boundPath | subPathLocalVariable )
+    | valueRef
     ;
 
 booleanLiteral:
@@ -93,18 +93,28 @@ forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
 thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
 
 // Constraint expressions
+// This provides a way of using one operator (matches) to compare a
+// value (LHS) with a value range (RHS). As per ADL, the value range
+// for ordered types like Integer, Date etc may be a single value,
+// a list of values, or a list of intervals, and in future, potentially
+// other comparators, including functions (e.g. divisible_by_N).
+//
+// For non-ordered types like String and Terminology_code, the RHS
+// is in other forms, e.g. regex for Strings.
+//
+// The matches operator can be used to generate a Boolean value that
+// may be used within an expression like any other Boolean (hence it
+// is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr:
-      arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}'
-    ;
+constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
 //
 // Expressions evaluating to arithmetic values, using standard precedence
 //
 arithmeticExpr:
-      <assoc=right> arithmeticExpr '^' arithmeticLeaf
-    | arithmeticExpr ( '/' | '*' ) arithmeticLeaf
-    | arithmeticExpr ( '+' | '-' ) arithmeticLeaf
+      <assoc=right> arithmeticExpr '^' arithmeticExpr
+    | arithmeticExpr ( '/' | '*' | '%' ) arithmeticExpr
+    | arithmeticExpr ( '+' | '-' ) arithmeticExpr
     | arithmeticLeaf
     ;
 

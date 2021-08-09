@@ -45,5 +45,3 @@ SYM_SLASH: '/' ;
 
 SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
-
-SYM_CARAT: '^' ;

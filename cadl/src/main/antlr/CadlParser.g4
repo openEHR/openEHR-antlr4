@@ -62,18 +62,6 @@ cAttributeTupleAttrs : rmAttributeId ( ',' rmAttributeId )* ;
 cPrimitiveTuples: cPrimitiveTuple ( ',' cPrimitiveTuple )* ;
 cPrimitiveTuple : '[' '{' cInlinePrimitiveObject '}' ( ',' '{' cInlinePrimitiveObject '}' )* ']' ;
 
-cInlinePrimitiveObject:
-      cInteger
-    | cReal
-    | cDate
-    | cTime
-    | cDateTime
-    | cDuration
-    | cString
-    | cTerminologyCode
-    | cBoolean
-    ;
-
 // ------------------- existence and cardinality -----------------------
 cExistence   : SYM_EXISTENCE SYM_MATCHES '{' existence '}' ;
 existence    : INTEGER | INTEGER '..' INTEGER ;

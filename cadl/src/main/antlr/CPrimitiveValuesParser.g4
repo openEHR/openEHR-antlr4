@@ -12,6 +12,18 @@ parser grammar CPrimitiveValuesParser;
 options { tokenVocab=CPrimitiveValuesLexer; }
 import PrimitiveValuesParser;
 
+cInlinePrimitiveObject:
+      cInteger
+    | cReal
+    | cDate
+    | cTime
+    | cDateTime
+    | cDuration
+    | cString
+    | cTerminologyCode
+    | cBoolean
+    ;
+
 // ------------ Primitive type constraints -------------
 
 cInteger: ( integerValue | integerListValue | integerIntervalValue | integerIntervalListValue ) assumedIntegerValue? ;
