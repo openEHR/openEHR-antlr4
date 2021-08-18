@@ -28,7 +28,7 @@ odinObjectBlock :
     | odinObjectReferenceBlock
     ;
 
-odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ )? '>' ;
+odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | URI )? '>' ;
 rmTypeSpec : '(' rmTypeId ')' ;
 
 odinKeyedObject : odinKeySpec '=' odinObjectBlock ;
