@@ -24,7 +24,7 @@ declaration:
     | constantDeclaration
     ;
 
-variableDeclaration: localVariable ':' typeId ( SYM_ASSIGNMENT expression )? ;
+variableDeclaration: variableName ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
 constantDeclaration: constantName ':' typeId  ( SYM_EQ primitiveObject )? ;
 
@@ -36,9 +36,9 @@ assignment:
 //
 // The following is the means of binding a data context path to a local variable
 // TODO: remove this rule when proper external bindings are supported
-binding: localVariable SYM_ASSIGNMENT boundPath ;
+binding: variableName SYM_ASSIGNMENT rawPath ;
 
-localAssignment: localVariable SYM_ASSIGNMENT expression ;
+localAssignment: variableName SYM_ASSIGNMENT expression ;
 
 assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
 
@@ -72,7 +72,7 @@ booleanLeaf:
       booleanLiteral
     | forAllExpr
     | thereExistsExpr
-    | SYM_EXISTS ( boundPath | subPathLocalVariable )
+    | SYM_EXISTS ( rawPath | variableSubPath )
     | '(' booleanExpr ')'
     | relationalExpr
     | equalityExpr
@@ -119,14 +119,18 @@ arithmeticExpr:
     ;
 
 arithmeticLeaf:
+      arithmeticLiteral
+    | valueRef
+    | '(' arithmeticExpr ')'
+    ;
+
+arithmeticLiteral:
       integerValue
     | realValue
     | dateValue
     | dateTimeValue
     | timeValue
     | durationValue
-    | valueRef
-    | '(' arithmeticExpr ')'
     ;
 
 //
@@ -155,23 +159,23 @@ relationalBinop:
 
 //
 // instances references: data references, variables, and function calls.
-// TODO: Remove boundPath from this rule when external binding supported
+// TODO: Remove rawPath from this rule when external binding supported
 //
 valueRef:
       functionCall
-    | boundPath
-    | subPathLocalVariable
-    | localVariable
+    | rawPath
+    | variableSubPath
+    | variableName
     | constantName
     ;
 
-localVariable: VARIABLE_ID ;
+variableName: VARIABLE_ID ;
 
 // TODO: change to [] form, e.g.     book_list [{title.contains("Quixote")}]
-subPathLocalVariable: VARIABLE_WITH_PATH;
+variableSubPath: VARIABLE_WITH_PATH;
 
 // TODO: Remove this rule when external binding supported
-boundPath: ADL_PATH ;
+rawPath: ADL_PATH ;
 
 constantName: ALPHA_UC_ID ;
 
