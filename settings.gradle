@@ -4,5 +4,5 @@ include 'adl'
 include 'el'
 include 'base'
 include 'cadl'
-
+include 'combined'
 
