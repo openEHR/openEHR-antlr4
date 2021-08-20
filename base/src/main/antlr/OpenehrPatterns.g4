@@ -14,9 +14,9 @@ import BaseLexer;
 
 ARCHETYPE_HRID      : ARCHETYPE_HRID_ROOT '.v' VERSION_ID ;
 ARCHETYPE_REF       : ARCHETYPE_HRID_ROOT '.v' VERSION_REF ;
+VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
 fragment ARCHETYPE_HRID_ROOT : ( NAMESPACE '::' )? ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '.' LABEL ;
 fragment VERSION_REF: DIGIT+ ( '.' DIGIT+ ( '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? )? )? ;
-VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
 fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
 
 // According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and

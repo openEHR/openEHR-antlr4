@@ -73,13 +73,13 @@ operationalTemplate:
     ;
 
 //
-// ------------------- sub-parts --------------------
+// ------------------- header section --------------------
 //
 
 // Header: meta-data items in parentheses followed by archetype ID
 header: metaData? ARCHETYPE_HRID ;
 
-metaData: '(' metaDataItem ( ';' metaDataItem )* ')' ;
+metaData: METADATA_START metaDataItem ( METADATA_SEP metaDataItem )* METADATA_END ;
 
 metaDataItem:
       metaDataValueItem
@@ -91,7 +91,7 @@ metaDataFlag : ALPHANUM_ID ;
 
 metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID ;
 
-// Specialise section
+// ------------------- specialise section --------------------
 specializeSection : SPECIALIZE_SECTION ARCHETYPE_REF ;
 
 //
@@ -100,11 +100,14 @@ specializeSection : SPECIALIZE_SECTION ARCHETYPE_REF ;
 // The lines (i.e. text block) of each section is passed to the appropriate kind of
 // specific parser.
 //
-languageSection    : LANGUAGE_SECTION ODIN_LINE+ ;
-descriptionSection : DESCRIPTION_SECTION ODIN_LINE+ ;
-definitionSection  : DEFINITION_SECTION CADL_LINE+ ;
-rulesSection       : RULES_SECTION EL_LINE+ ;
-terminologySection : TERMINOLOGY_SECTION ODIN_LINE+ ;
-annotationsSection : ANNOTATIONS_SECTION ODIN_LINE+ ;
-componentTerminologiesSection: COMPONENT_TERMINOLOGIES_SECTION ODIN_LINE+ ;
+languageSection    : LANGUAGE_SECTION odinText ;
+descriptionSection : DESCRIPTION_SECTION odinText ;
+definitionSection  : DEFINITION_SECTION cadlText ;
+rulesSection       : RULES_SECTION elText ;
+terminologySection : TERMINOLOGY_SECTION odinText ;
+annotationsSection : ANNOTATIONS_SECTION odinText ;
+componentTerminologiesSection: COMPONENT_TERMINOLOGIES_SECTION odinText ;
 
+odinText : ODIN_LINE+ ;
+cadlText : CADL_LINE+ ;
+elText   : EL_LINE+ ;
