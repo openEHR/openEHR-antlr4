@@ -32,6 +32,7 @@ authoredArchetype:
     descriptionSection
     definitionSection
     rulesSection?
+    rmOverlaySection?
     terminologySection
     annotationsSection?
     ;
@@ -46,6 +47,7 @@ template:
     descriptionSection
     definitionSection
     rulesSection?
+    rmOverlaySection?
     terminologySection
     annotationsSection?
     templateOverlay*
@@ -55,6 +57,7 @@ templateOverlay:
     SYM_TEMPLATE_OVERLAY header
     specializeSection
     definitionSection
+    rmOverlaySection?
     terminologySection
     ;
 
@@ -67,6 +70,7 @@ operationalTemplate:
     descriptionSection
     definitionSection
     rulesSection?
+    rmOverlaySection?
     terminologySection
     annotationsSection?
     componentTerminologiesSection?
@@ -92,7 +96,7 @@ metaDataFlag : ALPHANUM_ID ;
 metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID ;
 
 // ------------------- specialise section --------------------
-specializeSection : SPECIALIZE_SECTION ARCHETYPE_REF ;
+specializeSection : SPECIALIZE_HEADER ARCHETYPE_REF ;
 
 //
 // Archetype content sections follow the pattern
@@ -100,13 +104,14 @@ specializeSection : SPECIALIZE_SECTION ARCHETYPE_REF ;
 // The lines (i.e. text block) of each section is passed to the appropriate kind of
 // specific parser.
 //
-languageSection    : LANGUAGE_SECTION odinText ;
-descriptionSection : DESCRIPTION_SECTION odinText ;
-definitionSection  : DEFINITION_SECTION cadlText ;
-rulesSection       : RULES_SECTION elText ;
-terminologySection : TERMINOLOGY_SECTION odinText ;
-annotationsSection : ANNOTATIONS_SECTION odinText ;
-componentTerminologiesSection: COMPONENT_TERMINOLOGIES_SECTION odinText ;
+languageSection    : LANGUAGE_HEADER odinText ;
+descriptionSection : DESCRIPTION_HEADER odinText ;
+definitionSection  : DEFINITION_HEADER cadlText ;
+rulesSection       : RULES_HEADER elText ;
+rmOverlaySection   : RM_OVERLAY_HEADER odinText ;
+terminologySection : TERMINOLOGY_HEADER odinText ;
+annotationsSection : ANNOTATIONS_HEADER odinText ;
+componentTerminologiesSection: COMPONENT_TERMINOLOGIES_HEADER odinText ;
 
 odinText : ODIN_LINE+ ;
 cadlText : CADL_LINE+ ;
