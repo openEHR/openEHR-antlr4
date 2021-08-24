@@ -1,0 +1,13 @@
+--
+-- use_node with path
+--
+THING[id3] ∈ {
+    value ∈ {
+        ELEMENT[id11] ∈ {
+            value ∈ {"blah"}
+        }
+    }
+    block ∈ {
+        use_node ELEMENT[id3] /value[id11]
+    }
+}

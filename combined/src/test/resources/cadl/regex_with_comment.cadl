@@ -1,0 +1,9 @@
+--
+-- Check whether comment and regex matchers will get confused
+--
+THING[id3] ∈ {
+    value ∈ {|1..10|} -- this / is a comment with a slash
+    block ∈ {
+        use_node ELEMENT[id3] /value[id11]	-- /value[id11]
+    }
+}

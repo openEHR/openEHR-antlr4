@@ -1,0 +1,37 @@
+	SOME_TYPE[id1] matches {	-- root item
+		standard_ordinal_attr matches {
+			DV_ORDINAL[id5] matches {	-- ordinal 1
+				value matches {0}
+				symbol matches {
+					DV_CODED_TEXT[id8] matches {
+						defining_code matches {[at2]}
+					}
+				}
+			}
+			DV_ORDINAL[id6] matches {	-- ordinal 2
+				value matches {1}
+				symbol matches {
+					DV_CODED_TEXT[id9] matches {
+						defining_code matches {[at3]}
+					}
+				}
+			}
+			DV_ORDINAL[id7] matches {	-- ordinal 3
+				value matches {2}
+				symbol matches {
+					DV_CODED_TEXT[id10] matches {
+						defining_code matches {[at4]}
+					}
+				}
+			}
+		}
+		clinical_ordinal_attr_1 matches {
+			DV_ORDINAL[id11] matches {
+				[value, symbol] matches {
+					[{0}, {[at2]}],
+					[{1}, {[at3]}],
+					[{2}, {[at4]}]
+				}
+			}
+		}
+	}
