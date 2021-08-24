@@ -28,6 +28,8 @@ odinObjectBlock :
     | odinObjectReferenceBlock
     ;
 
+// TODO: naked URIs are allowed only in this context; future versions of ODIN will
+// only allow them as quoted Strings
 odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | URI )? '>' ;
 rmTypeSpec : '(' rmTypeId ')' ;
 
@@ -43,4 +45,5 @@ odinPathList : ODIN_PATH ( ',' SYM_LIST_CONTINUE | ( ',' ODIN_PATH )+ )? ;
 // ---------------- model identifiers --------------
 rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : ALPHA_LC_ID ;
+
 
