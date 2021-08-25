@@ -17,3 +17,4 @@ fragment ADL_PATH_SEGMENT  : ALPHA_LC_ID ( '[' ADL_PATH_PREDICATE ']' )?;
 
 // TODO: AT_CODE is to be backward compatible with ADL1.4. archetypes
 fragment ADL_PATH_PREDICATE : ID_CODE | AT_CODE | STRING | INTEGER | ARCHETYPE_REF;
+
