@@ -1,24 +1,83 @@
 package org.openehr.adlReader;
 
+import com.google.common.base.Charsets;
+import org.antlr.v4.runtime.CharStreams;
+import org.apache.commons.io.input.BOMInputStream;
 import org.junit.Test;
+import org.openehr.antlr.ANTLRParserErrors;
+import org.openehr.antlr.ANTLRParserMessage;
+import org.openehr.antlr.ArchieErrorListener;
+import org.openehr.odinReader.OdinReader;
+import org.reflections.Reflections;
+import org.reflections.scanners.ResourcesScanner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class AdlReaderTest {
 
+    private static final Logger log = LoggerFactory.getLogger(AdlReaderTest.class);
+
     @Test
-    public void simpleTest() throws IOException {
-        String adlTestFile = "adl2/aom_structures/basic/openehr-TEST_PKG-WHOLE.most_minimal.v2.0.0.adls";
-        // String adlTestFile = "adl/ADL2_test_set/templates/openEHR-DEMOGRAPHIC-PERSON.t_patient_ds_sf.v1.0.0.adls";
+    public void simpleAdlTest() throws IOException {
+        String pathName = "/adl2/pass/description/text/openEHR-EHR-EVALUATION.unicode_farsi.v1.0.0.adls";
 
-        AdlReader adlReader = new AdlReader();
-        String adlText = getResourceFileAsString (adlTestFile);
+        AdlReader reader = new AdlReader(false, false);
+        try (InputStream stream = getClass().getResourceAsStream (pathName)) {
+            reader.readArchetype(CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8));
+        }
+    }
 
-        adlReader.readArchetype(adlText);
+    @Test
+    public void simpleOdinTest() throws IOException {
+        String pathName = "odin/adl_terminology.odin";
+
+        OdinReader reader = new OdinReader(false, false);
+        String text = getResourceFileAsString (pathName);
+        reader.readOdin(text, "odin");
+        ANTLRParserErrors errors = reader.getErrors();
+        for (ANTLRParserMessage msg: errors.getErrors()) {
+            System.out.println("ERROR: " + msg.qualifiedMessage());
+        }
+        for (ANTLRParserMessage msg: errors.getWarnings()) {
+            System.out.println("WARNING: " + msg.qualifiedMessage());
+        }
+    }
+
+    @Test
+    public void testAll() throws IOException {
+        AdlReader adlReader = new AdlReader(false, false);
+
+        Reflections reflections = new Reflections("adl2/fail", new ResourcesScanner());
+        //List<String> files = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\.adls")));
+        List<String> files = new ArrayList<>(reflections.getResources (Pattern.compile(".*openEHR-TEST_PKG-ENTRY.FAIL_terminology_missing.v1.0.0\\.adls")));
+
+        for (String pathName : files) {
+            System.out.println("----------------- " + pathName + " -------------");
+            try (InputStream stream = getClass().getResourceAsStream ("/" + pathName)) {
+                adlReader.readArchetype (CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8));
+
+                // report results
+                if (adlReader.getErrorCollector().hasErrors()) {
+                    System.out.println("ERRORS: ");
+                    System.out.println (adlReader.getErrorCollector().errors().get(0).qualifiedMessage());
+//                    adlReader.getErrorCollector().errors().forEach (e-> System.out.println (e.qualifiedMessage()));
+                }
+                if (adlReader.getErrorCollector().hasWarnings()) {
+                    System.out.println("WARNINGS: ");
+                    System.out.println (adlReader.getErrorCollector().warnings().get(0).qualifiedMessage());
+                }
+
+            }
+            catch (Exception e) {
+
+            }
+        }
     }
 
     /**
@@ -34,7 +93,7 @@ public class AdlReaderTest {
             if (is == null) return null;
             try (InputStreamReader isr = new InputStreamReader(is);
                  BufferedReader reader = new BufferedReader(isr)) {
-                return reader.lines().collect(Collectors.joining(System.lineSeparator()));
+                 return reader.lines().collect(Collectors.joining(System.lineSeparator()));
             }
         }
     }

@@ -2,6 +2,8 @@ package org.openehr.elReader;
 
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.openehr.combinedparser.ElLexer;
+import org.openehr.combinedparser.ElParser;
 
 public class ElReader {
     

@@ -594,18 +594,6 @@ public class OdinSimpleListener implements OdinParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUriValue(OdinParser.UriValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitUriValue(OdinParser.UriValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
 	@Override public void enterRelop(OdinParser.RelopContext ctx) { }
 	/**
 	 * {@inheritDoc}
