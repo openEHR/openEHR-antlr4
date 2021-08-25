@@ -11,7 +11,7 @@
 //
 
 lexer grammar CadlLexer;
-import CPrimitiveValuesLexer, PathLexer, BaseLexer;
+import CPrimitiveValuesLexer, PathLexer;
 
 // ------------------ lines and comments ------------------
 CMT_LINE : '--' .*? EOL -> skip ;             // increment line count
@@ -47,8 +47,10 @@ SYM_SLASH: '/' ;
 SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
 
-// ------------------ default blocks --------------------
+// ----------------------- default blocks --------------------------
 DEFAULT_BLOCK_START : '_'[Dd][Ee][Ff][Aa][Uu][Ll][Tt] WS? '=' -> mode (OBJECT_BLOCK);
+
+// -------------------------- Modal lexers -----------------------------
 
 // modes to grab included object blocks; these do explicit whitespace handling
 // since they have to capture everything so it can be passed to other parsers
