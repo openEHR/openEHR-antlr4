@@ -138,6 +138,30 @@ public class OdinSimpleListener implements OdinParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterOdinPath(OdinParser.OdinPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOdinPath(OdinParser.OdinPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterOdinPathSegment(OdinParser.OdinPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitOdinPathSegment(OdinParser.OdinPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterRmTypeId(OdinParser.RmTypeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -145,18 +169,6 @@ public class OdinSimpleListener implements OdinParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRmTypeId(OdinParser.RmTypeIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterRmAttributeId(OdinParser.RmAttributeIdContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitRmAttributeId(OdinParser.RmAttributeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

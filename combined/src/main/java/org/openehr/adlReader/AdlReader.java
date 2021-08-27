@@ -2,54 +2,164 @@ package org.openehr.adlReader;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.openehr.antlr.ANTLRParserErrors;
-import org.openehr.antlr.ArchieErrorListener;
 import org.openehr.cadlReader.CadlReader;
 import org.openehr.combinedparser.*;
+import org.openehr.common.SyntaxReader;
+import org.openehr.elReader.ElReader;
 import org.openehr.odinReader.OdinReader;
 
 import java.util.List;
 
-public class AdlReader {
+public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
 
-    //
-    // -------------- Creation ------------------
-    //
+
+    // ------------------ Creation ----------------------
+
     public AdlReader (boolean logging, boolean keepAntlrErrors) {
-        this.logging = logging;
-        this.keepAntlrErrors = keepAntlrErrors;
+        super (logging, keepAntlrErrors);
+        odinReader = new OdinReader (logging, keepAntlrErrors);
+        cadlReader = new CadlReader (logging, keepAntlrErrors);
+        elReader = new ElReader (logging, keepAntlrErrors);
     }
 
-    //
-    // -------------- Execution ------------------
-    //
-    /**
-     * Read an archetype, supplying an error listener
-     * @param adlStream char stream of the archetype
-     */
-    public void readArchetype (CharStream adlStream) {
-        // set up the Error collector
+    // ------------------ Commands ----------------------
+
+    public void readAuthoredArchetype (AdlParser.AuthoredArchetypeContext archCtx) {
+        // Header (part of top-level parse)
+        AdlParser.HeaderContext header = archCtx.header();
+        readMetaData (header.metaData());
+
+        // Specialise section (part of top-level parse)  [0..1]
+        AdlParser.SpecializeSectionContext specSectionCtx = archCtx.specializeSection();
+        if (specSectionCtx != null) {
+
+        }
+
+        // Language section: ODIN [1]
+        AdlParser.LanguageSectionContext langSectionCtx = archCtx.languageSection();
+        if (langSectionCtx != null) {
+            odinReader.read (textToCharStream(langSectionCtx.odinText().ODIN_LINE()), "language");
+            errorCollector.setLanguageErrors(odinReader.getErrors());
+        }
+
+        // Description section [1]
+        AdlParser.DescriptionSectionContext descSectionCtx = archCtx.descriptionSection();
+        if (descSectionCtx != null) {
+            odinReader.read (textToCharStream(descSectionCtx.odinText().ODIN_LINE()), "description");
+            errorCollector.setDescriptionErrors(odinReader.getErrors());
+        }
+
+        // Definition section: CADL [1]
+        AdlParser.DefinitionSectionContext defSectionCtx = archCtx.definitionSection();
+        if (defSectionCtx != null) {
+            cadlReader.read (textToCharStream(defSectionCtx.cadlText().CADL_LINE()), "definition");
+            errorCollector.setDefinitionErrors (cadlReader.getErrors());
+        }
+
+        // Rules section: EL [0..1]
+        AdlParser.RulesSectionContext rulesSectionCtx = archCtx.rulesSection();
+        if (rulesSectionCtx != null) {
+            elReader.read (textToCharStream(rulesSectionCtx.elText().EL_LINE()), "el");
+            errorCollector.setRulesErrors (elReader.getErrors());
+        }
+
+        // Rm_overlay section: ODIN [0..1]
+        AdlParser.RmOverlaySectionContext rmOvlSectionCtx = archCtx.rmOverlaySection();
+        if (rmOvlSectionCtx != null) {
+            odinReader.read (textToCharStream(rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
+            errorCollector.setRmOverlayErrors (odinReader.getErrors());
+        }
+
+        // Terminology section: ODIN [1]
+        AdlParser.TerminologySectionContext termSectionCtx = archCtx.terminologySection();
+        if (termSectionCtx != null) {
+            odinReader.read (textToCharStream(termSectionCtx.odinText().ODIN_LINE()), "terminology");
+            errorCollector.setTerminologyErrors(odinReader.getErrors());
+        }
+
+        // Annotations section: ODIN [0..1]
+        AdlParser.AnnotationsSectionContext annotSectionCtx = archCtx.annotationsSection();
+        if (annotSectionCtx != null) {
+            odinReader.read (textToCharStream(annotSectionCtx.odinText().ODIN_LINE()), "annotations");
+            errorCollector.setAnnotationsErrors (odinReader.getErrors());
+        }
+
+    }
+
+    public void readTemplate (AdlParser.TemplateContext archCtx) {
+        // Header (part of top-level parse)
+        AdlParser.HeaderContext header = archCtx.header();
+        readMetaData (header.metaData());
+
+        // Specialise section (part of top-level parse)
+        AdlParser.SpecializeSectionContext specSectionCtx = archCtx.specializeSection();
+
+        // Language section: ODIN
+        odinReader.read (textToCharStream(archCtx.languageSection().odinText().ODIN_LINE()), "language");
+        errorCollector.setLanguageErrors(odinReader.getErrors());
+
+        // Description section: ODIN
+        odinReader.read (textToCharStream(archCtx.descriptionSection().odinText().ODIN_LINE()), "description");
+        errorCollector.setDescriptionErrors (odinReader.getErrors());
+
+        // Definition section: CADL
+        cadlReader.read (textToCharStream(archCtx.definitionSection().cadlText().CADL_LINE()), "definition");
+        errorCollector.setDefinitionErrors (cadlReader.getErrors());
+
+        // Rules section: EL
+        AdlParser.RulesSectionContext rulesSectionCtx = archCtx.rulesSection();
+        if (rulesSectionCtx != null) {
+            elReader.read (textToCharStream(rulesSectionCtx.elText().EL_LINE()), "el");
+            errorCollector.setRulesErrors (elReader.getErrors());
+        }
+
+        // Rm_overlay section: ODIN
+        AdlParser.RmOverlaySectionContext rmOvlSectionCtx = archCtx.rmOverlaySection();
+        if (rmOvlSectionCtx != null) {
+            odinReader.read (textToCharStream(rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
+            errorCollector.setRmOverlayErrors (odinReader.getErrors());
+        }
+
+        // Terminology section: ODIN
+        odinReader.read (textToCharStream(archCtx.terminologySection().odinText().ODIN_LINE()), "terminology");
+        errorCollector.setTerminologyErrors (odinReader.getErrors());
+
+        // Annotations section: ODIN
+        AdlParser.AnnotationsSectionContext annotSectionCtx = archCtx.annotationsSection();
+        if (annotSectionCtx != null) {
+            odinReader.read (textToCharStream(annotSectionCtx.odinText().ODIN_LINE()), "annotations");
+            errorCollector.setAnnotationsErrors (odinReader.getErrors());
+        }
+
+        // now deal with template overlays
+    }
+
+    public void readOperationalTemplate (AdlParser.OperationalTemplateContext archCtx) {
+    }
+
+    public void readTemplateOverlay (AdlParser.TemplateOverlayContext archCtx) {
+    }
+
+    // ---------------------- Access ----------------------
+
+    public AdlReaderErrors getErrorCollector() {
+        return errorCollector;
+    }
+
+    // -------------- Implementation ------------------
+
+    protected void createLexerParser (CharStream stream) {
+        lexer = new AdlLexer (stream);
+        parser = new AdlParser (new CommonTokenStream (lexer));
+    }
+
+    protected void doParse() {
+        // set up the top-level Error collector
         errorCollector = new AdlReaderErrors();
+        errorCollector.setAdlErrors (errors);
 
-        // set up the top-level ADL lexer/parser
-        errors = new ANTLRParserErrors ();
-        errorCollector.setAdlErrors(errors);
-        ArchieErrorListener errorListener = new ArchieErrorListener (errors, "adl");
-        errorListener.setLogEnabled (logging);
-
-        // Create an ADL lexer and parser and add error listener
-        AdlLexer adlLexer = new AdlLexer(adlStream);
-        if (!keepAntlrErrors)
-            adlLexer.removeErrorListeners();
-        adlLexer.addErrorListener(errorListener);
-        AdlParser adlParser = new AdlParser (new CommonTokenStream(adlLexer));
-        if (!keepAntlrErrors)
-            adlParser.removeErrorListeners();
-        adlParser.addErrorListener(errorListener);
-
-
-        // look at the parse structure
-        AdlParser.AdlObjectContext adlObjectCtx = adlParser.adlObject();
+        // do the parse
+        AdlParser.AdlObjectContext adlObjectCtx = parser.adlObject();
 
         for (ParserRuleContext ruleContext: adlObjectCtx.getRuleContexts(ParserRuleContext.class)) {
             if (ruleContext instanceof AdlParser.AuthoredArchetypeContext)
@@ -65,153 +175,15 @@ public class AdlReader {
         }
     }
 
-    public void readAuthoredArchetype (AdlParser.AuthoredArchetypeContext archCtx) {
-        OdinReader odinReader = new OdinReader(logging, keepAntlrErrors);
-        CadlReader cadlReader = new CadlReader(logging, keepAntlrErrors);
-
-        // Header (part of top-level parse)
-        AdlParser.HeaderContext header = archCtx.header();
-        readMetaData (header.metaData());
-
-        // Specialise section (part of top-level parse)
-        AdlParser.SpecializeSectionContext specSectionCtx = archCtx.specializeSection();
-        if (specSectionCtx != null) {
-
-        }
-
-        // Language section: ODIN
-        odinReader.readOdin (ConcatNodeText(archCtx.languageSection().odinText().ODIN_LINE()), "language");
-        errorCollector.setLanguageErrors(odinReader.getErrors());
-
-        // Description section
-        odinReader.readOdin (ConcatNodeText(archCtx.descriptionSection().odinText().ODIN_LINE()), "description");
-        errorCollector.setDescriptionErrors (odinReader.getErrors());
-
-        // Definition section: CADL
-        cadlReader.readCadl (ConcatNodeText(archCtx.definitionSection().cadlText().CADL_LINE()), "definition");
-        errorCollector.setDefinitionErrors (cadlReader.getErrors());
-
-        // Rules section: EL
-        AdlParser.RulesSectionContext rulesSectionCtx = archCtx.rulesSection();
-        if (rulesSectionCtx != null) {
-            readElText (ConcatNodeText(rulesSectionCtx.elText().EL_LINE()));
-            errorCollector.setRulesErrors (odinReader.getErrors());
-        }
-
-        // Rm_overlay section: ODIN
-        AdlParser.RmOverlaySectionContext rmOvlSectionCtx = archCtx.rmOverlaySection();
-        if (rmOvlSectionCtx != null) {
-            odinReader.readOdin (ConcatNodeText(rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
-            errorCollector.setRmOverlayErrors (odinReader.getErrors());
-        }
-
-        // Terminology section: ODIN
-        odinReader.readOdin (ConcatNodeText(archCtx.terminologySection().odinText().ODIN_LINE()), "terminology");
-        errorCollector.setTerminologyErrors (odinReader.getErrors());
-
-        // Annotations section: ODIN
-        AdlParser.AnnotationsSectionContext annotSectionCtx = archCtx.annotationsSection();
-        if (annotSectionCtx != null) {
-            odinReader.readOdin (ConcatNodeText(annotSectionCtx.odinText().ODIN_LINE()), "annotations");
-            errorCollector.setAnnotationsErrors (odinReader.getErrors());
-        }
-
-    }
-
-    public void readTemplate (AdlParser.TemplateContext archCtx) {
-        OdinReader odinReader = new OdinReader(logging, keepAntlrErrors);
-        CadlReader cadlReader = new CadlReader(logging, keepAntlrErrors);
-
-        // Header (part of top-level parse)
-        AdlParser.HeaderContext header = archCtx.header();
-        readMetaData (header.metaData());
-
-        // Specialise section (part of top-level parse)
-        AdlParser.SpecializeSectionContext specSectionCtx = archCtx.specializeSection();
-
-
-        // Language section: ODIN
-        odinReader.readOdin (ConcatNodeText(archCtx.languageSection().odinText().ODIN_LINE()), "language");
-        errorCollector.setLanguageErrors(odinReader.getErrors());
-
-        // Description section
-        odinReader.readOdin (ConcatNodeText(archCtx.descriptionSection().odinText().ODIN_LINE()), "description");
-        errorCollector.setDescriptionErrors (odinReader.getErrors());
-
-        // Definition section: CADL
-        cadlReader.readCadl (ConcatNodeText(archCtx.definitionSection().cadlText().CADL_LINE()), "definition");
-        errorCollector.setDefinitionErrors (cadlReader.getErrors());
-
-        // Rules section: EL
-        AdlParser.RulesSectionContext rulesSectionCtx = archCtx.rulesSection();
-        if (rulesSectionCtx != null) {
-            readElText (ConcatNodeText(rulesSectionCtx.elText().EL_LINE()));
-            errorCollector.setRulesErrors (odinReader.getErrors());
-        }
-
-        // Rm_overlay section: ODIN
-        AdlParser.RmOverlaySectionContext rmOvlSectionCtx = archCtx.rmOverlaySection();
-        if (rmOvlSectionCtx != null) {
-            odinReader.readOdin (ConcatNodeText(rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
-            errorCollector.setRmOverlayErrors (odinReader.getErrors());
-        }
-
-        // Terminology section: ODIN
-        odinReader.readOdin (ConcatNodeText(archCtx.terminologySection().odinText().ODIN_LINE()), "terminology");
-        errorCollector.setTerminologyErrors (odinReader.getErrors());
-
-        // Annotations section: ODIN
-        AdlParser.AnnotationsSectionContext annotSectionCtx = archCtx.annotationsSection();
-        if (annotSectionCtx != null) {
-            odinReader.readOdin (ConcatNodeText(annotSectionCtx.odinText().ODIN_LINE()), "annotations");
-            errorCollector.setAnnotationsErrors (odinReader.getErrors());
-        }
-
-        // now deal with template overlays
-    }
-
-    public void readOperationalTemplate (AdlParser.OperationalTemplateContext archCtx) {
-    }
-
-    public void readTemplateOverlay (AdlParser.TemplateOverlayContext archCtx) {
-    }
-
-    public ANTLRParserErrors getErrors() {
-        return errors;
-    }
-
-    public AdlReaderErrors getErrorCollector() {
-        return errorCollector;
-    }
-
-    //
-    // -------------- Implementation ------------------
-    //
-
     /**
      * Efficiently crunch a List<TerminalNode> containing lines of text
      * into a single string
      */
-    private static String ConcatNodeText (List<TerminalNode> nodeList) {
+    private static CharStream textToCharStream (List<TerminalNode> nodeList) {
         StringBuilder sb = new StringBuilder(AdlReaderDefinitions.ADL_TEXT_SECTION_SIZE);
         for (TerminalNode node: nodeList)
             sb.append(node.getText());
-        
-        return sb.toString();
-    }
-
-    /**
-     * Read an EL text
-     * @param elText
-     */
-    private void readElText (String elText) {
-        // Create an EL lexer and parser and get top-level context
-        ElLexer elLexer = new ElLexer(CharStreams.fromString(elText));
-        ElParser elParser = new ElParser(new CommonTokenStream(elLexer));
-
-        ElParser.StatementBlockContext elCtx = elParser.statementBlock();
-
-        // execute listener on structure
+        return CharStreams.fromString (sb.toString());
     }
 
     /**
@@ -231,8 +203,9 @@ public class AdlReader {
     }
 
     private AdlReaderErrors errorCollector;
-    private ANTLRParserErrors errors;
-    private boolean logging;
-    private boolean keepAntlrErrors;
+
+    private final OdinReader odinReader;
+    private final CadlReader cadlReader;
+    private final ElReader elReader;
 
 }

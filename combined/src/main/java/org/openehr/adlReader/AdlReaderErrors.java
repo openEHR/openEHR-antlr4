@@ -22,15 +22,15 @@ public class AdlReaderErrors {
     //
 
     public boolean hasNoErrors() {
-        return errorTable.values().stream().allMatch(ANTLRParserErrors::hasNoErrors);
+        return errorTable.values().stream().allMatch (ANTLRParserErrors::hasNoErrors);
     }
 
     public boolean hasErrors() {
-        return errorTable.values().stream().allMatch(ANTLRParserErrors::hasErrors);
+        return errorTable.values().stream().anyMatch (ANTLRParserErrors::hasErrors);
     }
 
     public boolean hasWarnings() {
-        return errorTable.values().stream().allMatch(ANTLRParserErrors::hasWarnings);
+        return errorTable.values().stream().anyMatch (ANTLRParserErrors::hasWarnings);
     }
 
     List<ANTLRParserMessage> warnings() {

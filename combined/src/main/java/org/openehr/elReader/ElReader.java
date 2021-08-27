@@ -1,22 +1,29 @@
 package org.openehr.elReader;
 
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
+import org.openehr.combinedparser.CadlLexer;
+import org.openehr.combinedparser.CadlParser;
 import org.openehr.combinedparser.ElLexer;
 import org.openehr.combinedparser.ElParser;
+import org.openehr.common.SyntaxReader;
 
-public class ElReader {
+public class ElReader extends SyntaxReader<ElLexer, ElParser> {
     
-    public ElReader() {
+    public ElReader (boolean logging, boolean keepAntlrErrors) {
+        super (logging, keepAntlrErrors);
     }
 
-    public void readExpression(String adlText) {
-        // Create an EL lexer and parser and get top-level context
-        ElLexer elLexer = new ElLexer(CharStreams.fromString(adlText));
-        ElParser elParser = new ElParser(new CommonTokenStream(elLexer));
-        ElParser.StatementBlockContext stmtBlockCtx = elParser.statementBlock();
+    // ---------------------- Implementation ----------------------
 
+    protected void createLexerParser (CharStream stream) {
+        lexer = new ElLexer (stream);
+        parser = new ElParser (new CommonTokenStream (lexer));
     }
 
+    protected void doParse() {
+        ElParser.StatementBlockContext stmtBlock = parser.statementBlock();
+    }
 
 }

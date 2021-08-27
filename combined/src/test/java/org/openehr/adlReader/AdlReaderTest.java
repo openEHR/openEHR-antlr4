@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.ANTLRParserMessage;
 import org.openehr.antlr.ArchieErrorListener;
+import org.openehr.cadlReader.CadlReader;
 import org.openehr.odinReader.OdinReader;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -29,7 +30,7 @@ public class AdlReaderTest {
 
         AdlReader reader = new AdlReader(false, false);
         try (InputStream stream = getClass().getResourceAsStream (pathName)) {
-            reader.readArchetype(CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8));
+            reader.read (CharStreams.fromStream (new BOMInputStream(stream), Charsets.UTF_8), "adl");
         }
     }
 
@@ -39,7 +40,23 @@ public class AdlReaderTest {
 
         OdinReader reader = new OdinReader(false, false);
         String text = getResourceFileAsString (pathName);
-        reader.readOdin(text, "odin");
+        reader.read (CharStreams.fromString(text), "odin");
+        ANTLRParserErrors errors = reader.getErrors();
+        for (ANTLRParserMessage msg: errors.getErrors()) {
+            System.out.println("ERROR: " + msg.qualifiedMessage());
+        }
+        for (ANTLRParserMessage msg: errors.getWarnings()) {
+            System.out.println("WARNING: " + msg.qualifiedMessage());
+        }
+    }
+
+    @Test
+    public void simpleCadlTest() throws IOException {
+        String pathName = "cadl/generic_type_use_node.v1.0.0.cadl";
+
+        CadlReader reader = new CadlReader (false, false);
+        String text = getResourceFileAsString (pathName);
+        reader.read (CharStreams.fromString(text), "cadl");
         ANTLRParserErrors errors = reader.getErrors();
         for (ANTLRParserMessage msg: errors.getErrors()) {
             System.out.println("ERROR: " + msg.qualifiedMessage());
@@ -53,23 +70,22 @@ public class AdlReaderTest {
     public void testAll() throws IOException {
         AdlReader adlReader = new AdlReader(false, false);
 
-        Reflections reflections = new Reflections("adl2/fail", new ResourcesScanner());
+        Reflections reflections = new Reflections("adl2/pass", new ResourcesScanner());
         //List<String> files = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\.adls")));
-        List<String> files = new ArrayList<>(reflections.getResources (Pattern.compile(".*openEHR-TEST_PKG-ENTRY.FAIL_terminology_missing.v1.0.0\\.adls")));
+        List<String> files = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\.adls")));
 
         for (String pathName : files) {
-            System.out.println("----------------- " + pathName + " -------------");
             try (InputStream stream = getClass().getResourceAsStream ("/" + pathName)) {
-                adlReader.readArchetype (CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8));
+                adlReader.read (CharStreams.fromStream (new BOMInputStream (stream), Charsets.UTF_8), "adl");
 
                 // report results
                 if (adlReader.getErrorCollector().hasErrors()) {
-                    System.out.println("ERRORS: ");
+                    System.out.println("ERRORS: ----------------- " + pathName + " ----------------");
                     System.out.println (adlReader.getErrorCollector().errors().get(0).qualifiedMessage());
 //                    adlReader.getErrorCollector().errors().forEach (e-> System.out.println (e.qualifiedMessage()));
                 }
                 if (adlReader.getErrorCollector().hasWarnings()) {
-                    System.out.println("WARNINGS: ");
+                    System.out.println("WARNINGS:  ----------------- " + pathName + " ----------------");
                     System.out.println (adlReader.getErrorCollector().warnings().get(0).qualifiedMessage());
                 }
 

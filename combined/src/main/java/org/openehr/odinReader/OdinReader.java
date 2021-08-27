@@ -7,60 +7,27 @@ import org.openehr.adlReader.AdlReaderDefinitions;
 import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.ArchieErrorListener;
 import org.openehr.combinedparser.*;
+import org.openehr.common.SyntaxReader;
 
 import java.util.List;
 
-public class OdinReader {
+public class OdinReader extends SyntaxReader<OdinLexer, OdinParser> {
 
-    //
     // -------------- Creation ------------------
-    //
-    public OdinReader(boolean logging, boolean keepAntlrErrors) {
-        this.logging = logging;
-        this.keepAntlrErrors = keepAntlrErrors;
+
+    public OdinReader (boolean logging, boolean keepAntlrErrors) {
+        super (logging, keepAntlrErrors);
     }
 
-    //
-    // -------------- Procedures ------------------
-    //
-    /**
-     * Read an archetype, with a locally created error listener
-     * @param text ODIN text
-     * TODO: need to make this stream based, or add stream-based overloads
-     */
-    public void readOdin (String text, String tag) {
-        // set up error listener
-        errors = new ANTLRParserErrors ();
-        ArchieErrorListener errorListener = new ArchieErrorListener (errors, tag);
-        errorListener.setLogEnabled (logging);
+    // -------------- Implementation ------------------
 
-        // Create an ADL lexer and parser and add error listener
-        OdinLexer lexer = new OdinLexer (CharStreams.fromString (text));
-        if (!keepAntlrErrors)
-            lexer.removeErrorListeners();
-        lexer.addErrorListener (errorListener);
+    protected void createLexerParser (CharStream stream) {
+        lexer = new OdinLexer(stream);
+        parser = new OdinParser(new CommonTokenStream (lexer));
+    }
 
-        OdinParser parser = new OdinParser (new CommonTokenStream (lexer));
-        if (!keepAntlrErrors)
-            parser.removeErrorListeners();
-        parser.addErrorListener (errorListener);
-
-        // look at the parse structure
+    protected void doParse() {
         OdinParser.OdinObjectContext odinObjectCtx = parser.odinObject();
     }
-
-    //
-    // -------------- Access ------------------
-    //
-    public ANTLRParserErrors getErrors() {
-        return errors;
-    }
-
-    //
-    // -------------- Implementation ------------------
-    //
-    private ANTLRParserErrors errors;
-    private boolean logging;
-    private boolean keepAntlrErrors;
 
 }
