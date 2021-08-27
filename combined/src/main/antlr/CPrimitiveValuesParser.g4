@@ -12,6 +12,24 @@ parser grammar CPrimitiveValuesParser;
 options { tokenVocab=CPrimitiveValuesLexer; }
 import PrimitiveValuesParser;
 
+//
+// Here we match C_STRING regexes separately because the lexer match pattern
+// includes the '{}', which is required to avoid random matching of e.g. paths
+// and other patterns containing '/' character as regexes.
+// TODO: this can be fixed by only allowing '^^' delimited regexes or some other
+// method that makes regexes more unique.
+//
+cInlinePrimitiveObjectDef:
+      '{' cInlinePrimitiveObject '}'
+    | cStringRegex
+    ;
+
+// TODO: cStringRegex does not allow any assumed value; if we want this
+// it will either need modal parsing on regexes, which still produces
+// a painful lexical object that has to be pulled apart later, or (better)
+// rewrite slash regexes to carat regexes.
+cStringRegex: ( C_STRING_SLASH_REGEX | C_STRING_CARET_REGEX ) ;
+
 cInlinePrimitiveObject:
       cInteger
     | cReal
@@ -46,8 +64,9 @@ cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | duratio
     ;
 assumedDurationValue: ';' durationValue ;
 
-cString: ( stringValue | stringListValue | regexConstraint ) assumedStringValue? ;
-regexConstraint: SLASH_REGEX | CARET_REGEX ;
+// The following could be used if only caret-delimited regexes were allowed
+//cString: ( stringValue | stringListValue | CARET_REGEX ) assumedStringValue? ;
+cString: ( stringValue | stringListValue ) assumedStringValue? ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]

@@ -8,7 +8,7 @@
 //
 
 grammar El;
-import PathLexer, CPrimitiveValuesParser;
+import PathLexer, CPrimitiveValuesParser, GeneralLexer;
 
 //
 //  ======================= Top-level Objects ========================
@@ -40,7 +40,7 @@ binding: variableName SYM_ASSIGNMENT rawPath ;
 
 localAssignment: variableName SYM_ASSIGNMENT expression ;
 
-assertion: ( ( ALPHA_LC_ID | ALPHA_UC_ID ) ':' )? booleanExpr ;
+assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 
 //
 // -------------------------- Expressions --------------------------
@@ -106,7 +106,7 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? boole
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
+constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES cInlinePrimitiveObjectDef ;
 
 //
 // Expressions evaluating to arithmetic values, using standard precedence
@@ -177,13 +177,13 @@ variableSubPath: VARIABLE_WITH_PATH;
 // TODO: Remove this rule when external binding supported
 rawPath: ADL_PATH ;
 
-constantName: ALPHA_UC_ID ;
+constantName: UC_ID ;
 
-functionCall: ALPHA_LC_ID '(' functionArgs? ')' ;
+functionCall: LC_ID '(' functionArgs? ')' ;
 
 functionArgs: expression ( ',' expression )* ;
 
-typeId: ALPHA_UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
 
 //
@@ -217,6 +217,6 @@ SYM_EXISTS   : 'exists' ;
 SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
 
 // TODO: remove when [] path predicates supported
-VARIABLE_WITH_PATH: VARIABLE_ID ADL_ABSOLUTE_PATH ;
+VARIABLE_WITH_PATH: VARIABLE_ID ADL_PATH ;
 
-VARIABLE_ID: '$' ALPHA_LC_ID ;
+VARIABLE_ID: '$' LC_ID ;

@@ -35,10 +35,6 @@ fragment SYM_SPECIALIZE: [Ss][Pp][Ee][Cc][Ii][Aa][Ll][Ii][SsZz][Ee] ;
 LANGUAGE_HEADER      : EOL SYM_LANGUAGE EOL -> mode (LANGUAGE) ;
 fragment SYM_LANGUAGE: [Ll][Aa][Nn][Gg][Uu][Aa][Gg][Ee] ;
 
-// definition section occurs after header for template overlays
-DEFINITION_HEADER      : EOL SYM_DEFINITION EOL -> mode (DEFINITION) ;
-fragment SYM_DEFINITION : [Dd][Ee][Ff][Ii][Nn][Ii][Tt][Ii][Oo][Nn] ;
-
 METADATA_START  : '(' ;
 METADATA_END    : ')' EOL ;
 METADATA_SEP    : ';' ;
@@ -49,16 +45,23 @@ ARCHETYPE_HRID2 : ARCHETYPE_HRID -> type (ARCHETYPE_HRID) ;
 GUID2           : GUID -> type (GUID) ;
 VERSION_ID2     : VERSION_ID -> type (VERSION_ID) ;
 ALPHANUM_ID     : [a-zA-Z0-9][a-zA-Z0-9_]* ;
+// we define a rule for matching OIDs here because they are only
+// needed in the archetype header; if we add them to the BaseLexer
+// the rule may match real numbers, version ids etc.
+OID: INTEGER ( '.' INTEGER )+ ;
 
-EOL_H: EOL -> channel(HIDDEN) ;
+EOL_H: EOL -> skip ;
 
 // ------------------- MODE: specialise section --------------------
 // look for 'language' section, otherwise grab complete lines
 mode SPECIALIZE;
-WS_S             : WS   -> channel(HIDDEN) ;
+WS_S             : WS   -> skip ;
 LANGUAGE_HEADER2 : EOL SYM_LANGUAGE EOL -> mode (LANGUAGE), type(LANGUAGE_HEADER) ;
+// definition section occurs after specialisation for template overlays
+DEFINITION_HEADER      : EOL SYM_DEFINITION EOL -> mode (DEFINITION) ;
+fragment SYM_DEFINITION : [Dd][Ee][Ff][Ii][Nn][Ii][Tt][Ii][Oo][Nn] ;
 ARCHETYPE_REF_2  : ARCHETYPE_REF -> type (ARCHETYPE_REF) ;
-EOL_S            : EOL -> channel(HIDDEN) ;
+EOL_S            : EOL -> skip ;
 
 // ------------------- MODE: language section --------------------
 // look for 'description' section, otherwise grab complete lines

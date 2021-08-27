@@ -39,16 +39,9 @@ fragment TERM_CODE_CHAR: NAME_CHAR | '.' ;
 SYM_TRUE  : [Tt][Rr][Uu][Ee] ;
 SYM_FALSE : [Ff][Aa][Ll][Ss][Ee] ;
 
-
 // ---------------------- machine identifiers --------------------------
 
 GUID : HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ ;
-
-// ------------------- human-readable identifiers ----------------------
-
-ALPHA_UC_ID :   ALPHA_UCHAR WORD_CHAR* ;   // used for type ids
-ALPHA_LC_ID :   ALPHA_LCHAR WORD_CHAR* ;   // used for attribute / method ids
-ALPHA_UNDERSCORE_ID : '_' WORD_CHAR* ;     // usually used for meta-model ids
 
 // --------------------- atomic primitive types ----------------------
 

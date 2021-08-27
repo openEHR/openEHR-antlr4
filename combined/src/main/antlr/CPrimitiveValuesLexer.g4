@@ -13,18 +13,6 @@
 lexer grammar CPrimitiveValuesLexer;
 import OpenehrPatterns, PrimitiveValuesLexer;
 
-// ---------- Delimited Regex matcher ------------
-// allows for '/' or '^' delimiters
-// logical form - REGEX: '/' ( '\\/' | ~'/' )+ '/' | '^' ( '\\^' | ~'^' )+ '^';
-
-SLASH_REGEX: '/' SLASH_REGEX_CHAR+ '/' ;
-fragment SLASH_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\/' | ~[/\n\r] ;
-
-CARET_REGEX: '^' CARET_REGEX_CHAR+ '^' ;
-fragment CARET_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
-
-fragment REGEX_ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
-
 // ---------- ISO8601-based date/time/duration constraint patterns
 
 DATE_CONSTRAINT_PATTERN      : YEAR_PATTERN '-' MONTH_PATTERN '-' DAY_PATTERN ;
@@ -39,9 +27,19 @@ fragment HOUR_PATTERN   : 'hh' | 'HH' | '??' | 'XX' | 'xx'  ;
 fragment MINUTE_PATTERN : 'mm' | 'MM' | '??' | 'XX' | 'xx'  ;
 fragment SECOND_PATTERN : 'ss' | 'SS' | '??' | 'XX' | 'xx'  ;
 
+
+// ---------- C_STRING Regex matcher ------------
+// Matches '/' or '^' delimited regex inside '{}' Cadl constraint delims
+// logical form - REGEX: '/' ( '\\/' | ~'/' )+ '/' | '^' ( '\\^' | ~'^' )+ '^';
+
+C_STRING_SLASH_REGEX: '{/' SLASH_REGEX_CHAR+ '/}';
+fragment SLASH_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\/' | ~[/\n\r] ;
+
+C_STRING_CARET_REGEX: '{^' CARET_REGEX_CHAR+ '^}' ;
+fragment CARET_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
+
+fragment REGEX_ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
+
 // -------------------- Symbols ------------------------
 
 SYM_SLASH: '/' ;
-
-SYM_IVL_DELIM: '|' ;
-SYM_IVL_SEP  : '..' ;

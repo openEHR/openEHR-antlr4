@@ -11,12 +11,12 @@
 //
 
 lexer grammar CadlLexer;
-import CPrimitiveValuesLexer, PathLexer;
+import PathLexer, CPrimitiveValuesLexer, GeneralLexer;
 
 // ------------------ lines and comments ------------------
-CMT_LINE : '--' .*? EOL -> skip ;             // increment line count
-EOL      : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
-WS       : [ \t\r]+     -> channel(HIDDEN) ;
+CMT_LINE : '--' .*? EOL -> channel(HIDDEN) ;
+EOL      : '\r'? '\n'   -> skip ;
+WS       : [ \t\r]+     -> skip ;
 
 // ----------------------- keywords -----------------------
 SYM_EXISTENCE   : [Ee][Xx][Ii][Ss][Tt][Ee][Nn][Cc][Ee] ;

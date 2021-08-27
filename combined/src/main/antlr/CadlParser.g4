@@ -15,7 +15,9 @@ import CPrimitiveValuesParser;
 //  ======================= Top-level Objects ========================
 //
 
-cComplexObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' ( defaultValue | cAttributes defaultValue? ) '}' )? EOF? ;
+cComplexObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES cComplexObjectDef )? EOF? ;
+
+cComplexObjectDef: '{' ( defaultValue | cAttributes defaultValue? ) '}' ;
 
 nodeId: '[' nodeIdCode ']' ;
 
@@ -25,9 +27,9 @@ nodeIdCode: ROOT_ID_CODE | ID_CODE ;
 
 cAttributes: ( cAttribute | cAttributeTuple )+ ;
 
-cAttribute: ( ADL_PATH | rmAttributeId ) cExistence? cCardinality? ( SYM_MATCHES '{' cObjects '}' )? ;
+cAttribute: ( ADL_PATH | rmAttributeId ) cExistence? cCardinality? ( SYM_MATCHES ( cAttributeDef | cInlinePrimitiveObjectDef ) )? ;
 
-cObjects: cInlinePrimitiveObject | cRegularObjectOrdered+ ;
+cAttributeDef: '{' cRegularObjectOrdered+ '}' ;
 
 cRegularObjectOrdered: siblingOrder? cRegularObject ;
 
@@ -45,7 +47,7 @@ cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' ID_CODE ',' ARCHETYPE_REF ']' cOc
 
 cComplexObjectProxy: SYM_USE_NODE rmTypeId nodeId cOccurrences? ADL_PATH ;
 
-cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInlinePrimitiveObject '}' )? ;
+cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES cInlinePrimitiveObjectDef )? ;
 
 // Slot includes are modelled to support only the simple form of
 // path matches {regex}, but this is probably safe. If not, the
@@ -54,7 +56,13 @@ cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInline
 archetypeSlot: SYM_ALLOW_ARCHETYPE rmTypeId nodeId (( cOccurrences? ( SYM_MATCHES '{' cIncludes? cExcludes? '}' )? ) | SYM_CLOSED ) ;
 cIncludes : SYM_INCLUDE archetypeIdConstraint ;
 cExcludes : SYM_EXCLUDE archetypeIdConstraint ;
-archetypeIdConstraint: ADL_PATH SYM_MATCHES '{' cString '}' ;
+archetypeIdConstraint: archetypeIdPath SYM_MATCHES cStringRegex ;
+
+// have to allow for relative paths. Note the path here is not an ADL_PATH
+// (which is a parth in the Cadl definition part); it is a path in the
+// ARCHETYPE runtime instance
+// TODO: future ADL should probably change this
+archetypeIdPath : '/'? LC_ID ADL_PATH* ;
 
 // Tuple constraints
 cAttributeTuple : '[' cAttributeTupleAttrs ']' SYM_MATCHES '{' cPrimitiveTuples '}' ;
@@ -93,6 +101,6 @@ odinBlock: ODIN_BLOCK_START ODIN_BLOCK_LINE+? ODIN_BLOCK_END ;
 otherSerialBlock: SERIAL_BLOCK_START SERIAL_BLOCK_LINE+? SERIAL_BLOCK_END ;
 
 // ------------------------- model references -------------------------
-rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
-rmAttributeId : ALPHA_LC_ID ;
+rmTypeId      : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
+rmAttributeId : LC_ID ;
 

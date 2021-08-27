@@ -93,7 +93,7 @@ metaDataItem:
 metaDataValueItem : ALPHANUM_ID '=' metaDataItemValue ;
 metaDataFlag : ALPHANUM_ID ;
 
-metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID ;
+metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID | OID ;
 
 // ------------------- specialise section --------------------
 specializeSection : SPECIALIZE_HEADER ARCHETYPE_REF ;

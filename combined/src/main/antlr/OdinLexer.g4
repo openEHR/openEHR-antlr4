@@ -8,7 +8,7 @@
 //
 
 lexer grammar OdinLexer;
-import PrimitiveValuesLexer, BaseLexer;
+import PrimitiveValuesLexer, BaseLexer, GeneralLexer;
 
 
 // ---------- lines and comments ----------
@@ -73,8 +73,4 @@ SYM_LIST_CONTINUE: '...' ;
 
 // ------------------ symbols  ----------------------
 SYM_EQ : '=' ;
-
-// -------------------- ODIN paths ------------------------
-ODIN_PATH : ODIN_PATH_PREDICATE? ODIN_PATH_SEGMENT+ ;
-fragment ODIN_PATH_SEGMENT: '/' ALPHA_LC_ID ODIN_PATH_PREDICATE? ;
-fragment ODIN_PATH_PREDICATE: '[' .+? ']' ;
+SYM_SLASH : '/' ;
