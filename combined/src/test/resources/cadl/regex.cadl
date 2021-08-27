@@ -2,5 +2,5 @@
 -- Check whether path and regex matchers will get confused
 --
 THING[id3] ∈ {
-    /path[id5]/value ∈ {/.*\//} -- this is / a comment
+    /path[id5]/value ∈ {/.*\//}   -- this is / a comment
 }

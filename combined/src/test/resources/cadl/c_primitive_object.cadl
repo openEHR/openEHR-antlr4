@@ -2,7 +2,8 @@ WHOLE[id1] matches {	-- test entry
     string_attr1 matches {"something"}
     string_attr2 matches {^this|that|something else^}
     string_attr3 matches {/cardio.*/}
-    string_attr5 matches {"and", "something", "else"}
+    string_attr4 matches {/cardio.*/}
+    string_attr5 matches {"and", "something", "else"; "and"}
     boolean_attr1 matches {True}
     boolean_attr2 matches {False}
     boolean_attr3 matches {True, False}
