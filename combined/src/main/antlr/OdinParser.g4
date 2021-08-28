@@ -30,7 +30,7 @@ odinObjectBlock :
 
 // TODO: naked URIs are allowed only in this context; future versions of ODIN will
 // only allow them as quoted Strings
-odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | URI )? '>' ;
+odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | ODIN_URI )? '>' ;
 rmTypeSpec : '(' rmTypeId ')' ;
 
 odinKeyedObject : odinKeySpec '=' odinObjectBlock ;
