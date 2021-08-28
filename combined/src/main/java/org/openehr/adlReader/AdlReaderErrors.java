@@ -2,24 +2,22 @@ package org.openehr.adlReader;
 
 import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.ANTLRParserMessage;
+import org.openehr.antlr.IANTLRParserErrors;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdlReaderErrors {
+public class AdlReaderErrors implements IANTLRParserErrors {
 
-    //
-    // -------------- Creation ------------------
-    //
+    // ------------------ Creation ------------------
+
     public AdlReaderErrors() {
         errorTable = new HashMap<>();
     }
 
-    //
-    // -------------- Access ------------------
-    //
+    // ------------------ Access ------------------
 
     public boolean hasNoErrors() {
         return errorTable.values().stream().allMatch (ANTLRParserErrors::hasNoErrors);
@@ -33,14 +31,19 @@ public class AdlReaderErrors {
         return errorTable.values().stream().anyMatch (ANTLRParserErrors::hasWarnings);
     }
 
-    List<ANTLRParserMessage> warnings() {
+    public List<ANTLRParserMessage> getWarnings() {
         return errorTable.values()
                 .stream()
                 .flatMap(x -> x.getWarnings().stream())
                 .collect(Collectors.toList());
     }
 
-    List<ANTLRParserMessage> errors() {
+    @Override
+    public boolean hasNoMessages() {
+        return errorTable.values().stream().allMatch (ANTLRParserErrors::hasNoMessages);
+    }
+
+    public List<ANTLRParserMessage> getErrors() {
         return errorTable.values()
                 .stream()
                 .flatMap(x -> x.getErrors().stream())
@@ -48,9 +51,8 @@ public class AdlReaderErrors {
     }
 
 
-    //
-    // -------------- Member Access ------------------
-    //
+    // ------------------ Member Access ------------------
+
     public ANTLRParserErrors getAdlErrors() {
         return errorTable.get("adl");
     }
@@ -87,9 +89,9 @@ public class AdlReaderErrors {
         return errorTable.get("componentTerminologies");
     }
 
-    //
-    // -------------- Modification ------------------
-    //
+
+    // ------------------ Modification ------------------
+
     public void setAdlErrors(ANTLRParserErrors adlErrors) {
         errorTable.put("adl", adlErrors);
     }
@@ -126,8 +128,8 @@ public class AdlReaderErrors {
         errorTable.put("componentTerminologies", componentsTerminologiesErrors);
     }
 
-    //
-    // ----------------- Implementation -----------------
-    //
+
+    // ------------------ Implementation ------------------
+
     private final HashMap<String, ANTLRParserErrors> errorTable;
 }

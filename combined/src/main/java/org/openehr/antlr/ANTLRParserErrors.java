@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by pieter.bos on 19/10/15.
  */
-public class ANTLRParserErrors {
+public class ANTLRParserErrors implements IANTLRParserErrors {
 
     private static final Logger logger = LoggerFactory.getLogger(ANTLRParserErrors.class);
 

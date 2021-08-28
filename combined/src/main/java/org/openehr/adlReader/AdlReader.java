@@ -12,7 +12,6 @@ import java.util.List;
 
 public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
 
-
     // ------------------ Creation ----------------------
 
     public AdlReader (boolean logging, boolean keepAntlrErrors) {
@@ -22,9 +21,46 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
         elReader = new ElReader (logging, keepAntlrErrors);
     }
 
-    // ------------------ Commands ----------------------
 
-    public void readAuthoredArchetype (AdlParser.AuthoredArchetypeContext archCtx) {
+    // ---------------------- Access ----------------------
+
+    public AdlReaderErrors getErrorCollector() {
+        return errorCollector;
+    }
+
+    // -------------- Implementation ------------------
+
+    protected void createLexerParser (CharStream stream) {
+        lexer = new AdlLexer (stream);
+        parser = new AdlParser (new CommonTokenStream (lexer));
+    }
+
+    protected void doParse() {
+        // set up the top-level Error collector
+        errorCollector = new AdlReaderErrors();
+        errorCollector.setAdlErrors (errors);
+
+        // do the parse
+        AdlParser.AdlObjectContext adlObjectCtx = parser.adlObject();
+
+        // don't bother with second level parsing if artefact not well-formed
+        if (errors.hasNoErrors()) {
+            for (ParserRuleContext ruleContext : adlObjectCtx.getRuleContexts(ParserRuleContext.class)) {
+                if (ruleContext instanceof AdlParser.AuthoredArchetypeContext)
+                    readAuthoredArchetype((AdlParser.AuthoredArchetypeContext) ruleContext);
+                else if (ruleContext instanceof AdlParser.TemplateContext)
+                    readTemplate((AdlParser.TemplateContext) ruleContext);
+                else if (ruleContext instanceof AdlParser.TemplateOverlayContext)
+                    readTemplateOverlay((AdlParser.TemplateOverlayContext) ruleContext);
+                else if (ruleContext instanceof AdlParser.OperationalTemplateContext)
+                    readOperationalTemplate((AdlParser.OperationalTemplateContext) ruleContext);
+                else
+                    throw new RuntimeException("no valid ADL artefact found");
+            }
+        }
+    }
+
+    private void readAuthoredArchetype (AdlParser.AuthoredArchetypeContext archCtx) {
         // Header (part of top-level parse)
         AdlParser.HeaderContext header = archCtx.header();
         readMetaData (header.metaData());
@@ -38,35 +74,35 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
         // Language section: ODIN [1]
         AdlParser.LanguageSectionContext langSectionCtx = archCtx.languageSection();
         if (langSectionCtx != null) {
-            odinReader.read (textToCharStream(langSectionCtx.odinText().ODIN_LINE()), "language");
+            odinReader.read(textToCharStream(langSectionCtx.odinText().ODIN_LINE()), "language");
             errorCollector.setLanguageErrors(odinReader.getErrors());
         }
 
         // Description section [1]
         AdlParser.DescriptionSectionContext descSectionCtx = archCtx.descriptionSection();
         if (descSectionCtx != null) {
-            odinReader.read (textToCharStream(descSectionCtx.odinText().ODIN_LINE()), "description");
-            errorCollector.setDescriptionErrors(odinReader.getErrors());
+            odinReader.read(textToCharStream (descSectionCtx.odinText().ODIN_LINE()), "description");
+            errorCollector.setDescriptionErrors (odinReader.getErrors());
         }
 
         // Definition section: CADL [1]
         AdlParser.DefinitionSectionContext defSectionCtx = archCtx.definitionSection();
         if (defSectionCtx != null) {
-            cadlReader.read (textToCharStream(defSectionCtx.cadlText().CADL_LINE()), "definition");
-            errorCollector.setDefinitionErrors (cadlReader.getErrors());
+            cadlReader.read(textToCharStream(defSectionCtx.cadlText().CADL_LINE()), "definition");
+            errorCollector.setDefinitionErrors(cadlReader.getErrors());
         }
 
         // Rules section: EL [0..1]
         AdlParser.RulesSectionContext rulesSectionCtx = archCtx.rulesSection();
         if (rulesSectionCtx != null) {
-            elReader.read (textToCharStream(rulesSectionCtx.elText().EL_LINE()), "el");
+            elReader.read (textToCharStream (rulesSectionCtx.elText().EL_LINE()), "el");
             errorCollector.setRulesErrors (elReader.getErrors());
         }
 
         // Rm_overlay section: ODIN [0..1]
         AdlParser.RmOverlaySectionContext rmOvlSectionCtx = archCtx.rmOverlaySection();
         if (rmOvlSectionCtx != null) {
-            odinReader.read (textToCharStream(rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
+            odinReader.read (textToCharStream (rmOvlSectionCtx.odinText().ODIN_LINE()), "rm_overlay");
             errorCollector.setRmOverlayErrors (odinReader.getErrors());
         }
 
@@ -86,7 +122,7 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
 
     }
 
-    public void readTemplate (AdlParser.TemplateContext archCtx) {
+    private void readTemplate (AdlParser.TemplateContext archCtx) {
         // Header (part of top-level parse)
         AdlParser.HeaderContext header = archCtx.header();
         readMetaData (header.metaData());
@@ -134,45 +170,10 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
         // now deal with template overlays
     }
 
-    public void readOperationalTemplate (AdlParser.OperationalTemplateContext archCtx) {
+    private void readOperationalTemplate (AdlParser.OperationalTemplateContext archCtx) {
     }
 
-    public void readTemplateOverlay (AdlParser.TemplateOverlayContext archCtx) {
-    }
-
-    // ---------------------- Access ----------------------
-
-    public AdlReaderErrors getErrorCollector() {
-        return errorCollector;
-    }
-
-    // -------------- Implementation ------------------
-
-    protected void createLexerParser (CharStream stream) {
-        lexer = new AdlLexer (stream);
-        parser = new AdlParser (new CommonTokenStream (lexer));
-    }
-
-    protected void doParse() {
-        // set up the top-level Error collector
-        errorCollector = new AdlReaderErrors();
-        errorCollector.setAdlErrors (errors);
-
-        // do the parse
-        AdlParser.AdlObjectContext adlObjectCtx = parser.adlObject();
-
-        for (ParserRuleContext ruleContext: adlObjectCtx.getRuleContexts(ParserRuleContext.class)) {
-            if (ruleContext instanceof AdlParser.AuthoredArchetypeContext)
-                readAuthoredArchetype ((AdlParser.AuthoredArchetypeContext) ruleContext);
-            else if (ruleContext instanceof AdlParser.TemplateContext)
-                readTemplate ((AdlParser.TemplateContext) ruleContext);
-            else if (ruleContext instanceof AdlParser.TemplateOverlayContext)
-                readTemplateOverlay ((AdlParser.TemplateOverlayContext) ruleContext);
-            else if (ruleContext instanceof AdlParser.OperationalTemplateContext)
-                readOperationalTemplate ((AdlParser.OperationalTemplateContext) ruleContext);
-            else
-                throw new RuntimeException("no valid ADL artefact found");
-        }
+    private void readTemplateOverlay (AdlParser.TemplateOverlayContext archCtx) {
     }
 
     /**
