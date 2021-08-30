@@ -54,7 +54,8 @@ public class AdlReaderTest {
         int passErrorCount = executeTestGroup ( paths, artefactType, reader);
         int passGroupCount = paths.size();
 
-        // run failing tests
+        // run failing tests; note many of these tests will pass pure parsing, until
+        // we implement validation passes. Most of this should be in archie.
         reflections = new Reflections (artefactType + "/fail", new ResourcesScanner());
         paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\." + fileExt)));
         int failErrorCount = executeTestGroup ( paths, artefactType, reader);
