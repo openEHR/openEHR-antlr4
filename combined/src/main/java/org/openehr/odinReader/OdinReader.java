@@ -2,6 +2,7 @@ package org.openehr.odinReader;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTree;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.adlReader.AdlReaderDefinitions;
 import org.openehr.antlr.ANTLRParserErrors;
@@ -28,6 +29,12 @@ public class OdinReader extends SyntaxReader<OdinLexer, OdinParser> {
 
     protected void doParse() {
         OdinParser.OdinObjectContext odinObjectCtx = parser.odinObject();
-    }
 
+        // don't bother with traversal if artefact not well-formed
+        if (errors.hasNoErrors()) {
+            ParseTreeWalker walker = new ParseTreeWalker();
+            OdinParserBaseListener reader =  new OdinParserBaseListener();
+            walker.walk (reader, odinObjectCtx);
+        }
+    }
 }

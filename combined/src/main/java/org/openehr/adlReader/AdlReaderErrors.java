@@ -20,15 +20,15 @@ public class AdlReaderErrors implements IANTLRParserErrors {
     // ------------------ Access ------------------
 
     public boolean hasNoErrors() {
-        return errorTable.values().stream().allMatch (ANTLRParserErrors::hasNoErrors);
+        return errorTable.values().stream().allMatch (IANTLRParserErrors::hasNoErrors);
     }
 
     public boolean hasErrors() {
-        return errorTable.values().stream().anyMatch (ANTLRParserErrors::hasErrors);
+        return errorTable.values().stream().anyMatch (IANTLRParserErrors::hasErrors);
     }
 
     public boolean hasWarnings() {
-        return errorTable.values().stream().anyMatch (ANTLRParserErrors::hasWarnings);
+        return errorTable.values().stream().anyMatch (IANTLRParserErrors::hasWarnings);
     }
 
     public List<ANTLRParserMessage> getWarnings() {
@@ -40,7 +40,7 @@ public class AdlReaderErrors implements IANTLRParserErrors {
 
     @Override
     public boolean hasNoMessages() {
-        return errorTable.values().stream().allMatch (ANTLRParserErrors::hasNoMessages);
+        return errorTable.values().stream().allMatch (IANTLRParserErrors::hasNoMessages);
     }
 
     public List<ANTLRParserMessage> getErrors() {
@@ -53,83 +53,83 @@ public class AdlReaderErrors implements IANTLRParserErrors {
 
     // ------------------ Member Access ------------------
 
-    public ANTLRParserErrors getAdlErrors() {
-        return errorTable.get("adl");
+    public IANTLRParserErrors getAdlErrors() {
+        return errorTable.get(AdlReaderDefinitions.ADL_ARTEFACT_NAME);
     }
 
-    public ANTLRParserErrors getLanguageErrors() {
-        return errorTable.get("language");
+    public IANTLRParserErrors getLanguageErrors() {
+        return errorTable.get(AdlReaderDefinitions.LANGUAGE_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getDescriptionErrors() {
-        return errorTable.get("description");
+    public IANTLRParserErrors getDescriptionErrors() {
+        return errorTable.get (AdlReaderDefinitions.DESCRIPTION_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getDefinitionErrors() {
-        return errorTable.get("definition");
+    public IANTLRParserErrors getDefinitionErrors() {
+        return errorTable.get(AdlReaderDefinitions.DEFINITION_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getRulesErrors() {
-        return errorTable.get("rules");
+    public IANTLRParserErrors getRulesErrors() {
+        return errorTable.get(AdlReaderDefinitions.RULES_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getRmOverlayErrors() {
-        return errorTable.get("rmOverlay");
+    public IANTLRParserErrors getRmOverlayErrors() {
+        return errorTable.get(AdlReaderDefinitions.RM_OVERLAY_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getTerminologyErrors() {
-        return errorTable.get("terminology");
+    public IANTLRParserErrors getTerminologyErrors() {
+        return errorTable.get(AdlReaderDefinitions.TERMINOLOGY_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getAnnotationsErrors() {
-        return errorTable.get("annotations");
+    public IANTLRParserErrors getAnnotationsErrors() {
+        return errorTable.get(AdlReaderDefinitions.ANNOTATIONS_SECTION_NAME);
     }
 
-    public ANTLRParserErrors getComponentsTerminologiesErrors() {
-        return errorTable.get("componentTerminologies");
+    public IANTLRParserErrors getComponentsTerminologiesErrors() {
+        return errorTable.get(AdlReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME);
     }
 
 
     // ------------------ Modification ------------------
 
-    public void setAdlErrors(ANTLRParserErrors adlErrors) {
-        errorTable.put("adl", adlErrors);
+    public void setAdlErrors(IANTLRParserErrors adlErrors) {
+        errorTable.put(AdlReaderDefinitions.ADL_ARTEFACT_NAME, adlErrors);
     }
 
-    public void setLanguageErrors(ANTLRParserErrors languageErrors) {
-        errorTable.put("language", languageErrors);
+    public void setLanguageErrors(IANTLRParserErrors languageErrors) {
+        errorTable.put(AdlReaderDefinitions.LANGUAGE_SECTION_NAME, languageErrors);
     }
 
-    public void setDescriptionErrors(ANTLRParserErrors descriptionErrors) {
-        errorTable.put("description", descriptionErrors);
+    public void setDescriptionErrors(IANTLRParserErrors descriptionErrors) {
+        errorTable.put(AdlReaderDefinitions.DESCRIPTION_SECTION_NAME, descriptionErrors);
     }
 
-    public void setDefinitionErrors(ANTLRParserErrors definitionErrors) {
-        errorTable.put("definition", definitionErrors);
+    public void setDefinitionErrors(IANTLRParserErrors definitionErrors) {
+        errorTable.put(AdlReaderDefinitions.DEFINITION_SECTION_NAME, definitionErrors);
     }
 
-    public void setRulesErrors(ANTLRParserErrors rulesErrors) {
-        errorTable.put("rules", rulesErrors);
+    public void setRulesErrors(IANTLRParserErrors rulesErrors) {
+        errorTable.put(AdlReaderDefinitions.RULES_SECTION_NAME, rulesErrors);
     }
 
-    public void setRmOverlayErrors(ANTLRParserErrors rmOverlayErrors) {
-        errorTable.put("rmOverlay", rmOverlayErrors);
+    public void setRmOverlayErrors(IANTLRParserErrors rmOverlayErrors) {
+        errorTable.put(AdlReaderDefinitions.RM_OVERLAY_SECTION_NAME, rmOverlayErrors);
     }
 
-    public void setTerminologyErrors(ANTLRParserErrors terminologyErrors) {
-        errorTable.put("terminology", terminologyErrors);
+    public void setTerminologyErrors(IANTLRParserErrors terminologyErrors) {
+        errorTable.put(AdlReaderDefinitions.TERMINOLOGY_SECTION_NAME, terminologyErrors);
     }
 
-    public void setAnnotationsErrors(ANTLRParserErrors annotationsErrors) {
-        errorTable.put("annotations", annotationsErrors);
+    public void setAnnotationsErrors(IANTLRParserErrors annotationsErrors) {
+        errorTable.put(AdlReaderDefinitions.ANNOTATIONS_SECTION_NAME, annotationsErrors);
     }
 
-    public void setComponentsTerminologiesErrors(ANTLRParserErrors componentsTerminologiesErrors) {
-        errorTable.put("componentTerminologies", componentsTerminologiesErrors);
+    public void setComponentsTerminologiesErrors(IANTLRParserErrors componentsTerminologiesErrors) {
+        errorTable.put(AdlReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME, componentsTerminologiesErrors);
     }
 
 
     // ------------------ Implementation ------------------
 
-    private final HashMap<String, ANTLRParserErrors> errorTable;
+    private final HashMap<String, IANTLRParserErrors> errorTable;
 }

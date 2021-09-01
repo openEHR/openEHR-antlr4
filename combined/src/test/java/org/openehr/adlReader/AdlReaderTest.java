@@ -73,18 +73,18 @@ public class AdlReaderTest {
         int errorCount = 0;
         for (String pathName : paths) {
             try (InputStream stream = getClass().getResourceAsStream("/" + pathName)) {
-                reader.read (CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8), artefactType);
+                reader.read (CharStreams.fromStream(new BOMInputStream(stream), Charsets.UTF_8), artefactType, 0);
 
                 // report results
                 if (reader.getErrors().hasErrors()) {
                     errorCount++;
                     System.out.println("ERRORS: ----------------- " + pathName + " ----------------");
-                    System.out.println(reader.getErrors().getErrors().get(0).qualifiedMessage());
+                    System.out.println(reader.getErrors().getErrors().get(0).qualifiedMessage()); // first error only
                 }
-                if (reader.getErrors().hasWarnings()) {
-                    System.out.println("WARNINGS:  ----------------- " + pathName + " ----------------");
-                    System.out.println(reader.getErrors().getWarnings().get(0).qualifiedMessage());
-                }
+//                if (reader.getErrors().hasWarnings()) {
+//                    System.out.println("WARNINGS:  ----------------- " + pathName + " ----------------");
+//                    System.out.println(reader.getErrors().getWarnings().get(0).qualifiedMessage()); // first error only
+//                }
             }
         }
         return errorCount;

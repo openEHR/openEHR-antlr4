@@ -3,14 +3,14 @@ package org.openehr.elReader;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
-import org.openehr.combinedparser.CadlLexer;
-import org.openehr.combinedparser.CadlParser;
-import org.openehr.combinedparser.ElLexer;
-import org.openehr.combinedparser.ElParser;
+import org.antlr.v4.runtime.tree.ParseTreeWalker;
+import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
 
 public class ElReader extends SyntaxReader<ElLexer, ElParser> {
-    
+
+    // ---------------------- Creation ----------------------
+
     public ElReader (boolean logging, boolean keepAntlrErrors) {
         super (logging, keepAntlrErrors);
     }
@@ -24,6 +24,13 @@ public class ElReader extends SyntaxReader<ElLexer, ElParser> {
 
     protected void doParse() {
         ElParser.StatementBlockContext stmtBlock = parser.statementBlock();
+
+        // don't bother with traversal if artefact not well-formed
+        if (errors.hasNoErrors()) {
+            ParseTreeWalker walker = new ParseTreeWalker();
+            ElBaseListener reader =  new ElBaseListener();
+            walker.walk (reader, stmtBlock);
+        }
     }
 
 }

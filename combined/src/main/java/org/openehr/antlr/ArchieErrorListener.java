@@ -14,6 +14,7 @@ import java.util.BitSet;
 
 /**
  * Created by pieter.bos on 19/10/15.
+ * Modified by TB to add tags and line number offset
  */
 public class ArchieErrorListener implements ANTLRErrorListener {
 
@@ -21,6 +22,7 @@ public class ArchieErrorListener implements ANTLRErrorListener {
 
     private static final Logger logger = LoggerFactory.getLogger(ArchieErrorListener.class);
     private final ANTLRParserErrors errors;
+    private int lineNumberOffset = 0;
 
     private String tag = "";
     private String tagStr = "";
@@ -40,31 +42,35 @@ public class ArchieErrorListener implements ANTLRErrorListener {
      *            in use in the same overall parse, usually for different
      *            language sections of the same top-level file
      */
-    public ArchieErrorListener(ANTLRParserErrors errors, String tag) {
+    public ArchieErrorListener (ANTLRParserErrors errors, String tag, int lineNumberOffset) {
         this.errors = errors;
         this.tag = tag;
         this.tagStr = "[" + tag + "] ";
+        this.lineNumberOffset = lineNumberOffset;
     }
 
     public boolean isLogEnabled() {
         return logEnabled;
     }
 
+    public int lineNumber(int l) {
+        return lineNumberOffset + l;
+    }
     public void setLogEnabled (boolean logEnabled) {
         this.logEnabled = logEnabled;
     }
 
     @Override
     public void syntaxError (Recognizer<?,?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-        String error = String.format("syntax error at %d:%d: %s. msg: %s", line, charPositionInLine, offendingSymbol, msg);
+        String error = String.format("syntax error at %d:%d: %s. msg: %s", lineNumber(line), charPositionInLine, offendingSymbol, msg);
         if(logEnabled) {
             logger.warn (tagStr + error);
         }
         if (offendingSymbol != null) {
             String offendingSymbolString = offendingSymbol.toString();
-            errors.addError (tag, error, msg, line, charPositionInLine, offendingSymbolString.length(), offendingSymbolString);
+            errors.addError (tag, error, msg, lineNumber(line), charPositionInLine, offendingSymbolString.length(), offendingSymbolString);
         } else {
-            errors.addError (tag, error, msg, line, charPositionInLine);
+            errors.addError (tag, error, msg, lineNumber(line), charPositionInLine);
         }
     }
 

@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.Parser;
 import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.ArchieErrorListener;
+import org.openehr.antlr.IANTLRParserErrors;
 
 public abstract class SyntaxReader<L extends Lexer, P extends Parser> {
 
@@ -18,14 +19,13 @@ public abstract class SyntaxReader<L extends Lexer, P extends Parser> {
     // ---------------------- Commands ----------------------
 
     /**
-     * Read an archetype, with a locally created error listener
+     * Read an archetype, with a locally created error listener and a linenumber offset
      * @param textStream source text
-     * TODO: need to make this stream based, or add stream-based overloads
      */
-    public void read (CharStream textStream, String tag) {
+    public void read (CharStream textStream, String tag, int lineOffset) {
         // set up error listener
         errors = new ANTLRParserErrors ();
-        ArchieErrorListener errorListener = new ArchieErrorListener (errors, tag);
+        ArchieErrorListener errorListener = new ArchieErrorListener (errors, tag, lineOffset);
         errorListener.setLogEnabled (logging);
 
         // Create lexer and parser
@@ -45,7 +45,7 @@ public abstract class SyntaxReader<L extends Lexer, P extends Parser> {
 
     // ---------------------- Access ----------------------
 
-    public ANTLRParserErrors getErrors() {
+    public IANTLRParserErrors getErrors() {
         return errors;
     }
 
