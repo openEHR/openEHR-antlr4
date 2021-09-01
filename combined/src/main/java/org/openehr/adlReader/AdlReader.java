@@ -48,12 +48,16 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
             for (ParserRuleContext ruleContext : adlObjectCtx.getRuleContexts(ParserRuleContext.class)) {
                 if (ruleContext instanceof AdlParser.AuthoredArchetypeContext)
                     readAuthoredArchetype((AdlParser.AuthoredArchetypeContext) ruleContext);
+
                 else if (ruleContext instanceof AdlParser.TemplateContext)
                     readTemplate((AdlParser.TemplateContext) ruleContext);
+
                 else if (ruleContext instanceof AdlParser.TemplateOverlayContext)
                     readTemplateOverlay((AdlParser.TemplateOverlayContext) ruleContext);
+
                 else if (ruleContext instanceof AdlParser.OperationalTemplateContext)
                     readOperationalTemplate((AdlParser.OperationalTemplateContext) ruleContext);
+
                 else
                     throw new RuntimeException("no valid ADL artefact found");
             }

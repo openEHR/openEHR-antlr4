@@ -59,7 +59,7 @@ cExcludes : SYM_EXCLUDE archetypeIdConstraint ;
 archetypeIdConstraint: archetypeIdPath SYM_MATCHES cStringRegex ;
 
 // have to allow for relative paths. Note the path here is not an ADL_PATH
-// (which is a parth in the Cadl definition part); it is a path in the
+// (which is a path in the Cadl definition part); it is a path in the
 // ARCHETYPE runtime instance
 // TODO: future ADL should probably change this
 archetypeIdPath : '/'? LC_ID ADL_PATH* ;
