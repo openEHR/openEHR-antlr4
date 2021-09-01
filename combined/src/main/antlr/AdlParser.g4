@@ -57,6 +57,7 @@ templateOverlay:
     SYM_TEMPLATE_OVERLAY header
     specializeSection
     definitionSection
+    rulesSection?
     rmOverlaySection?
     terminologySection
     ;
