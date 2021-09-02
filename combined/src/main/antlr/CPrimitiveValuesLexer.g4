@@ -28,16 +28,10 @@ fragment MINUTE_PATTERN : 'mm' | 'MM' | '??' | 'XX' | 'xx'  ;
 fragment SECOND_PATTERN : 'ss' | 'SS' | '??' | 'XX' | 'xx'  ;
 
 
-// ---------- C_STRING Regex matcher ------------
-// Matches '/' or '^' delimited regex inside '{}' Cadl constraint delims
-// logical form - REGEX: '/' ( '\\/' | ~'/' )+ '/' | '^' ( '\\^' | ~'^' )+ '^';
-
-C_STRING_SLASH_REGEX: '{/' SLASH_REGEX_CHAR+ '/}';
-fragment SLASH_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\/' | ~[/\n\r] ;
-
-C_STRING_CARET_REGEX: '{^' CARET_REGEX_CHAR+ '^}' ;
-fragment CARET_REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
-
+// ---------- Delimited Regex matcher ------------
+// This matches a regex with caret ('^') delimiters
+DELIMITED_REGEX: '^' REGEX_CHAR+ '^' ;
+fragment REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
 fragment REGEX_ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
 
 // -------------------- Symbols ------------------------

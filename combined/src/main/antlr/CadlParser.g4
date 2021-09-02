@@ -15,9 +15,9 @@ import CPrimitiveValuesParser;
 //  ======================= Top-level Objects ========================
 //
 
-cComplexObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES cComplexObjectDef )? EOF? ;
+cComplexObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cComplexObjectDef '}' )? EOF? ;
 
-cComplexObjectDef: '{' ( defaultValue | cAttributes defaultValue? ) '}' ;
+cComplexObjectDef: ( defaultValue | cAttributes defaultValue? ) ;
 
 nodeId: '[' nodeIdCode ']' ;
 
@@ -27,9 +27,9 @@ nodeIdCode: ROOT_ID_CODE | ID_CODE ;
 
 cAttributes: ( cAttribute | cAttributeTuple )+ ;
 
-cAttribute: ( ADL_PATH | rmAttributeId ) cExistence? cCardinality? ( SYM_MATCHES ( cAttributeDef | cInlinePrimitiveObjectDef ) )? ;
+cAttribute: ( ADL_PATH | rmAttributeId ) cExistence? cCardinality? ( SYM_MATCHES '{' ( cAttributeDef | cInlinePrimitiveObject ) '}' )? ;
 
-cAttributeDef: '{' cRegularObjectOrdered+ '}' ;
+cAttributeDef: cRegularObjectOrdered+ ;
 
 cRegularObjectOrdered: siblingOrder? cRegularObject ;
 
@@ -47,7 +47,7 @@ cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' ID_CODE ',' ARCHETYPE_REF ']' cOc
 
 cComplexObjectProxy: SYM_USE_NODE rmTypeId nodeId cOccurrences? ADL_PATH ;
 
-cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES cInlinePrimitiveObjectDef )? ;
+cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInlinePrimitiveObject '}' )? ;
 
 // Slot includes are modelled to support only the simple form of
 // path matches {regex}, but this is probably safe. If not, the
@@ -56,7 +56,7 @@ cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES cInlinePrim
 archetypeSlot: SYM_ALLOW_ARCHETYPE rmTypeId nodeId (( cOccurrences? ( SYM_MATCHES '{' cIncludes? cExcludes? '}' )? ) | SYM_CLOSED ) ;
 cIncludes : SYM_INCLUDE archetypeIdConstraint ;
 cExcludes : SYM_EXCLUDE archetypeIdConstraint ;
-archetypeIdConstraint: archetypeIdPath SYM_MATCHES cStringRegex ;
+archetypeIdConstraint: archetypeIdPath SYM_MATCHES '{' DELIMITED_REGEX '}' ;
 
 // have to allow for relative paths. Note the path here is not an ADL_PATH
 // (which is a path in the Cadl definition part); it is a path in the

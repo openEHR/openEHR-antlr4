@@ -32,7 +32,7 @@ public class CadlReader extends SyntaxReader<CadlLexer, CadlParser> {
         // don't bother with traversal if artefact not well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
-            CadlParserBaseListener reader =  new CadlParserBaseListener();
+            CadlReaderListener reader =  new CadlReaderListener();
             walker.walk (reader, ccoObjectCtx);
         }
     }

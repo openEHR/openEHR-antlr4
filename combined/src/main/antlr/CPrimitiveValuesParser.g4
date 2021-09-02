@@ -19,17 +19,6 @@ import PrimitiveValuesParser;
 // TODO: this can be fixed by only allowing '^^' delimited regexes or some other
 // method that makes regexes more unique.
 //
-cInlinePrimitiveObjectDef:
-      '{' cInlinePrimitiveObject '}'
-    | cStringRegex
-    ;
-
-// TODO: cStringRegex does not allow any assumed value; if we want this
-// it will either need modal parsing on regexes, which still produces
-// a painful lexical object that has to be pulled apart later, or (better)
-// rewrite slash regexes to carat regexes.
-cStringRegex: ( C_STRING_SLASH_REGEX | C_STRING_CARET_REGEX ) ;
-
 cInlinePrimitiveObject:
       cInteger
     | cReal
@@ -66,7 +55,7 @@ assumedDurationValue: ';' durationValue ;
 
 // The following could be used if only caret-delimited regexes were allowed
 //cString: ( stringValue | stringListValue | CARET_REGEX ) assumedStringValue? ;
-cString: ( stringValue | stringListValue ) assumedStringValue? ;
+cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]

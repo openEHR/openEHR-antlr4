@@ -106,7 +106,7 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? boole
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES cInlinePrimitiveObjectDef ;
+constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
 //
 // Expressions evaluating to arithmetic values, using standard precedence
