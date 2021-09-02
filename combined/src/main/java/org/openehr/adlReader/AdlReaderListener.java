@@ -7,8 +7,8 @@ import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.cadlReader.CadlReader;
-import org.openehr.combinedparser.AdlParser;
-import org.openehr.combinedparser.AdlParserListener;
+import org.openehr.combinedparser.Adl2Parser;
+import org.openehr.combinedparser.Adl2ParserListener;
 import org.openehr.elReader.ElReader;
 import org.openehr.odinReader.OdinReader;
 
@@ -19,7 +19,7 @@ import java.util.List;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class AdlReaderListener implements AdlParserListener {
+public class AdlReaderListener implements Adl2ParserListener {
 
 	public AdlReaderListener (boolean logging, boolean keepAntlrErrors, AdlReaderErrors errorCollector) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
@@ -33,175 +33,175 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAdlObject(AdlParser.AdlObjectContext ctx) { }
+	@Override public void enterAdlObject(Adl2Parser.AdlObjectContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAdlObject(AdlParser.AdlObjectContext ctx) { }
+	@Override public void exitAdlObject(Adl2Parser.AdlObjectContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAuthoredArchetype(AdlParser.AuthoredArchetypeContext ctx) { }
+	@Override public void enterAuthoredArchetype(Adl2Parser.AuthoredArchetypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAuthoredArchetype(AdlParser.AuthoredArchetypeContext ctx) { }
+	@Override public void exitAuthoredArchetype(Adl2Parser.AuthoredArchetypeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemplate(AdlParser.TemplateContext ctx) { }
+	@Override public void enterTemplate(Adl2Parser.TemplateContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemplate(AdlParser.TemplateContext ctx) { }
+	@Override public void exitTemplate(Adl2Parser.TemplateContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTemplateOverlay(AdlParser.TemplateOverlayContext ctx) { }
+	@Override public void enterTemplateOverlay(Adl2Parser.TemplateOverlayContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTemplateOverlay(AdlParser.TemplateOverlayContext ctx) { }
+	@Override public void exitTemplateOverlay(Adl2Parser.TemplateOverlayContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOperationalTemplate(AdlParser.OperationalTemplateContext ctx) { }
+	@Override public void enterOperationalTemplate(Adl2Parser.OperationalTemplateContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOperationalTemplate(AdlParser.OperationalTemplateContext ctx) { }
+	@Override public void exitOperationalTemplate(Adl2Parser.OperationalTemplateContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterHeader(AdlParser.HeaderContext ctx) { }
+	@Override public void enterHeader(Adl2Parser.HeaderContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitHeader(AdlParser.HeaderContext ctx) { }
+	@Override public void exitHeader(Adl2Parser.HeaderContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaData(AdlParser.MetaDataContext ctx) { }
+	@Override public void enterMetaData(Adl2Parser.MetaDataContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetaData(AdlParser.MetaDataContext ctx) { }
+	@Override public void exitMetaData(Adl2Parser.MetaDataContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaDataItem(AdlParser.MetaDataItemContext ctx) { }
+	@Override public void enterMetaDataItem(Adl2Parser.MetaDataItemContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetaDataItem(AdlParser.MetaDataItemContext ctx) { }
+	@Override public void exitMetaDataItem(Adl2Parser.MetaDataItemContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaDataValueItem(AdlParser.MetaDataValueItemContext ctx) { }
+	@Override public void enterMetaDataValueItem(Adl2Parser.MetaDataValueItemContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetaDataValueItem(AdlParser.MetaDataValueItemContext ctx) { }
+	@Override public void exitMetaDataValueItem(Adl2Parser.MetaDataValueItemContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaDataFlag(AdlParser.MetaDataFlagContext ctx) { }
+	@Override public void enterMetaDataFlag(Adl2Parser.MetaDataFlagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetaDataFlag(AdlParser.MetaDataFlagContext ctx) { }
+	@Override public void exitMetaDataFlag(Adl2Parser.MetaDataFlagContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMetaDataItemValue(AdlParser.MetaDataItemValueContext ctx) { }
+	@Override public void enterMetaDataItemValue(Adl2Parser.MetaDataItemValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMetaDataItemValue(AdlParser.MetaDataItemValueContext ctx) { }
+	@Override public void exitMetaDataItemValue(Adl2Parser.MetaDataItemValueContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSpecializeSection (AdlParser.SpecializeSectionContext ctx) { }
+	@Override public void enterSpecializeSection (Adl2Parser.SpecializeSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSpecializeSection (AdlParser.SpecializeSectionContext ctx) { }
+	@Override public void exitSpecializeSection (Adl2Parser.SpecializeSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterLanguageSection (AdlParser.LanguageSectionContext ctx) {
+	@Override public void enterLanguageSection (Adl2Parser.LanguageSectionContext ctx) {
 		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "language", ctx.LANGUAGE_HEADER().getSymbol().getLine());
 		errorCollector.setLanguageErrors (odinReader.getErrors());
 
@@ -212,14 +212,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitLanguageSection (AdlParser.LanguageSectionContext ctx) { }
+	@Override public void exitLanguageSection (Adl2Parser.LanguageSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDescriptionSection (AdlParser.DescriptionSectionContext ctx) {
+	@Override public void enterDescriptionSection (Adl2Parser.DescriptionSectionContext ctx) {
 		odinReader.read(textToCharStream (ctx.odinText().ODIN_LINE()), "description", ctx.DESCRIPTION_HEADER().getSymbol().getLine());
 		errorCollector.setDescriptionErrors (odinReader.getErrors());
 	}
@@ -229,14 +229,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDescriptionSection (AdlParser.DescriptionSectionContext ctx) { }
+	@Override public void exitDescriptionSection (Adl2Parser.DescriptionSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefinitionSection (AdlParser.DefinitionSectionContext ctx) {
+	@Override public void enterDefinitionSection (Adl2Parser.DefinitionSectionContext ctx) {
 		cadlReader.read (textToCharStream (ctx.cadlText().CADL_LINE()), "definition", ctx.DEFINITION_HEADER().getSymbol().getLine());
 		errorCollector.setDefinitionErrors (cadlReader.getErrors());
 	}
@@ -246,13 +246,13 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefinitionSection (AdlParser.DefinitionSectionContext ctx) { }
+	@Override public void exitDefinitionSection (Adl2Parser.DefinitionSectionContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRulesSection (AdlParser.RulesSectionContext ctx) {
+	@Override public void enterRulesSection (Adl2Parser.RulesSectionContext ctx) {
 		elReader.read (textToCharStream (ctx.elText().EL_LINE()), "el", ctx.RULES_HEADER().getSymbol().getLine());
 		errorCollector.setRulesErrors (elReader.getErrors());
 	}
@@ -262,14 +262,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRulesSection (AdlParser.RulesSectionContext ctx) { }
+	@Override public void exitRulesSection (Adl2Parser.RulesSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRmOverlaySection (AdlParser.RmOverlaySectionContext ctx) {
+	@Override public void enterRmOverlaySection (Adl2Parser.RmOverlaySectionContext ctx) {
 		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "rm_overlay", ctx.RM_OVERLAY_HEADER().getSymbol().getLine());
 		errorCollector.setRmOverlayErrors (odinReader.getErrors());
 	}
@@ -279,14 +279,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRmOverlaySection (AdlParser.RmOverlaySectionContext ctx) { }
+	@Override public void exitRmOverlaySection (Adl2Parser.RmOverlaySectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTerminologySection (AdlParser.TerminologySectionContext ctx) {
+	@Override public void enterTerminologySection (Adl2Parser.TerminologySectionContext ctx) {
 		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "terminology", ctx.TERMINOLOGY_HEADER().getSymbol().getLine());
 		errorCollector.setTerminologyErrors (odinReader.getErrors());
 	}
@@ -296,14 +296,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTerminologySection (AdlParser.TerminologySectionContext ctx) { }
+	@Override public void exitTerminologySection (Adl2Parser.TerminologySectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAnnotationsSection (AdlParser.AnnotationsSectionContext ctx) {
+	@Override public void enterAnnotationsSection (Adl2Parser.AnnotationsSectionContext ctx) {
 		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "annotations", ctx.ANNOTATIONS_HEADER().getSymbol().getLine());
 		errorCollector.setAnnotationsErrors (odinReader.getErrors());
 	}
@@ -313,14 +313,14 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAnnotationsSection (AdlParser.AnnotationsSectionContext ctx) { }
+	@Override public void exitAnnotationsSection (Adl2Parser.AnnotationsSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterComponentTerminologiesSection (AdlParser.ComponentTerminologiesSectionContext ctx) {
+	@Override public void enterComponentTerminologiesSection (Adl2Parser.ComponentTerminologiesSectionContext ctx) {
 		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "component_terminologies", ctx.COMPONENT_TERMINOLOGIES_HEADER().getSymbol().getLine());
 		errorCollector.setAnnotationsErrors (odinReader.getErrors());
 	}
@@ -330,49 +330,49 @@ public class AdlReaderListener implements AdlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitComponentTerminologiesSection (AdlParser.ComponentTerminologiesSectionContext ctx) { }
+	@Override public void exitComponentTerminologiesSection (Adl2Parser.ComponentTerminologiesSectionContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOdinText(AdlParser.OdinTextContext ctx) { }
+	@Override public void enterOdinText(Adl2Parser.OdinTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOdinText(AdlParser.OdinTextContext ctx) { }
+	@Override public void exitOdinText(Adl2Parser.OdinTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCadlText(AdlParser.CadlTextContext ctx) { }
+	@Override public void enterCadlText(Adl2Parser.CadlTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCadlText(AdlParser.CadlTextContext ctx) { }
+	@Override public void exitCadlText(Adl2Parser.CadlTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterElText(AdlParser.ElTextContext ctx) { }
+	@Override public void enterElText(Adl2Parser.ElTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitElText(AdlParser.ElTextContext ctx) { }
+	@Override public void exitElText(Adl2Parser.ElTextContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

@@ -8,7 +8,7 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-lexer grammar AdlLexer;
+lexer grammar Adl2Lexer;
 import OpenehrPatterns;
 
 // ------------------- MODE: default --------------------

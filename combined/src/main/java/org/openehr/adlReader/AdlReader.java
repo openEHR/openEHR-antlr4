@@ -2,12 +2,11 @@ package org.openehr.adlReader;
 
 import org.antlr.v4.runtime.*;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.IANTLRParserErrors;
 import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
 
-public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
+public class AdlReader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
 
     // ---------------------- Creation ----------------------
 
@@ -28,8 +27,8 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
     // ---------------------- Implementation ----------------------
 
     protected void createLexerParser (CharStream stream) {
-        lexer = new AdlLexer (stream);
-        parser = new AdlParser (new CommonTokenStream (lexer));
+        lexer = new Adl2Lexer (stream);
+        parser = new Adl2Parser(new CommonTokenStream (lexer));
     }
 
     protected void doParse() {
@@ -38,7 +37,7 @@ public class AdlReader extends SyntaxReader<AdlLexer, AdlParser> {
         errorCollector.setAdlErrors (errors);
 
         // do the parse
-        AdlParser.AdlObjectContext adlObjectCtx = parser.adlObject();
+        Adl2Parser.AdlObjectContext adlObjectCtx = parser.adlObject();
 
         // don't bother with second level parsing if artefact not well-formed
         if (errors.hasNoErrors()) {

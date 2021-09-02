@@ -44,6 +44,14 @@ public class AdlReaderTest {
         runTest ("adls", "adl2", new AdlReader (false, false));
     }
 
+    /**
+     * Run test on pass and fail groups of artefacts under a specific resource directory
+     * and having a specific file extension.
+     * @param fileExt the file extension to match; don't include the '.'!
+     * @param artefactType a top-level name under test/resources.
+     * @param reader an instantiated artefact reader of the correct type for the artefacts.
+     * @throws IOException
+     */
     private void runTest (String fileExt, String artefactType, SyntaxReader<?,?> reader) throws IOException {
         Reflections reflections;
         List<String> paths;
@@ -80,10 +88,12 @@ public class AdlReaderTest {
                     errorCount++;
                     System.out.println("ERRORS: ----------------- " + pathName + " ----------------");
                     System.out.println(reader.getErrors().getErrors().get(0).qualifiedMessage()); // first error only
+                    System.out.println();
                 }
 //                if (reader.getErrors().hasWarnings()) {
 //                    System.out.println("WARNINGS:  ----------------- " + pathName + " ----------------");
 //                    System.out.println(reader.getErrors().getWarnings().get(0).qualifiedMessage()); // first error only
+//                    System.out.println();
 //                }
             }
         }

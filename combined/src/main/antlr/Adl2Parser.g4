@@ -13,8 +13,8 @@
 // This grammar is separated to allow modes in the lexical part.
 // Combined grammars can't have modes.
 //
-parser grammar AdlParser;
-options { tokenVocab=AdlLexer; }
+parser grammar Adl2Parser;
+options { tokenVocab=Adl2Lexer; }
 
 //
 //  ======================= Top-level Objects ========================
