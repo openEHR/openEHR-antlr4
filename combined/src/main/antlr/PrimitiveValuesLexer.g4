@@ -27,7 +27,7 @@ SYM_PLUS_OR_MINUS : '+/-' | '±' ;
 SYM_PLUS : '+' ;
 SYM_MINUS : '-' ;
 SYM_PERCENT : '%' ;
-SYM_CARAT: '^' ;
+SYM_CARET: '^' ;
 
 SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
