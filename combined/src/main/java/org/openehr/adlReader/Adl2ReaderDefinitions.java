@@ -2,7 +2,7 @@ package org.openehr.adlReader;
 
 import org.openehr.antlr.ANTLRParserErrors;
 
-public class AdlReaderDefinitions {
+public class Adl2ReaderDefinitions {
 
     //
     // Typical size of ADL artefact subsection - mainly based on

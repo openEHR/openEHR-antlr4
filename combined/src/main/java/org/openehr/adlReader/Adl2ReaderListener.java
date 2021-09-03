@@ -15,13 +15,13 @@ import org.openehr.odinReader.OdinReader;
 import java.util.List;
 
 /**
- * This class provides an empty implementation of {@link AdlReaderListener},
+ * This class provides an empty implementation of {@link Adl2ReaderListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class AdlReaderListener implements Adl2ParserListener {
+public class Adl2ReaderListener implements Adl2ParserListener {
 
-	public AdlReaderListener (boolean logging, boolean keepAntlrErrors, AdlReaderErrors errorCollector) {
+	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
 		cadlReader = new CadlReader (logging, keepAntlrErrors);
 		elReader = new ElReader (logging, keepAntlrErrors);
@@ -408,7 +408,7 @@ public class AdlReaderListener implements Adl2ParserListener {
 	 * into a single string
 	 */
 	private static CharStream textToCharStream (List<TerminalNode> nodeList) {
-		StringBuilder sb = new StringBuilder(AdlReaderDefinitions.ADL_TEXT_SECTION_SIZE);
+		StringBuilder sb = new StringBuilder(Adl2ReaderDefinitions.ADL_TEXT_SECTION_SIZE);
 		for (TerminalNode node: nodeList)
 			sb.append(node.getText());
 		return CharStreams.fromString (sb.toString());
@@ -418,6 +418,6 @@ public class AdlReaderListener implements Adl2ParserListener {
 	private final CadlReader cadlReader;
 	private final ElReader elReader;
 
-	private final AdlReaderErrors errorCollector;
+	private final Adl2ReaderErrors errorCollector;
 
 }

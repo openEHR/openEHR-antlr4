@@ -6,11 +6,11 @@ import org.openehr.antlr.IANTLRParserErrors;
 import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
 
-public class AdlReader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
+public class Adl2Reader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
 
     // ---------------------- Creation ----------------------
 
-    public AdlReader (boolean logging, boolean keepAntlrErrors) {
+    public Adl2Reader(boolean logging, boolean keepAntlrErrors) {
         super (logging, keepAntlrErrors);
     }
 
@@ -20,7 +20,7 @@ public class AdlReader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
         return errorCollector;
     }
 
-    public AdlReaderErrors getErrorCollector() {
+    public Adl2ReaderErrors getErrorCollector() {
         return errorCollector;
     }
 
@@ -33,7 +33,7 @@ public class AdlReader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
 
     protected void doParse() {
         // set up the top-level Error collector
-        errorCollector = new AdlReaderErrors();
+        errorCollector = new Adl2ReaderErrors();
         errorCollector.setAdlErrors (errors);
 
         // do the parse
@@ -42,10 +42,10 @@ public class AdlReader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
         // don't bother with second level parsing if artefact not well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
-            AdlReaderListener reader =  new AdlReaderListener (logging, keepAntlrErrors, errorCollector);
+            Adl2ReaderListener reader =  new Adl2ReaderListener(logging, keepAntlrErrors, errorCollector);
             walker.walk (reader, adlObjectCtx);
         }
     }
 
-    private AdlReaderErrors errorCollector;
+    private Adl2ReaderErrors errorCollector;
 }

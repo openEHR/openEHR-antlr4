@@ -12,7 +12,7 @@ import org.openehr.combinedparser.OdinParserListener;
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class OdinSimpleListener implements OdinParserListener {
+public class OdinReaderListener implements OdinParserListener {
 	/**
 	 * {@inheritDoc}
 	 *

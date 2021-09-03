@@ -1,19 +1,17 @@
 package org.openehr.adlReader;
 
-import org.openehr.antlr.ANTLRParserErrors;
 import org.openehr.antlr.ANTLRParserMessage;
 import org.openehr.antlr.IANTLRParserErrors;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AdlReaderErrors implements IANTLRParserErrors {
+public class Adl2ReaderErrors implements IANTLRParserErrors {
 
     // ------------------ Creation ------------------
 
-    public AdlReaderErrors() {
+    public Adl2ReaderErrors() {
         errorTable = new HashMap<>();
     }
 
@@ -54,78 +52,78 @@ public class AdlReaderErrors implements IANTLRParserErrors {
     // ------------------ Member Access ------------------
 
     public IANTLRParserErrors getAdlErrors() {
-        return errorTable.get(AdlReaderDefinitions.ADL_ARTEFACT_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.ADL_ARTEFACT_NAME);
     }
 
     public IANTLRParserErrors getLanguageErrors() {
-        return errorTable.get(AdlReaderDefinitions.LANGUAGE_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.LANGUAGE_SECTION_NAME);
     }
 
     public IANTLRParserErrors getDescriptionErrors() {
-        return errorTable.get (AdlReaderDefinitions.DESCRIPTION_SECTION_NAME);
+        return errorTable.get (Adl2ReaderDefinitions.DESCRIPTION_SECTION_NAME);
     }
 
     public IANTLRParserErrors getDefinitionErrors() {
-        return errorTable.get(AdlReaderDefinitions.DEFINITION_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.DEFINITION_SECTION_NAME);
     }
 
     public IANTLRParserErrors getRulesErrors() {
-        return errorTable.get(AdlReaderDefinitions.RULES_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.RULES_SECTION_NAME);
     }
 
     public IANTLRParserErrors getRmOverlayErrors() {
-        return errorTable.get(AdlReaderDefinitions.RM_OVERLAY_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.RM_OVERLAY_SECTION_NAME);
     }
 
     public IANTLRParserErrors getTerminologyErrors() {
-        return errorTable.get(AdlReaderDefinitions.TERMINOLOGY_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.TERMINOLOGY_SECTION_NAME);
     }
 
     public IANTLRParserErrors getAnnotationsErrors() {
-        return errorTable.get(AdlReaderDefinitions.ANNOTATIONS_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.ANNOTATIONS_SECTION_NAME);
     }
 
     public IANTLRParserErrors getComponentsTerminologiesErrors() {
-        return errorTable.get(AdlReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME);
+        return errorTable.get(Adl2ReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME);
     }
 
 
     // ------------------ Modification ------------------
 
     public void setAdlErrors(IANTLRParserErrors adlErrors) {
-        errorTable.put(AdlReaderDefinitions.ADL_ARTEFACT_NAME, adlErrors);
+        errorTable.put(Adl2ReaderDefinitions.ADL_ARTEFACT_NAME, adlErrors);
     }
 
     public void setLanguageErrors(IANTLRParserErrors languageErrors) {
-        errorTable.put(AdlReaderDefinitions.LANGUAGE_SECTION_NAME, languageErrors);
+        errorTable.put(Adl2ReaderDefinitions.LANGUAGE_SECTION_NAME, languageErrors);
     }
 
     public void setDescriptionErrors(IANTLRParserErrors descriptionErrors) {
-        errorTable.put(AdlReaderDefinitions.DESCRIPTION_SECTION_NAME, descriptionErrors);
+        errorTable.put(Adl2ReaderDefinitions.DESCRIPTION_SECTION_NAME, descriptionErrors);
     }
 
     public void setDefinitionErrors(IANTLRParserErrors definitionErrors) {
-        errorTable.put(AdlReaderDefinitions.DEFINITION_SECTION_NAME, definitionErrors);
+        errorTable.put(Adl2ReaderDefinitions.DEFINITION_SECTION_NAME, definitionErrors);
     }
 
     public void setRulesErrors(IANTLRParserErrors rulesErrors) {
-        errorTable.put(AdlReaderDefinitions.RULES_SECTION_NAME, rulesErrors);
+        errorTable.put(Adl2ReaderDefinitions.RULES_SECTION_NAME, rulesErrors);
     }
 
     public void setRmOverlayErrors(IANTLRParserErrors rmOverlayErrors) {
-        errorTable.put(AdlReaderDefinitions.RM_OVERLAY_SECTION_NAME, rmOverlayErrors);
+        errorTable.put(Adl2ReaderDefinitions.RM_OVERLAY_SECTION_NAME, rmOverlayErrors);
     }
 
     public void setTerminologyErrors(IANTLRParserErrors terminologyErrors) {
-        errorTable.put(AdlReaderDefinitions.TERMINOLOGY_SECTION_NAME, terminologyErrors);
+        errorTable.put(Adl2ReaderDefinitions.TERMINOLOGY_SECTION_NAME, terminologyErrors);
     }
 
     public void setAnnotationsErrors(IANTLRParserErrors annotationsErrors) {
-        errorTable.put(AdlReaderDefinitions.ANNOTATIONS_SECTION_NAME, annotationsErrors);
+        errorTable.put(Adl2ReaderDefinitions.ANNOTATIONS_SECTION_NAME, annotationsErrors);
     }
 
     public void setComponentsTerminologiesErrors(IANTLRParserErrors componentsTerminologiesErrors) {
-        errorTable.put(AdlReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME, componentsTerminologiesErrors);
+        errorTable.put(Adl2ReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME, componentsTerminologiesErrors);
     }
 
 

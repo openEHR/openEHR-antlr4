@@ -20,9 +20,9 @@ import java.util.regex.Pattern;
 
 import static org.junit.Assert.fail;
 
-public class AdlReaderTest {
+public class Adl2ReaderTest {
 
-    private static final Logger log = LoggerFactory.getLogger(AdlReaderTest.class);
+    private static final Logger log = LoggerFactory.getLogger(Adl2ReaderTest.class);
 
     @Test
     public void testAllOdin() throws IOException {
@@ -41,7 +41,7 @@ public class AdlReaderTest {
 
     @Test
     public void testAllAdl() throws IOException {
-        runTest ("adls", "adl2", new AdlReader (false, false));
+        runTest ("adls", "adl2", new Adl2Reader(false, false));
     }
 
     /**
