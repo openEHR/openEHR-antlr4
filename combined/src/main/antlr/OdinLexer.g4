@@ -10,11 +10,14 @@
 lexer grammar OdinLexer;
 import PrimitiveValuesLexer, BaseLexer, GeneralLexer;
 
+channels {
+    COMMENT
+}
 
-// ---------- lines and comments ----------
-CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
-EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
-WS         : [ \t\r]+     -> channel(HIDDEN) ;
+// ------------------ lines and comments ------------------
+CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
+EOL      : '\r'? '\n'   -> channel(HIDDEN) ;
+WS       : [ \t\r]+     -> channel(HIDDEN) ;
 
 // ---------- URIs for use in ODIN ---------
 ODIN_URI: URI;

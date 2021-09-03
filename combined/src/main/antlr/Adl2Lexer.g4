@@ -11,10 +11,14 @@
 lexer grammar Adl2Lexer;
 import OpenehrPatterns;
 
+channels {
+    COMMENT
+}
+
 // ------------------- MODE: default --------------------
 //  lines and comments
 H_CMT_LINE : '--------' '-'*? EOL  ;            // long comment line for splitting ADL2 template overlays
-CMT_LINE   : '--' .*? EOL -> skip ;             // increment line count
+CMT_LINE   : '--' .*? EOL -> channel(COMMENT) ;
 EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // throw out EOLs in default mode
 WS         : [ \t\r]+     -> channel(HIDDEN) ;
 
@@ -83,7 +87,7 @@ ODIN_LINE_DESC    : NON_EOL* EOL -> type (ODIN_LINE);
 // comments are used in the definition section, so we throw them out.
 // Remove the CMT_LINE2 rule to keep them for later processing
 mode DEFINITION ;
-CMT_LINE2               : CMT_LINE -> skip ;
+CMT_LINE2               : CMT_LINE -> channel(COMMENT), type (CMT_LINE) ;
 RULES_HEADER            : SYM_RULES WS? EOL -> mode (RULES);
 TERMINOLOGY_HEADER      : SYM_TERMINOLOGY WS? EOL -> mode (TERMINOLOGY);
 RM_OVERLAY_HEADER       : SYM_RM_OVERLAY WS? EOL -> mode (RM_OVERLAY);
@@ -93,7 +97,7 @@ RM_OVERLAY_HEADER       : SYM_RM_OVERLAY WS? EOL -> mode (RM_OVERLAY);
 // get confused with paths and other patterns with slashes.
 // Typical examples:
 //   string_attr2 matches {/this|that|something else/; "this"}
-//   archetype_id/value matches {^openEHR-EHR-OBSERVATION\.blood_pressure([a-zA-Z0-9_]+)*\.v1^}
+//   archetype_id/value matches {/openEHR-EHR-OBSERVATION\.blood_pressure([a-zA-Z0-9_]+)*\.v1/}
 SLASH_REGEX_LINE        : ~[{\n]+ '{/' SLASH_REGEX_CHAR+ '/' [};] NON_EOL* EOL
     {
         setText (

@@ -13,8 +13,12 @@
 lexer grammar CadlLexer;
 import PathLexer, CPrimitiveValuesLexer, GeneralLexer;
 
+channels {
+    COMMENT
+}
+
 // ------------------ lines and comments ------------------
-CMT_LINE : '--' .*? EOL -> channel(HIDDEN) ;
+CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
 EOL      : '\r'? '\n'   -> skip ;
 WS       : [ \t\r]+     -> skip ;
 
