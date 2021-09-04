@@ -1,16 +1,9 @@
 package org.openehr.odinReader;
 
 import org.antlr.v4.runtime.*;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.antlr.v4.runtime.tree.TerminalNode;
-import org.openehr.adlReader.AdlReaderDefinitions;
-import org.openehr.antlr.ANTLRParserErrors;
-import org.openehr.antlr.ArchieErrorListener;
 import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
-
-import java.util.List;
 
 public class OdinReader extends SyntaxReader<OdinLexer, OdinParser> {
 

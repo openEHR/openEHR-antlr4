@@ -1,12 +1,8 @@
 package org.openehr.cadlReader;
 
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.openehr.adlReader.AdlReaderListener;
-import org.openehr.antlr.ANTLRParserErrors;
-import org.openehr.antlr.ArchieErrorListener;
 import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
 
