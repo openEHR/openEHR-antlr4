@@ -1,0 +1,12 @@
+-- Alias in Select
+
+SELECT
+    e/ehr_id/value as ehrId,
+    p/data[at0001]/events[at0002]/data[at0003]/items[at0006]/value as spo2Numerator
+FROM
+    EHR e
+        CONTAINS COMPOSITION c
+            CONTAINS OBSERVATION p[openEHR-EHR-OBSERVATION.pulse_oximetry.v1]
+WHERE
+    p/data[at0001]/events[at0002]/data[at0003]/items[at0006]/value/numerator <= 96
+

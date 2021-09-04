@@ -1,0 +1,10 @@
+-- Example 2: The `COUNT()` function is used to return a counter of
+-- all distinct test analyte names for a given EHR:
+
+SELECT
+    COUNT(DISTINCT a/items[at0001]/value) AS counter
+FROM
+    EHR [ehr_id/value=$ehrUid]
+    CONTAINS COMPOSITION c
+        CONTAINS OBSERVATION [openEHR-EHR-OBSERVATION.laboratory_test_result.v1]
+            CONTAINS CLUSTER a[openEHR-EHR-CLUSTER.laboratory_test_analyte.v1]

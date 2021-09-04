@@ -1,0 +1,9 @@
+-- Example 1: The `COUNT()` and `MIN()` functions are used to return the
+-- number of discharge letters and the date of their oldest event:
+
+SELECT
+   count(*) AS counter, min(c/context/start_time) as firstTime
+FROM
+   EHR [ehr_id/value=$ehrUid]
+      CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.administrative_encounter.v1]
+         CONTAINS ADMIN_ENTRY [openEHR-EHR-ADMIN_ENTRY.admission.v1]

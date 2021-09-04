@@ -1,0 +1,14 @@
+-- Scenario: HbA1c > 7.0%; match using ADL in WHERE clause
+
+SELECT
+    e/ehr_id,
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value
+EHR e CONTAINS COMPOSITION c
+    CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.laboratory-glucose.v1]
+WHERE
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value matches {
+        DV_PROPORTION matches {
+            numerator matches {|>7.0|}
+            denominator matches {|100.0|}
+        }
+    }

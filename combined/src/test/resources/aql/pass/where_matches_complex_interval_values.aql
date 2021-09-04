@@ -1,0 +1,24 @@
+-- Scenario: Get all blood glucose values and their corresponding ehr ids,
+-- where blood glucose level is between 5-6 mmol/L or between 90-110 mg/dL
+
+SELECT
+    e/ehr_id,
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value
+FROM
+    EHR e CONTAINS COMPOSITION c
+        CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.laboratory-glucose.v1]
+WHERE
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value matches {
+        C_DV_QUANTITY<
+            list = <
+                ["1"] = <
+                    units = <"mmol/L">
+                    magnitude = <|5.0..6.0|>
+                >
+                ["2"] = <
+                    units = <"mg/dL">
+                    magnitude = <|90..110|>
+                >
+            >
+        >
+    }

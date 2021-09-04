@@ -4,6 +4,7 @@ import com.google.common.base.Charsets;
 import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.Test;
+import org.openehr.aqlReader.AqlReader;
 import org.openehr.cadlReader.CadlReader;
 import org.openehr.common.SyntaxReader;
 import org.openehr.elReader.ElReader;
@@ -37,6 +38,11 @@ public class Adl2ReaderTest {
     @Test
     public void testAllEl() throws IOException {
         runTest ("el", "el", new ElReader(false, false));
+    }
+
+    @Test
+    public void testAllAql() throws IOException {
+        runTest ("aql", "aql", new AqlReader(false, false));
     }
 
     @Test

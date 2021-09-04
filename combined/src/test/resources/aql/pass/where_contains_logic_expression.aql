@@ -1,0 +1,15 @@
+-- WHERE contains Logical expression
+
+SELECT
+    e/ehr_id/value as ehrId,
+    a/items[at0001]/value as analyteName,
+    a/items[at0001]/value as analyteResult
+FROM EHR e
+    CONTAINS COMPOSITION c
+        CONTAINS OBSERVATION o[openEHR-EHR-OBSERVATION.laboratory_test_result.v1]
+            CONTAINS CLUSTER a[openEHR-EHR-CLUSTER.laboratory_test_analyte.v1]
+WHERE
+    (a/items[at0001]/value/defining_code/code_string matches {'14743-9','2345-7'} AND a/items[at0001]/value/defining_code/terminology_id = 'LOINC')
+    AND
+    ((a/items[at0024]/value/magnitude >= 5 AND a/items[at0024]/value/magnitude <=6 AND a/items[at0024]/value/units matches {'mmol/L'})
+        OR (a/items[at0024]/value/magnitude >= 90 AND a/items[at0024]/value/magnitude >= 110 AND a/items[at0024]/value/units matches {'mg/dL'}))

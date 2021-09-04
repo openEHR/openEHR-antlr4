@@ -1,0 +1,23 @@
+-- Scenario: Total cholesterol >= 5.0 mmol/L or LDL-C >= 3.0 mmol/L
+
+SELECT
+    e/ehr_id,
+    o/data[at0001]/events[at0002]/data[at0003]/items[at0013.1] AS TotalC,
+    o/data[at0001]/events[at0002]/data[at0003]/items[at0011.1, 'Fractions']/items[at0013.4, 'LDL-Cholesterol'] AS LDLC
+FROM
+    EHR e CONTAINS COMPOSITION c
+        CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.laboratory-hba1c.v1]
+WHERE
+    o/data[at0001]/events[at0002, 'Any event']/data[at0003]/items[at0013.1]/value matches {
+        DV_QUANTITY matches {
+            units matches {"mmol/L"}
+            magnitude matches {|>=5.0|}
+        }
+    }
+    OR
+    o/data[at0001]/events[at0002]/data[at0003]/items[at0011.1, 'Fractions']/items[at0013.4, 'LDL-Cholesterol']/value matches {
+        DV_QUANTITY matches {
+            units matches {"mmol/L"}
+            magnitude matches {|>=3.0|}
+        }
+    }

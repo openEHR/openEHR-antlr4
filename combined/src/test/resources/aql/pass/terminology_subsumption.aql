@@ -1,0 +1,9 @@
+-- Terminology Example 5: Subsumption testing
+SELECT
+    MAX (o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude) AS maxValue
+FROM
+    EHR e CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.encounter.v1]
+        CONTAINS OBSERVATION o[openEHR-EHR-OBSERVATION.blood_pressure.v1]
+WHERE
+    TERMINOLOGY('subsumes', 'hl7.org/fhir/r4', CONCAT('system=http://snomed.info/sct&codeA=235856003&codeB=', e/value/defining_code/code_string)) = true
+

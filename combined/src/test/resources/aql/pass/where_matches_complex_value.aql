@@ -1,0 +1,24 @@
+-- Scenario: *Get all blood glucose values and their corresponding subject ids,
+-- where blood glucose > 11 mmol/L or blood glucose >= 200 mg/dL*
+SELECT
+    e/ehr_status/subject/external_ref/id/value,
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value
+FROM
+    EHR e
+        CONTAINS COMPOSITION c
+            CONTAINS OBSERVATION o [openEHR-EHR-OBSERVATION.laboratory-glucose.v1]
+WHERE
+    o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value matches {
+        C_DV_QUANTITY <
+            list = <
+               ["1"] = <
+                   units = <"mmol/L">
+                   magnitude = <|>=11|>
+               >
+               ["2"] = <
+                   units=<"mg/dL">
+                   magnitude=<|>=200|>
+               >
+            >
+        >
+    }

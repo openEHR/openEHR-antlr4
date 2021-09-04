@@ -1,0 +1,9 @@
+-- Terminology Example 1: Expand a value set
+
+SELECT
+    MAX (o/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude) AS maxValue
+FROM
+    EHR e CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.encounter.v1]
+        CONTAINS OBSERVATION o[openEHR-EHR-OBSERVATION.blood_pressure.v1]
+WHERE
+    e/value/defining_code/code_string matches TERMINOLOGY('expand', 'hl7.org/fhir/r4', 'url=http://snomed.info/sct?fhir_vs=isa/50697003')
