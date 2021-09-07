@@ -1,0 +1,11 @@
+-- CHeck date/time type matching
+SELECT
+    c/context/start_time,
+    o
+FROM EHR e
+    CONTAINS COMPOSITION c
+        CONTAINS OBSERVATION o[openEHR-EHR-OBSERVATION.laboratory_test_result.v1]
+WHERE
+    c/context/start_time >= '2020-06-04T13:00:04+0800' AND
+    o/data/origin = '2018-01-05'
+

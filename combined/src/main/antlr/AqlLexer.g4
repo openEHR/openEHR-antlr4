@@ -16,6 +16,7 @@
 //
 
 lexer grammar AqlLexer;
+import BaseLexer;
 
 channels {
     COMMENT_CHANNEL
@@ -126,30 +127,6 @@ CONTAINED_REGEX: '{'WS* SLASH_REGEX WS* (';' WS* STRING)? WS* '}';
 fragment SLASH_REGEX: '/' SLASH_REGEX_CHAR+ '/';
 fragment SLASH_REGEX_CHAR: ~[/\n\r] | ESCAPE_SEQ | '\\/';
 
-// ---------- ISO8601 Date/Time values ----------
-
-fragment ISO8601_DATE
-    : YEAR MONTH DAY
-    | YEAR '-' MONTH '-' DAY
-    ;
-fragment ISO8601_TIME
-    : HOUR MINUTE SECOND ('.' MICROSECOND)? TIMEZONE?
-    | HOUR ':' MINUTE ':' SECOND ('.' MICROSECOND)? TIMEZONE?
-    ;
-fragment ISO8601_DATE_TIME
-    : YEAR MONTH DAY ('T' HOUR MINUTE SECOND ('.' MICROSECOND)? TIMEZONE?)?
-    | YEAR '-' MONTH '-' DAY ('T' HOUR ':' MINUTE ':' SECOND ('.' MICROSECOND)? TIMEZONE?)?
-    ;
-fragment MICROSECOND: [0-9][0-9][0-9] ;
-
-fragment TIMEZONE: 'Z' | [+-] HOUR ( ':'? MINUTE )? ;  // hour offset, e.g. `+09:30`, or else literal `Z` indicating +0000.
-fragment YEAR: [0-9][0-9][0-9][0-9] ; // Year in ISO8601:2004 is 4 digits with 0-filling as needed
-fragment MONTH: ( [0][1-9] | [1][0-2] ) ;  // month in year
-fragment DAY: ( [0][1-9] | [12][0-9] | [3][0-1] ) ; // day in month
-fragment HOUR: ( [01][0-9] | [2][0-3] ) ; // hour in 24 hour clock
-fragment MINUTE: [0-5][0-9] ; // minutes
-fragment SECOND: [0-5][0-9] ; // seconds
-
 // ------------------- special word symbols --------------
 
 fragment SYM_TRUE: T R U E ;
@@ -232,19 +209,19 @@ SCI_INTEGER: INTEGER E_SUFFIX;
 SCI_REAL: REAL E_SUFFIX;
 fragment E_SUFFIX: E [-+]? DIGIT+ ;
 
-DATE
-    : SYM_SINGLE_QUOTE ISO8601_DATE SYM_SINGLE_QUOTE
-    | SYM_DOUBLE_QUOTE ISO8601_DATE SYM_DOUBLE_QUOTE
+DATE_STRING
+    : SYM_SINGLE_QUOTE ( ISO8601_DATE_EXTENDED | ISO8601_DATE_COMPACT ) SYM_SINGLE_QUOTE
+    | SYM_DOUBLE_QUOTE ( ISO8601_DATE_EXTENDED | ISO8601_DATE_COMPACT ) SYM_DOUBLE_QUOTE
     ;
 
-TIME
-    : SYM_SINGLE_QUOTE ISO8601_TIME SYM_SINGLE_QUOTE
-    | SYM_DOUBLE_QUOTE ISO8601_TIME SYM_DOUBLE_QUOTE
+TIME_STRING
+    : SYM_SINGLE_QUOTE ( ISO8601_TIME_EXTENDED | ISO8601_TIME_COMPACT ) SYM_SINGLE_QUOTE
+    | SYM_DOUBLE_QUOTE ( ISO8601_TIME_EXTENDED | ISO8601_TIME_COMPACT ) SYM_DOUBLE_QUOTE
     ;
 
-DATETIME
-    : SYM_SINGLE_QUOTE ISO8601_DATE_TIME SYM_SINGLE_QUOTE
-    | SYM_DOUBLE_QUOTE ISO8601_DATE_TIME SYM_DOUBLE_QUOTE
+DATE_TIME_STRING
+    : SYM_SINGLE_QUOTE ( ISO8601_DATE_TIME_EXTENDED | ISO8601_DATE_TIME_COMPACT ) SYM_SINGLE_QUOTE
+    | SYM_DOUBLE_QUOTE ( ISO8601_DATE_TIME_EXTENDED | ISO8601_DATE_TIME_COMPACT ) SYM_DOUBLE_QUOTE
     ;
 
 STRING

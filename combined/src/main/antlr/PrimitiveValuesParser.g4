@@ -77,7 +77,7 @@ booleanListValue : booleanValue ( ( ',' booleanValue )+ | ',' SYM_LIST_CONTINUE 
 characterValue : CHARACTER ;
 characterListValue : characterValue ( ( ',' characterValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-dateValue : ISO8601_DATE ;
+dateValue : ISO8601_DATE_AUGMENTED ;
 dateListValue : dateValue ( ( ',' dateValue )+ | ',' SYM_LIST_CONTINUE ) ;
 dateIntervalValue :
       '|' SYM_GT? dateValue '..' SYM_LT? dateValue '|'
@@ -86,7 +86,7 @@ dateIntervalValue :
     ;
 dateIntervalListValue : dateIntervalValue ( ( ',' dateIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-timeValue : ISO8601_TIME ;
+timeValue : ISO8601_TIME_AUGMENTED ;
 timeListValue : timeValue ( ( ',' timeValue )+ | ',' SYM_LIST_CONTINUE ) ;
 timeIntervalValue :
       '|' SYM_GT? timeValue '..' SYM_LT? timeValue '|'
@@ -95,7 +95,7 @@ timeIntervalValue :
     ;
 timeIntervalListValue : timeIntervalValue ( ( ',' timeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-dateTimeValue : ISO8601_DATE_TIME ;
+dateTimeValue : ISO8601_DATE_TIME_AUGMENTED ;
 dateTimeListValue : dateTimeValue ( ( ',' dateTimeValue )+ | ',' SYM_LIST_CONTINUE ) ;
 dateTimeIntervalValue :
       '|' SYM_GT? dateTimeValue '..' SYM_LT? dateTimeValue '|'

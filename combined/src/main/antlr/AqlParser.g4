@@ -165,7 +165,7 @@ valueListItem
 primitive
     : STRING
     | numericPrimitive
-    | DATE | TIME | DATETIME
+    | DATE_STRING | TIME_STRING | DATE_TIME_STRING
     | BOOLEAN
     | NULL
     ;

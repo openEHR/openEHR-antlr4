@@ -7,11 +7,21 @@
 
 lexer grammar BaseLexer;
 
+// ------------- openEHR Augmented ISO8601 Date/Time patterns -----------
+
+ISO8601_DATE_AUGMENTED : ISO8601_DATE_EXTENDED | YEAR '-' MONTH '-' UNKNOWN_DT | YEAR '-' UNKNOWN_DT '-' UNKNOWN_DT ;
+ISO8601_TIME_AUGMENTED : ISO8601_TIME_EXTENDED | (( HOUR ':' MINUTE ':' UNKNOWN_DT | HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? );
+ISO8601_DATE_TIME_AUGMENTED : ISO8601_DATE_TIME_EXTENDED | (( YEAR '-' MONTH '-' DAY 'T' HOUR ':' MINUTE ':' UNKNOWN_DT | YEAR '-' MONTH '-' DAY 'T' HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? ) ;
+fragment UNKNOWN_DT  : '??' ;                    // any unknown date/time value, except years.
+
 // -------------------- ISO8601 Date/Time patterns -------------------
 
-ISO8601_DATE      : YEAR '-' MONTH ( '-' DAY )? | YEAR '-' MONTH '-' UNKNOWN_DT | YEAR '-' UNKNOWN_DT '-' UNKNOWN_DT ;
-ISO8601_TIME      : ( HOUR ':' MINUTE ( ':' SECOND ( SECOND_DEC_SEP DIGIT+ )?)? | HOUR ':' MINUTE ':' UNKNOWN_DT | HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? ;
-ISO8601_DATE_TIME : ( YEAR '-' MONTH '-' DAY 'T' HOUR (':' MINUTE (':' SECOND ( SECOND_DEC_SEP DIGIT+ )?)?)? | YEAR '-' MONTH '-' DAY 'T' HOUR ':' MINUTE ':' UNKNOWN_DT | YEAR '-' MONTH '-' DAY 'T' HOUR ':' UNKNOWN_DT ':' UNKNOWN_DT ) TIMEZONE? ;
+fragment ISO8601_DATE_EXTENDED : YEAR '-' MONTH ( '-' DAY )? | YEAR '-' MONTH ;
+fragment ISO8601_TIME_EXTENDED : HOUR ':' MINUTE ( ':' SECOND ( SECOND_DEC_SEP DIGIT+ )?)? TIMEZONE? ;
+fragment ISO8601_DATE_TIME_EXTENDED : YEAR '-' MONTH '-' DAY 'T' HOUR (':' MINUTE (':' SECOND ( SECOND_DEC_SEP DIGIT+ )?)?)? TIMEZONE? ;
+fragment ISO8601_DATE_COMPACT : YEAR MONTH DAY? ;
+fragment ISO8601_TIME_COMPACT : HOUR MINUTE ( SECOND ( SECOND_DEC_SEP DIGIT+ )?)? TIMEZONE? ;
+fragment ISO8601_DATE_TIME_COMPACT : YEAR MONTH DAY 'T' HOUR ( MINUTE (SECOND ( SECOND_DEC_SEP DIGIT+ )?)?)? TIMEZONE? ;
 fragment TIMEZONE : 'Z' | ('+'|'-') HOUR_MIN ;   // hour offset, e.g. `+0930`, or else literal `Z` indicating +0000.
 fragment YEAR     : [0-9][0-9][0-9][0-9] ;	     // Year in ISO8601:2004 is 4 digits with 0-filling as needed
 fragment MONTH    : ( [0][1-9] | [1][0-2] ) ;    // month in year
@@ -21,7 +31,6 @@ fragment MINUTE   : [0-5][0-9] ;                 // minutes
 fragment HOUR_MIN : ( [01]?[0-9] | [2][0-3] ) [0-5][0-9] ;  // hour / minutes quad digit pattern
 fragment SECOND   : [0-5][0-9] ;                 // seconds
 fragment SECOND_DEC_SEP : '.' | ',' ;
-fragment UNKNOWN_DT  : '??' ;                    // any unknown date/time value, except years.
 
 // ISO8601 DURATION PnYnMnWnDTnnHnnMnn.nnnS 
 // here we allow a deviation from the standard to allow weeks to be // mixed in with the rest since this commonly occurs in medicine
