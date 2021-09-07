@@ -56,7 +56,7 @@ whereExpr
     | NOT whereExpr
     | whereExpr AND whereExpr
     | whereExpr OR whereExpr
-    | SYM_LEFT_PAREN whereExpr SYM_RIGHT_PAREN
+    | SYM_LPAREN whereExpr SYM_RPAREN
     ;
 
 orderByExpr
@@ -74,7 +74,7 @@ containsExpr
     : classExprOperand (NOT? CONTAINS containsExpr)?
     | containsExpr AND containsExpr
     | containsExpr OR containsExpr
-    | SYM_LEFT_PAREN containsExpr SYM_RIGHT_PAREN
+    | SYM_LPAREN containsExpr SYM_RPAREN
     ;
 
 identifiedExpr
@@ -83,12 +83,12 @@ identifiedExpr
     | functionCall COMPARISON_OPERATOR terminal
     | identifiedPath LIKE likeOperand
     | identifiedPath MATCHES matchesOperand
-    | SYM_LEFT_PAREN identifiedExpr SYM_RIGHT_PAREN
+    | SYM_LPAREN identifiedExpr SYM_RPAREN
     ;
 
 classExprOperand
     : IDENTIFIER variable=IDENTIFIER? pathPredicate?                                       #classExpression
-    | VERSION variable=IDENTIFIER? (SYM_LEFT_BRACKET versionPredicate SYM_RIGHT_BRACKET)?  #versionClassExpr
+    | VERSION variable=IDENTIFIER? (SYM_LBRACKET versionPredicate SYM_RBRACKET)?  #versionClassExpr
     ;
 
 terminal
@@ -103,7 +103,7 @@ identifiedPath
     ;
 
 pathPredicate
-    : SYM_LEFT_BRACKET (standardPredicate | archetypePredicate | nodePredicate) SYM_RIGHT_BRACKET
+    : SYM_LBRACKET (standardPredicate | archetypePredicate | nodePredicate) SYM_RBRACKET
     ;
 
 standardPredicate
@@ -151,9 +151,9 @@ likeOperand
     | PARAMETER
     ;
 matchesOperand
-    : SYM_LEFT_CURLY valueListItem (SYM_COMMA valueListItem)* SYM_RIGHT_CURLY
+    : SYM_LCURLY valueListItem (SYM_COMMA valueListItem)* SYM_RCURLY
     | terminologyFunction
-    | SYM_LEFT_CURLY URI SYM_RIGHT_CURLY
+    | SYM_LCURLY AQL_URI SYM_RCURLY
     ;
 
 valueListItem
@@ -180,16 +180,16 @@ numericPrimitive
 
 functionCall
     : terminologyFunction
-    | name=(STRING_FUNCTION_ID | NUMERIC_FUNCTION_ID | DATE_TIME_FUNCTION_ID | IDENTIFIER) SYM_LEFT_PAREN (terminal (SYM_COMMA terminal)*)? SYM_RIGHT_PAREN
+    | name=(STRING_FUNCTION_ID | NUMERIC_FUNCTION_ID | DATE_TIME_FUNCTION_ID | IDENTIFIER) SYM_LPAREN (terminal (SYM_COMMA terminal)*)? SYM_RPAREN
     ;
 
 aggregateFunctionCall
-    : name=COUNT SYM_LEFT_PAREN (DISTINCT? identifiedPath | SYM_ASTERISK) SYM_RIGHT_PAREN
-    | name=(MIN | MAX | SUM | AVG) SYM_LEFT_PAREN identifiedPath SYM_RIGHT_PAREN
+    : name=COUNT SYM_LPAREN (DISTINCT? identifiedPath | SYM_ASTERISK) SYM_RPAREN
+    | name=(MIN | MAX | SUM | AVG) SYM_LPAREN identifiedPath SYM_RPAREN
     ;
 
 terminologyFunction
-    : TERMINOLOGY SYM_LEFT_PAREN STRING SYM_COMMA STRING SYM_COMMA STRING SYM_RIGHT_PAREN
+    : TERMINOLOGY SYM_LPAREN STRING SYM_COMMA STRING SYM_COMMA STRING SYM_RPAREN
     ;
 
 // (deprecated)

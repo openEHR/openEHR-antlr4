@@ -40,7 +40,8 @@ ISO8601_DURATION : '-'?'P' (DIGIT+ [yY])? (DIGIT+ [mM])? (DIGIT+ [wW])? (DIGIT+[
 // ------------------- special primitive values used in openEHR --------------
 
 // e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
-TERM_CODE_REF : '[' TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ']' ;
+TERM_CODE_REF : '[' TERM_CODE ']' ;
+TERM_CODE : TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ('|' ~[|\]]+ '|')?;
 fragment TERM_CODE_CHAR: NAME_CHAR | '.' ;
 
 // --------------------- URIs --------------------
@@ -129,6 +130,9 @@ fragment UTF8CHAR    : '\\u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
 
 fragment DIGIT     : [0-9] ;
 fragment HEX_DIGIT : [0-9a-fA-F] ;
+
+fragment OCTAL_ESC: '\\' [0-3] OCTAL_DIGIT OCTAL_DIGIT | '\\' OCTAL_DIGIT OCTAL_DIGIT | '\\' OCTAL_DIGIT;
+fragment OCTAL_DIGIT: [0-7];
 
 // -------------------- common symbols ---------------------
 

@@ -61,4 +61,9 @@ object = <
     duration_attr18 = <|<=PT1H|>
     duration_attr19 = <PT1H30M>
     duration_attr36 = <|>=PT0S|>
+    term_code1 = <[ICD10::A08]>
+    term_code2 = <[ICD10::A08|Viral and other specified intestinal infections|]>
+    term_code3 = <[Snomed_ct(2018-06-01)::30175009]>
+    term_code4 = <[Snomed_ct(2018-06-01)::30175009|Initial oral examination|]>
+    term_code5 = <[Snomed_ct::30175009|Initial oral examination|]>
 >

@@ -16,7 +16,7 @@
 //
 
 lexer grammar AqlLexer;
-import BaseLexer;
+import OpenehrPatterns, BaseLexer;
 
 channels {
     COMMENT_CHANNEL
@@ -104,22 +104,8 @@ AVG: A V G ;
 // other functions
 TERMINOLOGY: T E R M I N O L O G Y ;
 
-// other, identifiers
-PARAMETER: '$' IDENTIFIER_CHAR;
-
-
-
-
 //
 //  ======================= Lexical rules ========================
-//  The followings are copies of https://github.com/openEHR/adl-antlr/blob/master/src/main/antlr/adl2/base_lexer.g4 rules, with some modifications required by AQL
-//
-
-// ---------- various ADL2 codes -------
-
-ID_CODE      : 'id' CODE_STR ;
-AT_CODE      : 'at' CODE_STR ;
-fragment CODE_STR : ('0' | [1-9][0-9]*)+ ( '.' ('0' | [1-9][0-9]* ))* ;
 
 // ---------- Delimited Regex matcher ------------
 
@@ -127,77 +113,9 @@ CONTAINED_REGEX: '{'WS* SLASH_REGEX WS* (';' WS* STRING)? WS* '}';
 fragment SLASH_REGEX: '/' SLASH_REGEX_CHAR+ '/';
 fragment SLASH_REGEX_CHAR: ~[/\n\r] | ESCAPE_SEQ | '\\/';
 
-// ------------------- special word symbols --------------
-
-fragment SYM_TRUE: T R U E ;
-fragment SYM_FALSE: F A L S E ;
-
-// ---------------------- Identifiers ---------------------
-
-ARCHETYPE_HRID      : ARCHETYPE_HRID_ROOT '.v' VERSION_ID ;
-fragment ARCHETYPE_HRID_ROOT : (NAMESPACE '::')? IDENTIFIER_CHAR '-' IDENTIFIER_CHAR '-' IDENTIFIER_CHAR '.' ARCHETYPE_CONCEPT_ID ;
-fragment VERSION_ID          : DIGIT+ ('.' DIGIT+)* ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
-IDENTIFIER: IDENTIFIER_CHAR;
-fragment IDENTIFIER_CHAR : ALPHA_CHAR WORD_CHAR* ;
-fragment ARCHETYPE_CONCEPT_ID : ALPHA_CHAR NAME_CHAR* ;
-
 // --------------------- composed primitive types -------------------
-// coded term shortcut e.g. 'ICD10AM(1998)::F23', 'ISO_639-1::en' or 'snomed_ct(3.1)::3415004|cyanosis|'
-TERM_CODE : TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ('|' ~[|[\]]+ '|')?;
-fragment TERM_CODE_CHAR: NAME_CHAR | '.';
 
-// URIs - simple recogniser based on https://tools.ietf.org/html/rfc3986 and
-// http://www.w3.org/Addressing/URL/5_URI_BNF.html
-URI : URI_SCHEME ':' URI_HIER_PART ( '?' URI_QUERY )? ('#' URI_FRAGMENT)? ;
-
-fragment URI_HIER_PART : ( '//' URI_AUTHORITY ) URI_PATH_ABEMPTY
-    | URI_PATH_ABSOLUTE
-    | URI_PATH_ROOTLESS
-    | URI_PATH_EMPTY;
-
-fragment URI_SCHEME : ALPHA_CHAR ( ALPHA_CHAR | DIGIT | '+' | '-' | '.')* ;
-
-fragment URI_AUTHORITY : ( URI_USERINFO '@' )? URI_HOST ( ':' URI_PORT )? ;
-fragment URI_USERINFO: (URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' )* ;
-fragment URI_HOST : URI_IP_LITERAL | URI_IPV4_ADDRESS | URI_REG_NAME ; //TODO: ipv6
-fragment URI_PORT: DIGIT*;
-
-fragment URI_IP_LITERAL   : '[' URI_IPV6_LITERAL ']'; //TODO, if needed: IPvFuture
-fragment URI_IPV4_ADDRESS : URI_DEC_OCTET '.' URI_DEC_OCTET '.' URI_DEC_OCTET '.' URI_DEC_OCTET ;
-fragment URI_IPV6_LITERAL : HEX_QUAD (':' HEX_QUAD )* '::' HEX_QUAD (':' HEX_QUAD )* ;
-
-fragment URI_DEC_OCTET  : DIGIT | [1-9] DIGIT | '1' DIGIT DIGIT | '2' [0-4] DIGIT | '25' [0-5];
-fragment URI_REG_NAME: (URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS)*;
-fragment HEX_QUAD : HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
-
-fragment URI_PATH_ABEMPTY: ('/' URI_SEGMENT ) *;
-fragment URI_PATH_ABSOLUTE: '/' ( URI_SEGMENT_NZ ( '/' URI_SEGMENT )* )?;
-fragment URI_PATH_NOSCHEME: URI_SEGMENT_NZ_NC ( '/' URI_SEGMENT )*;
-fragment URI_PATH_ROOTLESS: URI_SEGMENT_NZ ( '/' URI_SEGMENT )*;
-fragment URI_PATH_EMPTY: ;
-
-fragment URI_SEGMENT: URI_PCHAR*;
-fragment URI_SEGMENT_NZ: URI_PCHAR+;
-fragment URI_SEGMENT_NZ_NC: ( URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | '@' )+; //non-zero-length segment without any colon ":"
-
-fragment URI_PCHAR: URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' | '@';
-
-//fragment URI_PATH   : '/' | ( '/' URI_XPALPHA+ )+ ('/')?;
-fragment URI_QUERY : (URI_PCHAR | '/' | '?')*;
-fragment URI_FRAGMENT  : (URI_PCHAR | '/' | '?')*;
-
-fragment URI_PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
-
-fragment URI_UNRESERVED: ALPHA_CHAR | DIGIT | '-' | '.' | '_' | '~';
-fragment URI_RESERVED: URI_GEN_DELIMS | URI_SUB_DELIMS;
-fragment URI_GEN_DELIMS: ':' | '/' | '?' | '#' | '[' | ']' | '@'; //TODO: migrate to [/?#...] notation
-fragment URI_SUB_DELIMS: '!' | '$' | '&' | '\'' | '(' | ')'
-                         | '*' | '+' | ',' | ';' | '=';
-
-// According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and http://tools.ietf.org/html/rfc1035[RFC 1035],
-// as clarified by http://tools.ietf.org/html/rfc2181[RFC 2181] (section 11)
-fragment NAMESPACE: LABEL ('.' LABEL)* ;
-fragment LABEL: ALPHA_CHAR (NAME_CHAR|URI_PCT_ENCODED)* ;
+AQL_URI: URI ;
 
 // --------------------- atomic primitive types -------------------
 
@@ -229,49 +147,28 @@ STRING
     | SYM_DOUBLE_QUOTE ( ESCAPE_SEQ | UTF8CHAR | OCTAL_ESC | ~('\\'|'"') )* SYM_DOUBLE_QUOTE
     ;
 
-fragment ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
-
-// ------------------- character fragments ------------------
-
-fragment NAME_CHAR: WORD_CHAR | '-' ;
-fragment WORD_CHAR: ALPHANUM_CHAR | '_' ;
-fragment ALPHANUM_CHAR: ALPHA_CHAR | DIGIT ;
-
-fragment ALPHA_CHAR: [a-zA-Z];
-fragment UTF8CHAR: '\\u' HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
-
-fragment DIGIT: [0-9];
-fragment HEX_DIGIT: [0-9a-fA-F];
-
-fragment OCTAL_ESC: '\\' [0-3] OCTAL_DIGIT OCTAL_DIGIT | '\\' OCTAL_DIGIT OCTAL_DIGIT | '\\' OCTAL_DIGIT;
-fragment OCTAL_DIGIT: [0-7];
-
 // ---------- symbols ----------
 
-SYM_SEMICOLON: ';' ;
 SYM_LT: '<' ;
 SYM_GT: '>' ;
 SYM_LE: '<=' ;
 SYM_GE: '>=' ;
 SYM_NE: '!=' ;
 SYM_EQ: '=' ;
-SYM_LEFT_PAREN: '(' ;
-SYM_RIGHT_PAREN: ')' ;
-SYM_COMMA: ',';
 
 SYM_SLASH: '/';
 SYM_ASTERISK: '*';
 SYM_PLUS: '+';
 SYM_MINUS: '-';
 
-SYM_LEFT_BRACKET: '[';
-SYM_RIGHT_BRACKET: ']';
-SYM_LEFT_CURLY: '{';
-SYM_RIGHT_CURLY: '}';
 SYM_DOUBLE_DASH: '--';
 
 fragment SYM_SINGLE_QUOTE: '\'';
 fragment SYM_DOUBLE_QUOTE: '"';
+
+// general identifiers
+PARAMETER: '$' IDENTIFIER;
+IDENTIFIER: ALPHA_CHAR WORD_CHAR* ;
 
 // ------------------- Fragment letters ---------------------
 fragment A: [aA];
