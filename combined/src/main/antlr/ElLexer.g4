@@ -1,5 +1,5 @@
 //
-//  description: Antlr4 grammar for openEHR Expression Language.
+//  description: Antlr4 grammar for openEHR Expression Language baed on BMM meta-model.
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -45,12 +45,7 @@ SYM_IMPLIES  : [Ii][Mm][Pp][Ll][Ii][Ee][Ss] | '⇒' ;
 SYM_FOR_ALL  : 'for_all' | '∀' ;
 SYM_THERE_EXISTS: 'there_exists' | '∃' ;
 SYM_EXISTS   : 'exists' ;
+SYM_DEFINED  : 'defined' ;
 SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
-
-// TODO: remove when [] path predicates supported
-SYM_IN: 'in' ;
-
-// TODO: remove when [] path predicates supported
-VARIABLE_WITH_PATH: VARIABLE_ID ADL_PATH ;
 
 VARIABLE_ID: '$' LC_ID ;

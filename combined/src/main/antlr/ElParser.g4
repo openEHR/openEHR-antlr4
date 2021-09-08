@@ -1,5 +1,5 @@
 //
-//  description: Antlr4 grammar for openEHR Expression Language.
+//  description: Antlr4 grammar for openEHR Expression Language baed on BMM meta-model.
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -29,17 +29,7 @@ variableDeclaration: variableName ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
 constantDeclaration: constantName ':' typeId  ( SYM_EQ primitiveObject )? ;
 
-assignment:
-      binding
-    | localAssignment
-    ;
-
-//
-// The following is the means of binding a data context path to a local variable
-// TODO: remove this rule when proper external bindings are supported
-binding: variableName SYM_ASSIGNMENT rawPath ;
-
-localAssignment: variableName SYM_ASSIGNMENT expression ;
+assignment: variableName SYM_ASSIGNMENT expression ;
 
 assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 
@@ -73,11 +63,11 @@ booleanLeaf:
       booleanLiteral
     | forAllExpr
     | thereExistsExpr
-    | SYM_EXISTS ( rawPath | variableSubPath )
     | '(' booleanExpr ')'
     | relationalExpr
     | equalityExpr
     | constraintExpr
+    | SYM_DEFINED '(' valueRef ')'
     | valueRef
     ;
 
@@ -89,9 +79,9 @@ booleanLiteral:
 //
 //  Universal and existential quantifier
 // TODO: 'in' probably isn't needed in the long term
-forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
+forAllExpr: SYM_FOR_ALL VARIABLE_ID ':' valueRef '|'? booleanExpr ;
 
-thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
+thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ':' valueRef '|'? booleanExpr ;
 
 // Constraint expressions
 // This provides a way of using one operator (matches) to compare a
@@ -164,19 +154,11 @@ relationalBinop:
 //
 valueRef:
       functionCall
-    | rawPath
-    | variableSubPath
     | variableName
     | constantName
     ;
 
 variableName: VARIABLE_ID ;
-
-// TODO: change to [] form, e.g.     book_list [{title.contains("Quixote")}]
-variableSubPath: VARIABLE_WITH_PATH;
-
-// TODO: Remove this rule when external binding supported
-rawPath: ADL_PATH ;
 
 constantName: UC_ID ;
 
