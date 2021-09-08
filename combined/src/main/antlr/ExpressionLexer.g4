@@ -1,5 +1,6 @@
 //
-//  description: Antlr4 grammar for openEHR Expression Language.
+//  description: Antlr4 grammar for 'old' openEHR Expression Language specified at
+//               https://specifications.openehr.org/releases/BASE/Release-1.0.4/expression.html
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>

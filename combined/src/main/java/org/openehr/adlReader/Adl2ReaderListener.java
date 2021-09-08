@@ -10,6 +10,7 @@ import org.openehr.cadlReader.CadlReader;
 import org.openehr.combinedparser.Adl2Parser;
 import org.openehr.combinedparser.Adl2ParserListener;
 import org.openehr.elReader.ElReader;
+import org.openehr.expressionReader.ExpressionReader;
 import org.openehr.odinReader.OdinReader;
 
 import java.util.List;
@@ -24,7 +25,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
 		cadlReader = new CadlReader (logging, keepAntlrErrors);
-		elReader = new ElReader (logging, keepAntlrErrors);
+		expressionReader = new ExpressionReader (logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
 	}
 
@@ -253,8 +254,8 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterRulesSection (Adl2Parser.RulesSectionContext ctx) {
-		elReader.read (textToCharStream (ctx.elText().EL_LINE()), "el", ctx.RULES_HEADER().getSymbol().getLine());
-		errorCollector.setRulesErrors (elReader.getErrors());
+		expressionReader.read (textToCharStream (ctx.elText().EL_LINE()), "el", ctx.RULES_HEADER().getSymbol().getLine());
+		errorCollector.setRulesErrors (expressionReader.getErrors());
 	}
 
 	/**
@@ -416,7 +417,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 
 	private final OdinReader odinReader;
 	private final CadlReader cadlReader;
-	private final ElReader elReader;
+	private final ExpressionReader expressionReader;
 
 	private final Adl2ReaderErrors errorCollector;
 

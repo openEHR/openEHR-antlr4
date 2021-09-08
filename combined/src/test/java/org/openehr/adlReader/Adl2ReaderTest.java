@@ -8,6 +8,7 @@ import org.openehr.aqlReader.AqlReader;
 import org.openehr.cadlReader.CadlReader;
 import org.openehr.common.SyntaxReader;
 import org.openehr.elReader.ElReader;
+import org.openehr.expressionReader.ExpressionReader;
 import org.openehr.odinReader.OdinReader;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
@@ -35,9 +36,22 @@ public class Adl2ReaderTest {
         runTest ("cadl", "cadl", new CadlReader (false, false));
     }
 
+    /**
+     * Test BMM-based EL grammar
+     * @throws IOException
+     */
     @Test
     public void testAllEl() throws IOException {
         runTest ("el", "el", new ElReader(false, false));
+    }
+
+    /**
+     * Test old Expression grammar in use up to ADL 2.2
+     * @throws IOException
+     */
+    @Test
+    public void testAllExpression() throws IOException {
+        runTest ("el", "expression", new ExpressionReader(false, false));
     }
 
     @Test
