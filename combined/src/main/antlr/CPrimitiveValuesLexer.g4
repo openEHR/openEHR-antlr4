@@ -27,13 +27,33 @@ fragment HOUR_PATTERN   : 'hh' | 'HH' | '??' | 'XX' | 'xx'  ;
 fragment MINUTE_PATTERN : 'mm' | 'MM' | '??' | 'XX' | 'xx'  ;
 fragment SECOND_PATTERN : 'ss' | 'SS' | '??' | 'XX' | 'xx'  ;
 
-
-// ---------- Delimited Regex matcher ------------
-// This matches a regex with caret ('^') delimiters
-DELIMITED_REGEX: '^' REGEX_CHAR+ '^' ;
-fragment REGEX_CHAR: REGEX_ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
-fragment REGEX_ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
-
 // -------------------- Symbols ------------------------
 
 SYM_SLASH: '/' ;
+
+// ---------- Delimited Regex matcher ------------
+// This matches a regex and performs a small trick by matching
+// the surrounding {} as well, which is the only context in
+// which regexes are allowed. It thus matches the combination
+// of the '{' and either the '/' or '^', and similarly at the
+// end, but in both cases returns only the '{' or '} tokens.
+// Then it matches what's inside the '{/' or '{^' delimiters
+// and adds back in the required '/' or '^' characters, to
+// reproduce the slash- or caret-delimited regex string as
+// expected by later processing. This trick enables regexes
+// to be recognised only within {}, but handled by the parser
+// as if they were matched separately from the {}.
+REGEX_START_CARET: '{^' -> type (SYM_LCURLY), mode(REGEX_CARET);
+REGEX_START_SLASH: '{/' -> type (SYM_LCURLY), mode(REGEX_SLASH);
+
+mode REGEX_CARET;
+REGEX_END_CARET: '^}' -> type (SYM_RCURLY), mode(DEFAULT_MODE);
+REGEX_SEMI_CARET: '^;' -> type (SYM_SEMI_COLON), mode(DEFAULT_MODE);
+DELIMITED_REGEX: CARET_REGEX_CHAR+ { setText ("^" + getText() + "^"); } ;
+fragment CARET_REGEX_CHAR: ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
+
+mode REGEX_SLASH;
+REGEX_END_SLASH: '/}' -> type (SYM_RCURLY), mode(DEFAULT_MODE);
+REGEX_SEMI_SLASH: '/;' -> type (SYM_SEMI_COLON), mode(DEFAULT_MODE);
+DELIMITED_REGEX_SLASH: SLASH_REGEX_CHAR+ { setText ("/" + getText() + "/"); } -> type (DELIMITED_REGEX) ;
+fragment SLASH_REGEX_CHAR: ESCAPE_SEQ | '\\/' | ~[/\n\r] ;

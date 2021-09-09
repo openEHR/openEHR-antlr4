@@ -53,8 +53,6 @@ cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | duratio
     ;
 assumedDurationValue: ';' durationValue ;
 
-// The following could be used if only caret-delimited regexes were allowed
-//cString: ( stringValue | stringListValue | CARET_REGEX ) assumedStringValue? ;
 cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
 assumedStringValue: ';' stringValue ;
 

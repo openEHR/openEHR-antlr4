@@ -91,24 +91,6 @@ CMT_LINE2               : CMT_LINE -> channel(COMMENT), type (CMT_LINE) ;
 RULES_HEADER            : SYM_RULES WS? EOL -> mode (RULES);
 TERMINOLOGY_HEADER      : SYM_TERMINOLOGY WS? EOL -> mode (TERMINOLOGY);
 RM_OVERLAY_HEADER       : SYM_RM_OVERLAY WS? EOL -> mode (RM_OVERLAY);
-
-// this rule is used to rewrite slash regexes to the caret
-// form, which greatly simplifies the Cadl parser, since carets don't
-// get confused with paths and other patterns with slashes.
-// Typical examples:
-//   string_attr2 matches {/this|that|something else/; "this"}
-//   archetype_id/value matches {/openEHR-EHR-OBSERVATION\.blood_pressure([a-zA-Z0-9_]+)*\.v1/}
-SLASH_REGEX_LINE        : ~[{\n]+ '{/' SLASH_REGEX_CHAR+ '/' [};] NON_EOL* EOL
-    {
-        setText (
-            getText()
-                .replace("{/", "{^")
-                .replace("/}", "^}")
-                .replace("/;", "^;")
-        );
-    }
-    -> type (CADL_LINE)
-    ;
 CADL_LINE               : NON_EOL* EOL ;
 fragment SYM_RULES      : [Rr][Uu][Ll][Ee][Ss] ;
 fragment SYM_RM_OVERLAY : [Rr][Mm]'_'[Oo][Vv][Ee][Rr][Ll][Aa][Yy] ;
