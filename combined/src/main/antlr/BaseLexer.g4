@@ -105,9 +105,12 @@ GUID : HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ ;
 
 // --------------------- atomic primitive types ----------------------
 
-INTEGER : DIGIT+ E_SUFFIX? ;
-REAL :    DIGIT+ '.' DIGIT+ E_SUFFIX? ;
+INTEGER     : DIGIT+ ;
+REAL        : DIGIT+ '.' DIGIT+ ? ;
+SCI_INTEGER : INTEGER ( E_SUFFIX | P10_SUFFIX ) ;
+SCI_REAL    : REAL ( E_SUFFIX | P10_SUFFIX ) ;
 fragment E_SUFFIX : [eE][+-]? DIGIT+ ;
+fragment P10_SUFFIX : [ ]* 'x' [ ]* '10' [ ]* '^' [ ]* DIGIT+ ;
 
 STRING : '"' STRING_CHAR*? '"' ;
 fragment STRING_CHAR : ~["\\] | ESCAPE_SEQ | UTF8CHAR ; // strings can be multi-line

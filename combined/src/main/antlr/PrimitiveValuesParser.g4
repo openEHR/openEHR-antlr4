@@ -53,7 +53,7 @@ primitiveIntervalValue :
 stringValue : STRING ;
 stringListValue : stringValue ( ( ',' stringValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-integerValue : ( SYM_PLUS | SYM_MINUS )? INTEGER ;
+integerValue : ( SYM_PLUS | SYM_MINUS )? ( INTEGER | SCI_INTEGER ) ;
 integerListValue : integerValue ( ( ',' integerValue )+ | ',' SYM_LIST_CONTINUE ) ;
 integerIntervalValue :
       '|' SYM_GT? integerValue '..' SYM_LT? integerValue '|'
@@ -62,7 +62,7 @@ integerIntervalValue :
     ;
 integerIntervalListValue : integerIntervalValue ( ( ',' integerIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-realValue : ( SYM_PLUS | SYM_MINUS )? REAL ;
+realValue : ( SYM_PLUS | SYM_MINUS )? ( REAL | SCI_REAL ) ;
 realListValue : realValue ( ( ',' realValue )+ | ',' SYM_LIST_CONTINUE ) ;
 realIntervalValue :
       '|' SYM_GT? realValue '..' SYM_LT? realValue '|'

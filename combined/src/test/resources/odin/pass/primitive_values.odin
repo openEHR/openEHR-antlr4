@@ -16,6 +16,8 @@ object = <
     integer_attr10 = <|<=10|>
     integer_attr11 = <|-10..-5|>
     integer_attr12 = <10>
+    integer_attr13 = <|5x10^9..22x10^9|>
+    integer_attr14 = <|5 x 10^9..22 x 10^9|>
     real_attr1 = <100.0>
     real_attr2 = <10.0, 20.0, 30.0>
     real_attr3 = <|0.0..100.0|>
