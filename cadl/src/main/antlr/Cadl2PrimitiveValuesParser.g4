@@ -8,8 +8,8 @@
 // license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-parser grammar CPrimitiveValuesParser;
-options { tokenVocab=CPrimitiveValuesLexer; }
+parser grammar Cadl2PrimitiveValuesParser;
+options { tokenVocab=Cadl2PrimitiveValuesLexer; }
 import PrimitiveValuesParser;
 
 cInlinePrimitiveObject:
@@ -25,6 +25,9 @@ cInlinePrimitiveObject:
     ;
 
 // ------------ Primitive type constraints -------------
+
+cBoolean: ( booleanValue | booleanListValue ) assumedBooleanValue? ;
+assumedBooleanValue: ';' booleanValue ;
 
 cInteger: ( integerValue | integerListValue | integerIntervalValue | integerIntervalListValue ) assumedIntegerValue? ;
 assumedIntegerValue: ';' integerValue ;
@@ -46,15 +49,11 @@ cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | duratio
     ;
 assumedDurationValue: ';' durationValue ;
 
-cString: ( stringValue | stringListValue | regexConstraint ) assumedStringValue? ;
-regexConstraint: SLASH_REGEX | CARET_REGEX ;
+cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]
 // NOTE: an assumed at-code (the ';' AT_CODE pattern) can only occur after an ac-code not after the single at-code
 cTerminologyCode: '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']' ;
-
-cBoolean: ( booleanValue | booleanListValue ) assumedBooleanValue? ;
-assumedBooleanValue: ';' booleanValue ;
 
 

@@ -10,13 +10,17 @@
 // license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-lexer grammar CadlLexer;
-import CPrimitiveValuesLexer, PathLexer, BaseLexer;
+lexer grammar Cadl2Lexer;
+import PathLexer, OpenehrPatterns, Cadl2PrimitiveValuesLexer, BaseLexer, GeneralLexer;
+
+channels {
+    COMMENT
+}
 
 // ------------------ lines and comments ------------------
-CMT_LINE : '--' .*? EOL -> skip ;             // increment line count
-EOL      : '\r'? '\n'   -> channel(HIDDEN) ;  // increment line count
-WS       : [ \t\r]+     -> channel(HIDDEN) ;
+CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
+EOL      : '\r'? '\n'   -> skip ;
+WS       : [ \t\r]+     -> skip ;
 
 // ----------------------- keywords -----------------------
 SYM_EXISTENCE   : [Ee][Xx][Ii][Ss][Tt][Ee][Nn][Cc][Ee] ;
@@ -47,14 +51,16 @@ SYM_SLASH: '/' ;
 SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
 
-// ------------------ default blocks --------------------
+// ----------------------- default blocks --------------------------
 DEFAULT_BLOCK_START : '_'[Dd][Ee][Ff][Aa][Uu][Ll][Tt] WS? '=' -> mode (OBJECT_BLOCK);
+
+// -------------------------- Modal lexers -----------------------------
 
 // modes to grab included object blocks; these do explicit whitespace handling
 // since they have to capture everything so it can be passed to other parsers
 mode OBJECT_BLOCK ;
-SERIAL_BLOCK_START: WS? '(' ALPHA_CHAR WORD_CHAR* ')' WS? '<#' WS? EOL -> mode (SERIAL_BLOCK);
-ODIN_BLOCK_START: WS? '(' ALPHA_CHAR WORD_CHAR* ')' WS? '<' WS? EOL -> mode (ODIN_BLOCK);
+SERIAL_BLOCK_START: WS? '(' ALPHA_CHAR ALPHANUM_US_CHAR* ')' WS? '<#' WS? EOL -> mode (SERIAL_BLOCK);
+ODIN_BLOCK_START: WS? '(' ALPHA_CHAR ALPHANUM_US_CHAR* ')' WS? '<' WS? EOL -> mode (ODIN_BLOCK);
 WS2 : WS -> channel(HIDDEN) ;
 
 mode SERIAL_BLOCK ;

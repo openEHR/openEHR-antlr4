@@ -10,7 +10,7 @@
 // license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-lexer grammar CPrimitiveValuesLexer;
+lexer grammar Cadl2PrimitiveValuesLexer;
 import OpenehrPatterns, PrimitiveValuesLexer;
 
 // ---------- ISO8601-based date/time/duration constraint patterns

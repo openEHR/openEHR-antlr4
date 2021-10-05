@@ -21,14 +21,16 @@ odinObject : ( odinAttrVal+ | odinObjectValueBlock ) EOF? ;
 
 odinAttrVal : odinAttrName '=' odinObjectBlock ';'? ;
 
-odinAttrName : ALPHA_UC_ID | ALPHA_UNDERSCORE_ID | rmAttributeId ;
+odinAttrName : UC_ID | LC_ID ;
 
 odinObjectBlock :
       odinObjectValueBlock
     | odinObjectReferenceBlock
     ;
 
-odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | URI )? '>' ;
+// TODO: naked URIs are allowed only in this context; future versions of ODIN will
+// only allow them as quoted Strings
+odinObjectValueBlock : rmTypeSpec? '<' ( primitiveObject | odinAttrVal+ | odinKeyedObject+ | ODIN_URI )? '>' ;
 rmTypeSpec : '(' rmTypeId ')' ;
 
 odinKeyedObject : odinKeySpec '=' odinObjectBlock ;
@@ -38,9 +40,10 @@ odinKeySpec: '[' primitiveValue ']' ;
 
 odinObjectReferenceBlock : '<' odinPathList '>' ;
 
-odinPathList : ODIN_PATH ( ',' SYM_LIST_CONTINUE | ( ',' ODIN_PATH )+ )? ;
+odinPathList : odinPath ( ',' SYM_LIST_CONTINUE | ( ',' odinPath )+ )? ;
+
+odinPath : odinKeySpec? odinPathSegment+ ;
+odinPathSegment: '/' LC_ID odinKeySpec? ;
 
 // ---------------- model identifiers --------------
-rmTypeId      : ALPHA_UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
-rmAttributeId : ALPHA_LC_ID ;
-
+rmTypeId : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
