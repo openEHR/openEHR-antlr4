@@ -60,7 +60,7 @@ whereExpr
     ;
 
 orderByExpr
-    : identifiedPath order=(DESCENDING|DESC|ASCENDING|ASC)?
+    : identifiedPath order=( DESCENDING | DESC | ASCENDING | ASC )?
     ;
 
 columnExpr
@@ -87,7 +87,7 @@ identifiedExpr
     ;
 
 classExprOperand
-    : IDENTIFIER variable=IDENTIFIER? pathPredicate?                                       #classExpression
+    : IDENTIFIER variable=IDENTIFIER? pathPredicate?                              #classExpression
     | VERSION variable=IDENTIFIER? (SYM_LBRACKET versionPredicate SYM_RBRACKET)?  #versionClassExpr
     ;
 
@@ -116,8 +116,8 @@ archetypePredicate
     ;
 
 nodePredicate
-    : (ID_CODE | AT_CODE) (SYM_COMMA (STRING | PARAMETER | TERM_CODE | AT_CODE | ID_CODE))?
-    | ARCHETYPE_HRID (SYM_COMMA (STRING | PARAMETER | TERM_CODE | AT_CODE | ID_CODE))?
+    : (ID_CODE | AT_CODE) (SYM_COMMA (STRING | PARAMETER | COMPACT_TERM_CODE | AT_CODE | ID_CODE))?
+    | ARCHETYPE_HRID (SYM_COMMA (STRING | PARAMETER | COMPACT_TERM_CODE | AT_CODE | ID_CODE))?
     | PARAMETER
     | objectPath COMPARISON_OPERATOR pathPredicateOperand
     | objectPath MATCHES CONTAINED_REGEX

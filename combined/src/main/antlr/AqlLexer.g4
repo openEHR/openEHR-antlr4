@@ -162,7 +162,7 @@ fragment SYM_DOUBLE_QUOTE: '"';
 
 // general identifiers
 PARAMETER: '$' IDENTIFIER;
-IDENTIFIER: ALPHA_CHAR WORD_CHAR* ;
+IDENTIFIER: ALPHA_CHAR ALPHANUM_US_CHAR* ;
 
 // ------------------- Fragment letters ---------------------
 fragment A: [aA];
