@@ -5,7 +5,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.Test;
 import org.openehr.aqlReader.AqlReader;
-import org.openehr.cadlReader.CadlReader;
+import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.common.SyntaxReader;
 import org.openehr.elReader.ElReader;
 import org.openehr.expressionReader.ExpressionReader;
@@ -32,8 +32,8 @@ public class Adl2ReaderTest {
     }
 
     @Test
-    public void testAllCadl() throws IOException {
-        runTest ("cadl", "cadl", new CadlReader (false, false));
+    public void testAllCadl2() throws IOException {
+        runTest ("cadl", "cadl", new Cadl2Reader(false, false));
     }
 
     /**
@@ -60,7 +60,7 @@ public class Adl2ReaderTest {
     }
 
     @Test
-    public void testAllAdl() throws IOException {
+    public void testAllAdl2() throws IOException {
         runTest ("adls", "adl2", new Adl2Reader(false, false));
     }
 

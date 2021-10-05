@@ -1,196 +1,187 @@
-// Generated from CadlParser.g4 by ANTLR 4.9.2
+// Generated from Cadl2Parser.g4 by ANTLR 4.9.2
 package org.openehr.cadlReader;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.openehr.combinedparser.CadlParser;
-import org.openehr.combinedparser.CadlParserListener;
+import org.openehr.combinedparser.Cadl2Parser;
+import org.openehr.combinedparser.Cadl2ParserListener;
 
 /**
- * This class provides an empty implementation of {@link CadlParserListener},
+ * This class provides an empty implementation of {@link Cadl2ParserListener},
  * which can be extended to create a listener which only needs to handle a subset
  * of the available methods.
  */
-public class CadlReaderListener implements CadlParserListener {
+public class Cadl2ReaderListener implements Cadl2ParserListener {
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCComplexObject(CadlParser.CComplexObjectContext ctx) { }
+	@Override public void enterCComplexObject(Cadl2Parser.CComplexObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCComplexObject(CadlParser.CComplexObjectContext ctx) { }
+	@Override public void exitCComplexObject(Cadl2Parser.CComplexObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCComplexObjectDef(CadlParser.CComplexObjectDefContext ctx) { }
+	@Override public void enterCComplexObjectDef(Cadl2Parser.CComplexObjectDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCComplexObjectDef(CadlParser.CComplexObjectDefContext ctx) { }
+	@Override public void exitCComplexObjectDef(Cadl2Parser.CComplexObjectDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNodeId(CadlParser.NodeIdContext ctx) { }
+	@Override public void enterNodeId(Cadl2Parser.NodeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNodeId(CadlParser.NodeIdContext ctx) { }
+	@Override public void exitNodeId(Cadl2Parser.NodeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterNodeIdCode(CadlParser.NodeIdCodeContext ctx) { }
+	@Override public void enterNodeIdCode(Cadl2Parser.NodeIdCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitNodeIdCode(CadlParser.NodeIdCodeContext ctx) { }
+	@Override public void exitNodeIdCode(Cadl2Parser.NodeIdCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCAttributes(CadlParser.CAttributesContext ctx) { }
+	@Override public void enterCAttributes(Cadl2Parser.CAttributesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCAttributes(CadlParser.CAttributesContext ctx) { }
+	@Override public void exitCAttributes(Cadl2Parser.CAttributesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCAttribute(CadlParser.CAttributeContext ctx) { }
+	@Override public void enterCAttribute(Cadl2Parser.CAttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCAttribute(CadlParser.CAttributeContext ctx) { }
+	@Override public void exitCAttribute(Cadl2Parser.CAttributeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCAttributeDef(CadlParser.CAttributeDefContext ctx) { }
+	@Override public void enterCAttributeDef(Cadl2Parser.CAttributeDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCAttributeDef(CadlParser.CAttributeDefContext ctx) { }
+	@Override public void exitCAttributeDef(Cadl2Parser.CAttributeDefContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCRegularObjectOrdered(CadlParser.CRegularObjectOrderedContext ctx) { }
+	@Override public void enterCRegularObjectOrdered(Cadl2Parser.CRegularObjectOrderedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCRegularObjectOrdered(CadlParser.CRegularObjectOrderedContext ctx) { }
+	@Override public void exitCRegularObjectOrdered(Cadl2Parser.CRegularObjectOrderedContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSiblingOrder(CadlParser.SiblingOrderContext ctx) { }
+	@Override public void enterSiblingOrder(Cadl2Parser.SiblingOrderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSiblingOrder(CadlParser.SiblingOrderContext ctx) { }
+	@Override public void exitSiblingOrder(Cadl2Parser.SiblingOrderContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCRegularObject(CadlParser.CRegularObjectContext ctx) { }
+	@Override public void enterCRegularObject(Cadl2Parser.CRegularObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCRegularObject(CadlParser.CRegularObjectContext ctx) { }
+	@Override public void exitCRegularObject(Cadl2Parser.CRegularObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCArchetypeRoot(CadlParser.CArchetypeRootContext ctx) { }
+	@Override public void enterCArchetypeRoot(Cadl2Parser.CArchetypeRootContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCArchetypeRoot(CadlParser.CArchetypeRootContext ctx) { }
+	@Override public void exitCArchetypeRoot(Cadl2Parser.CArchetypeRootContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCComplexObjectProxy(CadlParser.CComplexObjectProxyContext ctx) { }
+	@Override public void enterCComplexObjectProxy(Cadl2Parser.CComplexObjectProxyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCComplexObjectProxy(CadlParser.CComplexObjectProxyContext ctx) { }
+	@Override public void exitCComplexObjectProxy(Cadl2Parser.CComplexObjectProxyContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCRegularPrimitiveObject(CadlParser.CRegularPrimitiveObjectContext ctx) { }
+	@Override public void enterCRegularPrimitiveObject(Cadl2Parser.CRegularPrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCRegularPrimitiveObject(CadlParser.CRegularPrimitiveObjectContext ctx) { }
+	@Override public void exitCRegularPrimitiveObject(Cadl2Parser.CRegularPrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArchetypeSlot(CadlParser.ArchetypeSlotContext ctx) {
+	@Override public void enterArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) {
 	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArchetypeSlot(CadlParser.ArchetypeSlotContext ctx) {
-	}
-
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCIncludes(CadlParser.CIncludesContext ctx) {
-
+	@Override public void exitArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) {
 	}
 
 	/**
@@ -198,7 +189,8 @@ public class CadlReaderListener implements CadlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCIncludes(CadlParser.CIncludesContext ctx) {
+	@Override public void enterCIncludes(Cadl2Parser.CIncludesContext ctx) {
+
 	}
 
 	/**
@@ -206,7 +198,7 @@ public class CadlReaderListener implements CadlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCExcludes(CadlParser.CExcludesContext ctx) {
+	@Override public void exitCIncludes(Cadl2Parser.CIncludesContext ctx) {
 	}
 
 	/**
@@ -214,14 +206,22 @@ public class CadlReaderListener implements CadlParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCExcludes(CadlParser.CExcludesContext ctx) { }
+	@Override public void enterCExcludes(Cadl2Parser.CExcludesContext ctx) {
+	}
+
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCExcludes(Cadl2Parser.CExcludesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
 
-	@Override public void enterArchetypeIdConstraint(CadlParser.ArchetypeIdConstraintContext ctx) {
+	@Override public void enterArchetypeIdConstraint(Cadl2Parser.ArchetypeIdConstraintContext ctx) {
 	}
 	/**
 	 * {@inheritDoc}
@@ -229,909 +229,909 @@ public class CadlReaderListener implements CadlParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 
-	@Override public void exitArchetypeIdConstraint(CadlParser.ArchetypeIdConstraintContext ctx) { }
+	@Override public void exitArchetypeIdConstraint(Cadl2Parser.ArchetypeIdConstraintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArchetypeIdPath(CadlParser.ArchetypeIdPathContext ctx) {
+	@Override public void enterArchetypeIdPath(Cadl2Parser.ArchetypeIdPathContext ctx) {
 	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArchetypeIdPath(CadlParser.ArchetypeIdPathContext ctx) { }
+	@Override public void exitArchetypeIdPath(Cadl2Parser.ArchetypeIdPathContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCAttributeTuple(CadlParser.CAttributeTupleContext ctx) { }
+	@Override public void enterCAttributeTuple(Cadl2Parser.CAttributeTupleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCAttributeTuple(CadlParser.CAttributeTupleContext ctx) { }
+	@Override public void exitCAttributeTuple(Cadl2Parser.CAttributeTupleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCAttributeTupleAttrs(CadlParser.CAttributeTupleAttrsContext ctx) { }
+	@Override public void enterCAttributeTupleAttrs(Cadl2Parser.CAttributeTupleAttrsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCAttributeTupleAttrs(CadlParser.CAttributeTupleAttrsContext ctx) { }
+	@Override public void exitCAttributeTupleAttrs(Cadl2Parser.CAttributeTupleAttrsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCPrimitiveTuples(CadlParser.CPrimitiveTuplesContext ctx) { }
+	@Override public void enterCPrimitiveTuples(Cadl2Parser.CPrimitiveTuplesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCPrimitiveTuples(CadlParser.CPrimitiveTuplesContext ctx) { }
+	@Override public void exitCPrimitiveTuples(Cadl2Parser.CPrimitiveTuplesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCPrimitiveTuple(CadlParser.CPrimitiveTupleContext ctx) { }
+	@Override public void enterCPrimitiveTuple(Cadl2Parser.CPrimitiveTupleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCPrimitiveTuple(CadlParser.CPrimitiveTupleContext ctx) { }
+	@Override public void exitCPrimitiveTuple(Cadl2Parser.CPrimitiveTupleContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCExistence(CadlParser.CExistenceContext ctx) { }
+	@Override public void enterCExistence(Cadl2Parser.CExistenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCExistence(CadlParser.CExistenceContext ctx) { }
+	@Override public void exitCExistence(Cadl2Parser.CExistenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterExistence(CadlParser.ExistenceContext ctx) { }
+	@Override public void enterExistence(Cadl2Parser.ExistenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitExistence(CadlParser.ExistenceContext ctx) { }
+	@Override public void exitExistence(Cadl2Parser.ExistenceContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCCardinality(CadlParser.CCardinalityContext ctx) { }
+	@Override public void enterCCardinality(Cadl2Parser.CCardinalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCCardinality(CadlParser.CCardinalityContext ctx) { }
+	@Override public void exitCCardinality(Cadl2Parser.CCardinalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCardinality(CadlParser.CardinalityContext ctx) { }
+	@Override public void enterCardinality(Cadl2Parser.CardinalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCardinality(CadlParser.CardinalityContext ctx) { }
+	@Override public void exitCardinality(Cadl2Parser.CardinalityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCOccurrences(CadlParser.COccurrencesContext ctx) { }
+	@Override public void enterCOccurrences(Cadl2Parser.COccurrencesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCOccurrences(CadlParser.COccurrencesContext ctx) { }
+	@Override public void exitCOccurrences(Cadl2Parser.COccurrencesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMultiplicity(CadlParser.MultiplicityContext ctx) { }
+	@Override public void enterMultiplicity(Cadl2Parser.MultiplicityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMultiplicity(CadlParser.MultiplicityContext ctx) { }
+	@Override public void exitMultiplicity(Cadl2Parser.MultiplicityContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterMultiplicityMod(CadlParser.MultiplicityModContext ctx) { }
+	@Override public void enterMultiplicityMod(Cadl2Parser.MultiplicityModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitMultiplicityMod(CadlParser.MultiplicityModContext ctx) { }
+	@Override public void exitMultiplicityMod(Cadl2Parser.MultiplicityModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOrderingMod(CadlParser.OrderingModContext ctx) { }
+	@Override public void enterOrderingMod(Cadl2Parser.OrderingModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOrderingMod(CadlParser.OrderingModContext ctx) { }
+	@Override public void exitOrderingMod(Cadl2Parser.OrderingModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterUniqueMod(CadlParser.UniqueModContext ctx) { }
+	@Override public void enterUniqueMod(Cadl2Parser.UniqueModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitUniqueMod(CadlParser.UniqueModContext ctx) { }
+	@Override public void exitUniqueMod(Cadl2Parser.UniqueModContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefaultValue(CadlParser.DefaultValueContext ctx) { }
+	@Override public void enterDefaultValue(Cadl2Parser.DefaultValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDefaultValue(CadlParser.DefaultValueContext ctx) { }
+	@Override public void exitDefaultValue(Cadl2Parser.DefaultValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterSerialBlock(CadlParser.SerialBlockContext ctx) { }
+	@Override public void enterSerialBlock(Cadl2Parser.SerialBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitSerialBlock(CadlParser.SerialBlockContext ctx) { }
+	@Override public void exitSerialBlock(Cadl2Parser.SerialBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOdinBlock(CadlParser.OdinBlockContext ctx) { }
+	@Override public void enterOdinBlock(Cadl2Parser.OdinBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOdinBlock(CadlParser.OdinBlockContext ctx) { }
+	@Override public void exitOdinBlock(Cadl2Parser.OdinBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterOtherSerialBlock(CadlParser.OtherSerialBlockContext ctx) { }
+	@Override public void enterOtherSerialBlock(Cadl2Parser.OtherSerialBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitOtherSerialBlock(CadlParser.OtherSerialBlockContext ctx) { }
+	@Override public void exitOtherSerialBlock(Cadl2Parser.OtherSerialBlockContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRmTypeId(CadlParser.RmTypeIdContext ctx) { }
+	@Override public void enterRmTypeId(Cadl2Parser.RmTypeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRmTypeId(CadlParser.RmTypeIdContext ctx) { }
+	@Override public void exitRmTypeId(Cadl2Parser.RmTypeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRmAttributeId(CadlParser.RmAttributeIdContext ctx) { }
+	@Override public void enterRmAttributeId(Cadl2Parser.RmAttributeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRmAttributeId(CadlParser.RmAttributeIdContext ctx) { }
+	@Override public void exitRmAttributeId(Cadl2Parser.RmAttributeIdContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCInlinePrimitiveObject(CadlParser.CInlinePrimitiveObjectContext ctx) { }
+	@Override public void enterCInlinePrimitiveObject(Cadl2Parser.CInlinePrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCInlinePrimitiveObject(CadlParser.CInlinePrimitiveObjectContext ctx) { }
+	@Override public void exitCInlinePrimitiveObject(Cadl2Parser.CInlinePrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCInteger(CadlParser.CIntegerContext ctx) { }
+	@Override public void enterCInteger(Cadl2Parser.CIntegerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCInteger(CadlParser.CIntegerContext ctx) { }
+	@Override public void exitCInteger(Cadl2Parser.CIntegerContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedIntegerValue(CadlParser.AssumedIntegerValueContext ctx) { }
+	@Override public void enterAssumedIntegerValue(Cadl2Parser.AssumedIntegerValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedIntegerValue(CadlParser.AssumedIntegerValueContext ctx) { }
+	@Override public void exitAssumedIntegerValue(Cadl2Parser.AssumedIntegerValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCReal(CadlParser.CRealContext ctx) { }
+	@Override public void enterCReal(Cadl2Parser.CRealContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCReal(CadlParser.CRealContext ctx) { }
+	@Override public void exitCReal(Cadl2Parser.CRealContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedRealValue(CadlParser.AssumedRealValueContext ctx) { }
+	@Override public void enterAssumedRealValue(Cadl2Parser.AssumedRealValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedRealValue(CadlParser.AssumedRealValueContext ctx) { }
+	@Override public void exitAssumedRealValue(Cadl2Parser.AssumedRealValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCDateTime(CadlParser.CDateTimeContext ctx) { }
+	@Override public void enterCDateTime(Cadl2Parser.CDateTimeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCDateTime(CadlParser.CDateTimeContext ctx) { }
+	@Override public void exitCDateTime(Cadl2Parser.CDateTimeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedDateTimeValue(CadlParser.AssumedDateTimeValueContext ctx) { }
+	@Override public void enterAssumedDateTimeValue(Cadl2Parser.AssumedDateTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedDateTimeValue(CadlParser.AssumedDateTimeValueContext ctx) { }
+	@Override public void exitAssumedDateTimeValue(Cadl2Parser.AssumedDateTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCDate(CadlParser.CDateContext ctx) { }
+	@Override public void enterCDate(Cadl2Parser.CDateContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCDate(CadlParser.CDateContext ctx) { }
+	@Override public void exitCDate(Cadl2Parser.CDateContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedDateValue(CadlParser.AssumedDateValueContext ctx) { }
+	@Override public void enterAssumedDateValue(Cadl2Parser.AssumedDateValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedDateValue(CadlParser.AssumedDateValueContext ctx) { }
+	@Override public void exitAssumedDateValue(Cadl2Parser.AssumedDateValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCTime(CadlParser.CTimeContext ctx) { }
+	@Override public void enterCTime(Cadl2Parser.CTimeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCTime(CadlParser.CTimeContext ctx) { }
+	@Override public void exitCTime(Cadl2Parser.CTimeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedTimeValue(CadlParser.AssumedTimeValueContext ctx) { }
+	@Override public void enterAssumedTimeValue(Cadl2Parser.AssumedTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedTimeValue(CadlParser.AssumedTimeValueContext ctx) { }
+	@Override public void exitAssumedTimeValue(Cadl2Parser.AssumedTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCDuration(CadlParser.CDurationContext ctx) { }
+	@Override public void enterCDuration(Cadl2Parser.CDurationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCDuration(CadlParser.CDurationContext ctx) { }
+	@Override public void exitCDuration(Cadl2Parser.CDurationContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedDurationValue(CadlParser.AssumedDurationValueContext ctx) { }
+	@Override public void enterAssumedDurationValue(Cadl2Parser.AssumedDurationValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedDurationValue(CadlParser.AssumedDurationValueContext ctx) { }
+	@Override public void exitAssumedDurationValue(Cadl2Parser.AssumedDurationValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCString(CadlParser.CStringContext ctx) {
+	@Override public void enterCString(Cadl2Parser.CStringContext ctx) {
 	}
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCString(CadlParser.CStringContext ctx) { }
+	@Override public void exitCString(Cadl2Parser.CStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedStringValue(CadlParser.AssumedStringValueContext ctx) { }
+	@Override public void enterAssumedStringValue(Cadl2Parser.AssumedStringValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedStringValue(CadlParser.AssumedStringValueContext ctx) { }
+	@Override public void exitAssumedStringValue(Cadl2Parser.AssumedStringValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCTerminologyCode(CadlParser.CTerminologyCodeContext ctx) { }
+	@Override public void enterCTerminologyCode(Cadl2Parser.CTerminologyCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCTerminologyCode(CadlParser.CTerminologyCodeContext ctx) { }
+	@Override public void exitCTerminologyCode(Cadl2Parser.CTerminologyCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCBoolean(CadlParser.CBooleanContext ctx) { }
+	@Override public void enterCBoolean(Cadl2Parser.CBooleanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCBoolean(CadlParser.CBooleanContext ctx) { }
+	@Override public void exitCBoolean(Cadl2Parser.CBooleanContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterAssumedBooleanValue(CadlParser.AssumedBooleanValueContext ctx) { }
+	@Override public void enterAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitAssumedBooleanValue(CadlParser.AssumedBooleanValueContext ctx) { }
+	@Override public void exitAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveObject(CadlParser.PrimitiveObjectContext ctx) { }
+	@Override public void enterPrimitiveObject(Cadl2Parser.PrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveObject(CadlParser.PrimitiveObjectContext ctx) { }
+	@Override public void exitPrimitiveObject(Cadl2Parser.PrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveValue(CadlParser.PrimitiveValueContext ctx) { }
+	@Override public void enterPrimitiveValue(Cadl2Parser.PrimitiveValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveValue(CadlParser.PrimitiveValueContext ctx) { }
+	@Override public void exitPrimitiveValue(Cadl2Parser.PrimitiveValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveListValue(CadlParser.PrimitiveListValueContext ctx) { }
+	@Override public void enterPrimitiveListValue(Cadl2Parser.PrimitiveListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveListValue(CadlParser.PrimitiveListValueContext ctx) { }
+	@Override public void exitPrimitiveListValue(Cadl2Parser.PrimitiveListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveIntervalValue(CadlParser.PrimitiveIntervalValueContext ctx) { }
+	@Override public void enterPrimitiveIntervalValue(Cadl2Parser.PrimitiveIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveIntervalValue(CadlParser.PrimitiveIntervalValueContext ctx) { }
+	@Override public void exitPrimitiveIntervalValue(Cadl2Parser.PrimitiveIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringValue(CadlParser.StringValueContext ctx) { }
+	@Override public void enterStringValue(Cadl2Parser.StringValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringValue(CadlParser.StringValueContext ctx) { }
+	@Override public void exitStringValue(Cadl2Parser.StringValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringListValue(CadlParser.StringListValueContext ctx) { }
+	@Override public void enterStringListValue(Cadl2Parser.StringListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringListValue(CadlParser.StringListValueContext ctx) { }
+	@Override public void exitStringListValue(Cadl2Parser.StringListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerValue(CadlParser.IntegerValueContext ctx) { }
+	@Override public void enterIntegerValue(Cadl2Parser.IntegerValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerValue(CadlParser.IntegerValueContext ctx) { }
+	@Override public void exitIntegerValue(Cadl2Parser.IntegerValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerListValue(CadlParser.IntegerListValueContext ctx) { }
+	@Override public void enterIntegerListValue(Cadl2Parser.IntegerListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerListValue(CadlParser.IntegerListValueContext ctx) { }
+	@Override public void exitIntegerListValue(Cadl2Parser.IntegerListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerIntervalValue(CadlParser.IntegerIntervalValueContext ctx) { }
+	@Override public void enterIntegerIntervalValue(Cadl2Parser.IntegerIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerIntervalValue(CadlParser.IntegerIntervalValueContext ctx) { }
+	@Override public void exitIntegerIntervalValue(Cadl2Parser.IntegerIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerIntervalListValue(CadlParser.IntegerIntervalListValueContext ctx) { }
+	@Override public void enterIntegerIntervalListValue(Cadl2Parser.IntegerIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerIntervalListValue(CadlParser.IntegerIntervalListValueContext ctx) { }
+	@Override public void exitIntegerIntervalListValue(Cadl2Parser.IntegerIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealValue(CadlParser.RealValueContext ctx) { }
+	@Override public void enterRealValue(Cadl2Parser.RealValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealValue(CadlParser.RealValueContext ctx) { }
+	@Override public void exitRealValue(Cadl2Parser.RealValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealListValue(CadlParser.RealListValueContext ctx) { }
+	@Override public void enterRealListValue(Cadl2Parser.RealListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealListValue(CadlParser.RealListValueContext ctx) { }
+	@Override public void exitRealListValue(Cadl2Parser.RealListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealIntervalValue(CadlParser.RealIntervalValueContext ctx) { }
+	@Override public void enterRealIntervalValue(Cadl2Parser.RealIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealIntervalValue(CadlParser.RealIntervalValueContext ctx) { }
+	@Override public void exitRealIntervalValue(Cadl2Parser.RealIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealIntervalListValue(CadlParser.RealIntervalListValueContext ctx) { }
+	@Override public void enterRealIntervalListValue(Cadl2Parser.RealIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealIntervalListValue(CadlParser.RealIntervalListValueContext ctx) { }
+	@Override public void exitRealIntervalListValue(Cadl2Parser.RealIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBooleanValue(CadlParser.BooleanValueContext ctx) { }
+	@Override public void enterBooleanValue(Cadl2Parser.BooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBooleanValue(CadlParser.BooleanValueContext ctx) { }
+	@Override public void exitBooleanValue(Cadl2Parser.BooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBooleanListValue(CadlParser.BooleanListValueContext ctx) { }
+	@Override public void enterBooleanListValue(Cadl2Parser.BooleanListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBooleanListValue(CadlParser.BooleanListValueContext ctx) { }
+	@Override public void exitBooleanListValue(Cadl2Parser.BooleanListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharacterValue(CadlParser.CharacterValueContext ctx) { }
+	@Override public void enterCharacterValue(Cadl2Parser.CharacterValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCharacterValue(CadlParser.CharacterValueContext ctx) { }
+	@Override public void exitCharacterValue(Cadl2Parser.CharacterValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharacterListValue(CadlParser.CharacterListValueContext ctx) { }
+	@Override public void enterCharacterListValue(Cadl2Parser.CharacterListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCharacterListValue(CadlParser.CharacterListValueContext ctx) { }
+	@Override public void exitCharacterListValue(Cadl2Parser.CharacterListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateValue(CadlParser.DateValueContext ctx) { }
+	@Override public void enterDateValue(Cadl2Parser.DateValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateValue(CadlParser.DateValueContext ctx) { }
+	@Override public void exitDateValue(Cadl2Parser.DateValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateListValue(CadlParser.DateListValueContext ctx) { }
+	@Override public void enterDateListValue(Cadl2Parser.DateListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateListValue(CadlParser.DateListValueContext ctx) { }
+	@Override public void exitDateListValue(Cadl2Parser.DateListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateIntervalValue(CadlParser.DateIntervalValueContext ctx) { }
+	@Override public void enterDateIntervalValue(Cadl2Parser.DateIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateIntervalValue(CadlParser.DateIntervalValueContext ctx) { }
+	@Override public void exitDateIntervalValue(Cadl2Parser.DateIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateIntervalListValue(CadlParser.DateIntervalListValueContext ctx) { }
+	@Override public void enterDateIntervalListValue(Cadl2Parser.DateIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateIntervalListValue(CadlParser.DateIntervalListValueContext ctx) { }
+	@Override public void exitDateIntervalListValue(Cadl2Parser.DateIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeValue(CadlParser.TimeValueContext ctx) { }
+	@Override public void enterTimeValue(Cadl2Parser.TimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeValue(CadlParser.TimeValueContext ctx) { }
+	@Override public void exitTimeValue(Cadl2Parser.TimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeListValue(CadlParser.TimeListValueContext ctx) { }
+	@Override public void enterTimeListValue(Cadl2Parser.TimeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeListValue(CadlParser.TimeListValueContext ctx) { }
+	@Override public void exitTimeListValue(Cadl2Parser.TimeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeIntervalValue(CadlParser.TimeIntervalValueContext ctx) { }
+	@Override public void enterTimeIntervalValue(Cadl2Parser.TimeIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeIntervalValue(CadlParser.TimeIntervalValueContext ctx) { }
+	@Override public void exitTimeIntervalValue(Cadl2Parser.TimeIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeIntervalListValue(CadlParser.TimeIntervalListValueContext ctx) { }
+	@Override public void enterTimeIntervalListValue(Cadl2Parser.TimeIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeIntervalListValue(CadlParser.TimeIntervalListValueContext ctx) { }
+	@Override public void exitTimeIntervalListValue(Cadl2Parser.TimeIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeValue(CadlParser.DateTimeValueContext ctx) { }
+	@Override public void enterDateTimeValue(Cadl2Parser.DateTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeValue(CadlParser.DateTimeValueContext ctx) { }
+	@Override public void exitDateTimeValue(Cadl2Parser.DateTimeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeListValue(CadlParser.DateTimeListValueContext ctx) { }
+	@Override public void enterDateTimeListValue(Cadl2Parser.DateTimeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeListValue(CadlParser.DateTimeListValueContext ctx) { }
+	@Override public void exitDateTimeListValue(Cadl2Parser.DateTimeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeIntervalValue(CadlParser.DateTimeIntervalValueContext ctx) { }
+	@Override public void enterDateTimeIntervalValue(Cadl2Parser.DateTimeIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeIntervalValue(CadlParser.DateTimeIntervalValueContext ctx) { }
+	@Override public void exitDateTimeIntervalValue(Cadl2Parser.DateTimeIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeIntervalListValue(CadlParser.DateTimeIntervalListValueContext ctx) { }
+	@Override public void enterDateTimeIntervalListValue(Cadl2Parser.DateTimeIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeIntervalListValue(CadlParser.DateTimeIntervalListValueContext ctx) { }
+	@Override public void exitDateTimeIntervalListValue(Cadl2Parser.DateTimeIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationValue(CadlParser.DurationValueContext ctx) { }
+	@Override public void enterDurationValue(Cadl2Parser.DurationValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationValue(CadlParser.DurationValueContext ctx) { }
+	@Override public void exitDurationValue(Cadl2Parser.DurationValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationListValue(CadlParser.DurationListValueContext ctx) { }
+	@Override public void enterDurationListValue(Cadl2Parser.DurationListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationListValue(CadlParser.DurationListValueContext ctx) { }
+	@Override public void exitDurationListValue(Cadl2Parser.DurationListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationIntervalValue(CadlParser.DurationIntervalValueContext ctx) { }
+	@Override public void enterDurationIntervalValue(Cadl2Parser.DurationIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationIntervalValue(CadlParser.DurationIntervalValueContext ctx) { }
+	@Override public void exitDurationIntervalValue(Cadl2Parser.DurationIntervalValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationIntervalListValue(CadlParser.DurationIntervalListValueContext ctx) { }
+	@Override public void enterDurationIntervalListValue(Cadl2Parser.DurationIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationIntervalListValue(CadlParser.DurationIntervalListValueContext ctx) { }
+	@Override public void exitDurationIntervalListValue(Cadl2Parser.DurationIntervalListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTermCodeValue(CadlParser.TermCodeValueContext ctx) { }
+	@Override public void enterTermCodeValue(Cadl2Parser.TermCodeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTermCodeValue(CadlParser.TermCodeValueContext ctx) { }
+	@Override public void exitTermCodeValue(Cadl2Parser.TermCodeValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTermCodeListValue(CadlParser.TermCodeListValueContext ctx) { }
+	@Override public void enterTermCodeListValue(Cadl2Parser.TermCodeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTermCodeListValue(CadlParser.TermCodeListValueContext ctx) { }
+	@Override public void exitTermCodeListValue(Cadl2Parser.TermCodeListValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRelop(CadlParser.RelopContext ctx) { }
+	@Override public void enterRelop(Cadl2Parser.RelopContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRelop(CadlParser.RelopContext ctx) { }
+	@Override public void exitRelop(Cadl2Parser.RelopContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

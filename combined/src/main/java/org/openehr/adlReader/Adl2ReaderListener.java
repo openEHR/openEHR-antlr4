@@ -6,10 +6,9 @@ import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.openehr.cadlReader.CadlReader;
+import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.combinedparser.Adl2Parser;
 import org.openehr.combinedparser.Adl2ParserListener;
-import org.openehr.elReader.ElReader;
 import org.openehr.expressionReader.ExpressionReader;
 import org.openehr.odinReader.OdinReader;
 
@@ -24,7 +23,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 
 	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
-		cadlReader = new CadlReader (logging, keepAntlrErrors);
+		cadl2Reader = new Cadl2Reader(logging, keepAntlrErrors);
 		expressionReader = new ExpressionReader (logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
 	}
@@ -238,8 +237,8 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDefinitionSection (Adl2Parser.DefinitionSectionContext ctx) {
-		cadlReader.read (textToCharStream (ctx.cadlText().CADL_LINE()), "definition", ctx.DEFINITION_HEADER().getSymbol().getLine());
-		errorCollector.setDefinitionErrors (cadlReader.getErrors());
+		cadl2Reader.read (textToCharStream (ctx.cadlText().CADL_LINE()), "definition", ctx.DEFINITION_HEADER().getSymbol().getLine());
+		errorCollector.setDefinitionErrors (cadl2Reader.getErrors());
 	}
 
 	/**
@@ -416,7 +415,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	}
 
 	private final OdinReader odinReader;
-	private final CadlReader cadlReader;
+	private final Cadl2Reader cadl2Reader;
 	private final ExpressionReader expressionReader;
 
 	private final Adl2ReaderErrors errorCollector;

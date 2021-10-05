@@ -6,29 +6,29 @@ import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.openehr.combinedparser.*;
 import org.openehr.common.SyntaxReader;
 
-public class CadlReader extends SyntaxReader<CadlLexer, CadlParser> {
+public class Cadl2Reader extends SyntaxReader<Cadl2Lexer, Cadl2Parser> {
 
     // -------------- Creation ------------------
 
-    public CadlReader (boolean logging, boolean keepAntlrErrors) {
+    public Cadl2Reader(boolean logging, boolean keepAntlrErrors) {
         super (logging, keepAntlrErrors);
     }
 
     // -------------- Implementation ------------------
 
     protected void createLexerParser (CharStream stream) {
-        lexer = new CadlLexer (stream);
-        parser = new CadlParser (new CommonTokenStream (lexer));
+        lexer = new Cadl2Lexer (stream);
+        parser = new Cadl2Parser (new CommonTokenStream (lexer));
     }
 
     protected void doParse() {
         // do the parse
-        CadlParser.CComplexObjectContext ccoObjectCtx = parser.cComplexObject();
+        Cadl2Parser.CComplexObjectContext ccoObjectCtx = parser.cComplexObject();
 
         // don't bother with traversal if artefact not well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
-            CadlReaderListener reader =  new CadlReaderListener();
+            Cadl2ReaderListener reader =  new Cadl2ReaderListener();
             walker.walk (reader, ccoObjectCtx);
         }
     }
