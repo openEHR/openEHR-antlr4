@@ -1,0 +1,1 @@
+$at_risk_ht := (current_date() - $date_of_birth) > P50Y AND $is_male
