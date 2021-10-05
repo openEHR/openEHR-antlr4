@@ -8,14 +8,17 @@
 //
 
 lexer grammar PrimitiveValuesLexer;
-import BaseLexer;
+import OpenehrPatterns, BaseLexer;
 
 // ------ get rid of whitespace inside lists and intervals ------
-WS         : [ \t\r]+     -> channel(HIDDEN) ;
+WS : [ \t\r]+     -> channel(HIDDEN) ;
+
+// -------------------- general symbols ------------------------
+SYM_NAMESPACE_SEP: '::' ;
 
 // -------------------- symbols for lists ------------------------
-SYM_LIST_CONTINUE: '...' ;
-SYM_COMMA: ',' ;
+SYM_LIST_CONTINUE : '...' ;
+SYM_COMMA : ',' ;
 
 // ------------------ symbols for intervals ----------------------
 
@@ -24,10 +27,10 @@ SYM_GE : '>=' | '≥' ;
 SYM_GT : '>' ;
 SYM_LT : '<' ;
 SYM_PLUS_OR_MINUS : '+/-' | '±' ;
-SYM_PLUS : '+' ;
-SYM_MINUS : '-' ;
+SYM_PLUS    : '+' ;
+SYM_MINUS   : '-' ;
 SYM_PERCENT : '%' ;
-SYM_CARET: '^' ;
+SYM_CARET   : '^' ;
 
-SYM_IVL_DELIM: '|' ;
-SYM_IVL_SEP  : '..' ;
+SYM_IVL_DELIM : '|' ;
+SYM_IVL_SEP   : '..' ;

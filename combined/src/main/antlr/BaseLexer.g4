@@ -37,13 +37,6 @@ fragment SECOND_DEC_SEP : '.' | ',' ;
 // TODO: the following will incorrectly match just 'P'
 ISO8601_DURATION : '-'?'P' (DIGIT+ [yY])? (DIGIT+ [mM])? (DIGIT+ [wW])? (DIGIT+[dD])? ('T' (DIGIT+[hH])? (DIGIT+[mM])? (DIGIT+ (SECOND_DEC_SEP DIGIT+)?[sS])?)? ;
 
-// ------------------- special primitive values used in openEHR --------------
-
-// e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
-TERM_CODE_REF : '[' TERM_CODE ']' ;
-TERM_CODE : TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ('|' ~[|\]]+ '|')?;
-fragment TERM_CODE_CHAR: NAME_CHAR | '.' ;
-
 // --------------------- URIs --------------------
 // URI recogniser based on https://tools.ietf.org/html/rfc3986 and
 // http://www.w3.org/Addressing/URL/5_URI_BNF.html
@@ -59,40 +52,40 @@ fragment URI_HIER_PART :
 fragment URI_SCHEME : ALPHA_CHAR ( ALPHA_CHAR | DIGIT | '+' | '-' | '.')* ;
 
 fragment URI_AUTHORITY : ( URI_USERINFO '@' )? URI_HOST ( ':' URI_PORT )? ;
-fragment URI_USERINFO: (URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' )* ;
-fragment URI_HOST : URI_IP_LITERAL | URI_IPV4_ADDRESS | URI_REG_NAME ; //TODO: ipv6
-fragment URI_PORT: DIGIT* ;
+fragment URI_USERINFO  : ( URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' )* ;
+fragment URI_HOST      : URI_IP_LITERAL | URI_IPV4_ADDRESS | URI_REG_NAME ; //TODO: ipv6
+fragment URI_PORT      : DIGIT* ;
 
 fragment URI_IP_LITERAL   : '[' URI_IPV6_LITERAL ']'; //TODO, if needed: IPvFuture
 fragment URI_IPV4_ADDRESS : URI_DEC_OCTET '.' URI_DEC_OCTET '.' URI_DEC_OCTET '.' URI_DEC_OCTET ;
 fragment URI_IPV6_LITERAL : HEX_QUAD (':' HEX_QUAD )* '::' HEX_QUAD (':' HEX_QUAD )* ;
 
-fragment URI_DEC_OCTET  : DIGIT | [1-9] DIGIT | '1' DIGIT DIGIT | '2' [0-4] DIGIT | '25' [0-5] ;
-fragment URI_REG_NAME: (URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS)* ;
-fragment HEX_QUAD : HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
+fragment URI_DEC_OCTET : DIGIT | [1-9] DIGIT | '1' DIGIT DIGIT | '2' [0-4] DIGIT | '25' [0-5] ;
+fragment URI_REG_NAME  : ( URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS )* ;
+fragment HEX_QUAD      : HEX_DIGIT HEX_DIGIT HEX_DIGIT HEX_DIGIT ;
 
-fragment URI_PATH_ABEMPTY: ('/' URI_SEGMENT )* ;
-fragment URI_PATH_ABSOLUTE: '/' ( URI_SEGMENT_NZ ( '/' URI_SEGMENT )* )? ;
-fragment URI_PATH_NOSCHEME: URI_SEGMENT_NZ_NC ( '/' URI_SEGMENT )* ;
-fragment URI_PATH_ROOTLESS: URI_SEGMENT_NZ ( '/' URI_SEGMENT )* ;
-fragment URI_PATH_EMPTY: ;
+fragment URI_PATH_ABEMPTY  : ('/' URI_SEGMENT )* ;
+fragment URI_PATH_ABSOLUTE : '/' ( URI_SEGMENT_NZ ( '/' URI_SEGMENT )* )? ;
+fragment URI_PATH_NOSCHEME : URI_SEGMENT_NZ_NC ( '/' URI_SEGMENT )* ;
+fragment URI_PATH_ROOTLESS : URI_SEGMENT_NZ ( '/' URI_SEGMENT )* ;
+fragment URI_PATH_EMPTY    : ;
 
-fragment URI_SEGMENT: URI_PCHAR* ;
-fragment URI_SEGMENT_NZ: URI_PCHAR+ ;
-fragment URI_SEGMENT_NZ_NC: ( URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | '@' )+ ; //non-zero-length segment without any colon ":"
+fragment URI_SEGMENT       : URI_PCHAR* ;
+fragment URI_SEGMENT_NZ    : URI_PCHAR+ ;
+fragment URI_SEGMENT_NZ_NC : ( URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | '@' )+ ; //non-zero-length segment without any colon ":"
 
-fragment URI_PCHAR: URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' | '@' ;
+fragment URI_PCHAR    : URI_UNRESERVED | URI_PCT_ENCODED | URI_SUB_DELIMS | ':' | '@' ;
 
 //fragment URI_PATH   : '/' | ( '/' URI_XPALPHA+ )+ ('/')?;
-fragment URI_QUERY : (URI_PCHAR | '/' | '?')* ;
-fragment URI_FRAGMENT  : (URI_PCHAR | '/' | '?')* ;
+fragment URI_QUERY    : ( URI_PCHAR | '/' | '?' )* ;
+fragment URI_FRAGMENT : ( URI_PCHAR | '/' | '?' )* ;
 
 fragment URI_PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
 
-fragment URI_UNRESERVED: ALPHA_CHAR | DIGIT | '-' | '.' | '_' | '~' ;
-fragment URI_RESERVED: URI_GEN_DELIMS | URI_SUB_DELIMS ;
-fragment URI_GEN_DELIMS: [:/?#[\]@] ;
-fragment URI_SUB_DELIMS: [!$&'()*+,;=] ;
+fragment URI_UNRESERVED : ALPHA_CHAR | DIGIT | '-' | '.' | '_' | '~' ;
+fragment URI_RESERVED   : URI_GEN_DELIMS | URI_SUB_DELIMS ;
+fragment URI_GEN_DELIMS : [:/?#[\]@] ;
+fragment URI_SUB_DELIMS : [!$&'()*+,;=] ;
 
 // ------------------ special values --------------
 
@@ -102,11 +95,14 @@ SYM_FALSE : [Ff][Aa][Ll][Ss][Ee] ;
 // ---------------------- machine identifiers --------------------------
 
 GUID : HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ '-' HEX_DIGIT+ ;
+UUID: GUID ;
 
 // --------------------- atomic primitive types ----------------------
 
-INTEGER     : DIGIT+ ;
-REAL        : DIGIT+ '.' DIGIT+ ? ;
+fragment NUMBER : '0' | [1-9][0-9]* ;
+
+INTEGER     : DIGIT+ ; // TODO: allow leading zeros? Most langs don't...
+REAL        : DIGIT+ '.' DIGIT+ ;
 SCI_INTEGER : INTEGER ( E_SUFFIX | P10_SUFFIX ) ;
 SCI_REAL    : REAL ( E_SUFFIX | P10_SUFFIX ) ;
 fragment E_SUFFIX : [eE][+-]? DIGIT+ ;
@@ -122,8 +118,8 @@ fragment ESCAPE_SEQ: '\\' ['"?abfnrtv\\] ;
 
 // ------------------- character fragments ------------------
 
-fragment NAME_CHAR     : WORD_CHAR | '-' ;
-fragment WORD_CHAR     : ALPHANUM_CHAR | '_' ;
+fragment ALPHANUM_US_HYP_CHAR : ALPHANUM_US_CHAR | '-' ;
+fragment ALPHANUM_US_CHAR : ALPHANUM_CHAR | '_' ;
 fragment ALPHANUM_CHAR : ALPHA_CHAR | DIGIT ;
 
 fragment ALPHA_CHAR  : [a-zA-Z] ;
@@ -139,6 +135,7 @@ fragment OCTAL_DIGIT: [0-7];
 
 // -------------------- common symbols ---------------------
 
+SYM_DOT: '.' ;
 SYM_COMMA: ',' ;
 SYM_SEMI_COLON : ';' ;
 

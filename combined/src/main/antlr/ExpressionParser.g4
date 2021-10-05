@@ -10,7 +10,7 @@
 
 parser grammar ExpressionParser;
 options { tokenVocab=ExpressionLexer; }
-import CPrimitiveValuesParser;
+import Cadl2PrimitiveValuesParser;
 
 //
 //  ======================= Top-level Objects ========================
@@ -76,8 +76,8 @@ booleanLeaf:
     | thereExistsExpr
     | SYM_EXISTS ( rawPath | variableSubPath )
     | '(' booleanExpr ')'
-    | relationalExpr
-    | equalityExpr
+    | arithmeticComparisonExpr
+    | arithmeticEqualityExpr
     | constraintExpr
     | valueRef
     ;
@@ -140,7 +140,7 @@ arithmeticLiteral:
 // lowest, so only needed between leaves, since () will be needed for
 // larger expressions anyway
 //
-equalityExpr: arithmeticExpr equalityBinop arithmeticExpr ;
+arithmeticEqualityExpr: arithmeticExpr equalityBinop arithmeticExpr ;
 
 equalityBinop:
       SYM_EQ
@@ -150,7 +150,7 @@ equalityBinop:
 //
 // Relational expressions of arithmetic operands generating Boolean values
 //
-relationalExpr: arithmeticExpr relationalBinop arithmeticExpr ;
+arithmeticComparisonExpr: arithmeticExpr relationalBinop arithmeticExpr ;
 
 relationalBinop:
       SYM_GT

@@ -10,21 +10,47 @@
 lexer grammar OpenehrPatterns;
 import BaseLexer;
 
-// ---------------------- openEHR Identifiers ---------------------
+// ---------------------------- UIDs ---------------------------
+fragment UID: UUID | INTERNET_ID | ISO_OID ;
+fragment INTERNET_ID: LABEL ( '.' LABEL )+ ;
+fragment ISO_OID : NUMBER ( '.' NUMBER )+ ;
 
-ARCHETYPE_HRID      : ARCHETYPE_HRID_ROOT '.v' VERSION_ID ;
-ARCHETYPE_REF       : ARCHETYPE_HRID_ROOT '.v' VERSION_REF ;
-VERSION_ID          : DIGIT+ '.' DIGIT+ '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? ;
-fragment ARCHETYPE_HRID_ROOT : ( NAMESPACE '::' )? ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '-' ARCHETYPE_HRID_ID '.' LABEL ;
-fragment VERSION_REF: DIGIT+ ( '.' DIGIT+ ( '.' DIGIT+ ( ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? )? )? )? ;
-fragment ARCHETYPE_HRID_ID : ALPHA_CHAR WORD_CHAR* ;
+// ---------------------- HIER_OBJECT_HRID ---------------------
+fragment HIER_OBJECT_HRID: UID_BASED_ID ;
+fragment UID_BASED_ID: UID ( '::' UID_EXTENSION )? ;
+fragment UID_EXTENSION: ( URI_UNRESERVED | URI_RESERVED )+ ; // ideally any printable
+
+// ---------------------- OBJECT_VERSION_ID ---------------------
+// OBJECT_VERSION_ID = object_id '::' creating_system_id '::' version_tree_id
+// VERSION_TREE_ID = trunk_version [ '.' branch_number '.' branch_version ]
+OBJECT_VERSION_ID: UID '::' UID '::' VERSION_TREE_ID ;
+fragment VERSION_TREE_ID: NUMBER ( '.' NUMBER '.' NUMBER )? ;
+
+// ---------------------- ARCHETYPE_HRID ---------------------
+ARCHETYPE_HRID : FULLY_QUALIFIED_RM_ENTITY '.v' VERSION_ID ;
+ARCHETYPE_REF  : FULLY_QUALIFIED_RM_ENTITY '.v' VERSION_REF ;
+VERSION_ID     : NUMBER '.' NUMBER '.' NUMBER VERSION_MOD? ;
+fragment FULLY_QUALIFIED_RM_ENTITY : ( NAMESPACE '::' )? QUALIFIED_RM_ENTITY ;
+fragment QUALIFIED_RM_ENTITY : WORD_ID '-' WORD_ID '-' WORD_ID '.' NAME_ID ;
+fragment VERSION_REF: NUMBER ( '.' NUMBER ( '.' NUMBER VERSION_MOD? )? )? ;
+fragment VERSION_MOD: ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? ;
+fragment WORD_ID : ALPHANUM_CHAR ALPHANUM_US_CHAR* ;
+fragment NAME_ID : ALPHANUM_CHAR ALPHANUM_US_HYP_CHAR* ;
 
 // According to IETF http://tools.ietf.org/html/rfc1034[RFC 1034] and
 // http://tools.ietf.org/html/rfc1035[RFC 1035], as clarified by
 // http://tools.ietf.org/html/rfc2181[RFC 2181] (section 11)
 fragment NAMESPACE : LABEL ( '.' LABEL )* ;
-fragment LABEL : ALPHA_CHAR ( NAME_CHAR | PCT_ENCODED )* ;
+fragment LABEL : ALPHA_CHAR ( ALPHANUM_CHAR | '_' | '-' | PCT_ENCODED )* ;
 fragment PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
+
+// ---------------------- Terminology ids and refs ---------------------
+fragment TERMINOLOGY_ID: NAME_ID | URI ;
+
+// e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
+TERM_CODE_REF: '[' COMPACT_TERM_CODE ']' ;
+fragment COMPACT_TERM_CODE : TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ( '|' .+? '|' )? ;
+fragment TERM_CODE_CHAR: ALPHANUM_US_HYP_CHAR | '.' ;
 
 // ---------- various ADL codes -------
 
@@ -32,5 +58,4 @@ ROOT_ID_CODE : 'id1' '.1'* ;
 ID_CODE      : 'id' CODE_STR ;
 AT_CODE      : 'at' CODE_STR ;
 AC_CODE      : 'ac' CODE_STR ;
-fragment CODE_STR : CODE_STR_SEGMENT ( '.' CODE_STR_SEGMENT )* ;
-fragment CODE_STR_SEGMENT: '0' | [1-9][0-9]* ;
+fragment CODE_STR : NUMBER ( '.' NUMBER )* ;

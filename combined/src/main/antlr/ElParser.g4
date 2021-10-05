@@ -9,42 +9,48 @@
 
 parser grammar ElParser;
 options { tokenVocab=ElLexer; }
-import CPrimitiveValuesParser;
+import Cadl2PrimitiveValuesParser;
 
-//
-//  ======================= Top-level Objects ========================
-//
+
+
+// ========================== EL Statements ==========================
 
 statementBlock: statement+ EOF ;
 
-// ------------------------- statements ---------------------------
-statement: declaration | assignment | assertion;
+statement: declaration | assignment | assertion ;
 
 declaration:
       variableDeclaration
     | constantDeclaration
     ;
 
-variableDeclaration: variableName ':' typeId ( SYM_ASSIGNMENT expression )? ;
+variableDeclaration: scopableVariableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-constantDeclaration: constantName ':' typeId  ( SYM_EQ primitiveObject )? ;
+constantDeclaration: constantName ':' typeId ( SYM_EQ primitiveObject )? ;
 
-assignment: variableName SYM_ASSIGNMENT expression ;
+assignment: variableRef SYM_ASSIGNMENT expression ;
 
 assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 
-//
-// -------------------------- Expressions --------------------------
-//
+// ========================== EL Expressions ==========================
+
 expression:
+      valueRef
+    | operatorExpression
+    | terminalExpression
+    ;
+
+operatorExpression:
       booleanExpr
     | arithmeticExpr
     ;
 
+// ------------------- Boolean-returning expressions --------------------
+
 //
 // Expressions evaluating to boolean values, using standard precedence
-// The equalityBinop ones are not strictly necessary, but allow the use
-// of booleanLeaf = true, which some people like
+// We use this repeated structure to allow the use of valueRef as a
+// booleanExpr, which we don't want
 //
 booleanExpr:
       SYM_NOT booleanExpr
@@ -52,22 +58,22 @@ booleanExpr:
     | booleanExpr SYM_XOR booleanExpr
     | booleanExpr SYM_OR booleanExpr
     | booleanExpr SYM_IMPLIES booleanExpr
-    | booleanLeaf equalityBinop booleanLeaf
     | booleanLeaf
     ;
 
 //
 // Atomic Boolean-valued expression elements
-// TODO: SYM_EXISTS alternative to be replaced by defined() predicate
+//
 booleanLeaf:
       booleanLiteral
     | forAllExpr
     | thereExistsExpr
     | '(' booleanExpr ')'
-    | relationalExpr
-    | equalityExpr
     | constraintExpr
     | SYM_DEFINED '(' valueRef ')'
+    | arithmeticComparisonExpr
+    | quantityComparisonExpr
+    | dateTimeComparisonExpr
     | valueRef
     ;
 
@@ -78,10 +84,10 @@ booleanLiteral:
 
 //
 //  Universal and existential quantifier
-// TODO: 'in' probably isn't needed in the long term
-forAllExpr: SYM_FOR_ALL VARIABLE_ID ':' valueRef '|'? booleanExpr ;
+//
+forAllExpr: SYM_FOR_ALL localVariableId ':' valueRef '|' booleanExpr ;
 
-thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ':' valueRef '|'? booleanExpr ;
+thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
 
 // Constraint expressions
 // This provides a way of using one operator (matches) to compare a
@@ -99,8 +105,25 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ':' valueRef '|'? booleanExpr ;
 // TODO: non-primitive objects might be supported on the RHS in future.
 constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
+
+// --------------------------- Arithmetic expressions --------------------------
+
 //
-// Expressions evaluating to arithmetic values, using standard precedence
+// Comparison expressions of arithmetic operands generating Boolean results
+//
+arithmeticComparisonExpr: arithmeticExpr comparisonBinop arithmeticExpr ;
+
+comparisonBinop:
+      SYM_EQ
+    | SYM_NE
+    | SYM_GT
+    | SYM_LT
+    | SYM_LE
+    | SYM_GE
+    ;
+
+//
+// Expressions evaluating to values of arithmetic types, using standard precedence
 //
 arithmeticExpr:
       <assoc=right> arithmeticExpr '^' arithmeticExpr
@@ -111,8 +134,8 @@ arithmeticExpr:
 
 arithmeticLeaf:
       arithmeticLiteral
-    | valueRef
     | '(' arithmeticExpr ')'
+    | valueRef
     ;
 
 arithmeticLiteral:
@@ -124,46 +147,169 @@ arithmeticLiteral:
     | durationValue
     ;
 
-//
-// Equality expression between any arithmetic value; precedence is
-// lowest, so only needed between leaves, since () will be needed for
-// larger expressions anyway
-//
-equalityExpr: arithmeticExpr equalityBinop arithmeticExpr ;
+// ------------------------ Quantity expressions -------------------------
 
-equalityBinop:
-      SYM_EQ
-    | SYM_NE
+//
+// TODO: these rules do not work and are not used, since Antlr doesn't
+// correctly know to compute operator precedence for mutiple rules
+// with the same operator as being the same precedence.
+//
+
+quantityExpr:
+      durationExpr
+//    | generalQuantityExpr
     ;
 
-//
-// Relational expressions of arithmetic operands generating Boolean values
-//
-relationalExpr: arithmeticExpr relationalBinop arithmeticExpr ;
+//generalQuantityExpr:
+//    ;
 
-relationalBinop:
-      SYM_GT
-    | SYM_LT
-    | SYM_LE
-    | SYM_GE
+//
+// Expressions returning a Duration
+//
+durationExpr:
+      durationValue ( '*' | '/' ) arithmeticLiteral
+
+    | dateValue '-' dateValue
+    | valueRef '-' dateValue
+    | dateValue '-' valueRef
+
+    | dateTimeValue '-' dateTimeValue
+    | valueRef '-' dateTimeValue
+    | dateTimeValue '-' valueRef
+
+    | timeValue '-' timeValue
+    | valueRef '-' timeValue
+    | timeValue '-' valueRef
+
+    | valueRef '-' valueRef
+
+    | durationValue
     ;
 
-//
-// instances references: data references, variables, and function calls.
-// TODO: Remove rawPath from this rule when external binding supported
-//
+quantityComparisonExpr: quantityExpr comparisonBinop quantityExpr ;
+
+dateTimeExpr:
+      dateTimeLiteral ( '--' | '++' ) dateTimeDurationRhs
+    | valueRef ( '--' | '++' ) dateTimeDurationRhs
+    | dateTimeLiteral ( '+' | '-' ) dateTimeDurationRhs
+    | dateTimeLiteral
+    ;
+
+dateTimeDurationRhs:
+      durationValue
+    | valueRef
+    ;
+
+dateTimeLiteral:
+      dateValue
+    | dateTimeValue
+    | timeValue
+    ;
+
+dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
+
+
+// -------------------------- terminal expressions -----------------------------
+
+terminalExpression:
+      valueRef
+    | primitiveValue
+    | tuple
+    ;
+
+tuple: '[' expression ( ',' expression )+ ']';
+
 valueRef:
+      scopedFeatureRef
+    | featureRef
+    | SYM_SELF
+    | caseTable
+    | choiceTable
+    ;
+
+//
+// scoped and local feature references
+//
+
+scopedFeatureRef: 
+      scopedFunctionCall
+    | scopedPropertyRef
+    | scopedConstantRef
+    ;
+
+scopedFunctionCall: scoper functionCall ;
+
+scopedPropertyRef: scoper scopableVariableRef ;
+
+scopedConstantRef: scoper constantName ;
+
+scoper: ( typeRef '.' )? ( featureRef '.' )* ;
+
+typeRef: '{' typeId '}' ;
+
+featureRef:
       functionCall
-    | variableName
+    | variableRef
     | constantName
     ;
 
-variableName: VARIABLE_ID ;
+variableRef:
+      scopableVariableRef
+    | SYM_RESULT
+    ;
+
+scopableVariableRef:
+      boundVariableId
+    | localVariableId
+    ;
+
+boundVariableId: BOUND_VARIABLE_ID ;
+
+localVariableId: LC_ID ;
 
 constantName: UC_ID ;
 
-functionCall: LC_ID '(' functionArgs? ')' ;
+functionCall: LC_ID '(' simpleExprList? ')' ;
 
-functionArgs: expression ( ',' expression )* ;
+simpleExprList: expression ( ',' expression )* ;
 
 typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+
+
+//
+// condition chains (if/then statement equivalent)
+// choice in
+//   =========================================================
+//   er_positive and
+//   her2_negative and
+//   not ki67.in_range ([high]):    [luminal_A],
+//   ---------------------------------------------------------
+//   er_positive and
+//   her2_negative and
+//   ki67.in_range ([high]):        [luminal_B_HER2_negative],
+//   ---------------------------------------------------------
+//   *:                             [none]
+//   =========================================================
+//   ;
+//
+choiceTable: SYM_CHOICE SYM_IN ( choiceBranch ',' )+ ( choiceBranch | choiceDefaultBranch ) ';' ;
+
+choiceBranch: expression ':' expression ;
+
+choiceDefaultBranch: '*' ':' expression ;
+
+//
+// Case tables:
+// case gfr_range in
+//   =================
+//   |>20|:      1,
+//   |10 - 20|:  0.75,
+//   |<10|:      0.5
+//   =================
+//   ;
+//
+caseTable: SYM_CASE expression SYM_IN ( caseBranch ',' )+ ( caseBranch | caseDefaultBranch ) ';' ;
+
+caseBranch: primitiveObject ':' expression ;
+
+caseDefaultBranch: '*' ':' expression ;

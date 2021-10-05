@@ -10,5 +10,5 @@ import BaseLexer;
 
 // ------------------- human-readable identifiers ----------------------
 
-UC_ID    :  ALPHA_UCHAR WORD_CHAR* ;
-LC_ID :  '_'? ALPHA_LCHAR WORD_CHAR* ;
+UC_ID :  ALPHA_UCHAR ALPHANUM_US_CHAR* ;
+LC_ID :  '_'? ALPHA_LCHAR ALPHANUM_US_CHAR* ;

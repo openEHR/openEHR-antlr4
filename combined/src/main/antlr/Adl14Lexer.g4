@@ -8,8 +8,18 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-lexer grammar Adl2Lexer;
+lexer grammar Adl14Lexer;
 import OpenehrPatterns;
+
+//
+// TODO: we should be able to import Adl2Lexer above, and just do a bit of overriding, but
+// it doesn't work. May be due to not being able to override fragment rules in modes.
+// For now, this is a complete copy of the Adl2Lexer with just the following changes:
+//  * change SYM_TERMINOLOGY to be 'ontology'
+//  * change SYM_RULES to be 'invariant'
+// Theoretically we could also strip out the rm_overlay and component_terminologies
+// sections, but since it's optional and no ADL1.4 archetypes have it, we don't bother.
+//
 
 channels {
     COMMENT
@@ -92,9 +102,9 @@ RULES_HEADER            : SYM_RULES WS? EOL -> mode (RULES);
 TERMINOLOGY_HEADER      : SYM_TERMINOLOGY WS? EOL -> mode (TERMINOLOGY);
 RM_OVERLAY_HEADER       : SYM_RM_OVERLAY WS? EOL -> mode (RM_OVERLAY);
 CADL_LINE               : NON_EOL* EOL ;
-fragment SYM_RULES      : 'rules' ;
+fragment SYM_RULES      : 'invariant' ;
 fragment SYM_RM_OVERLAY : 'rm_overlay' ;
-fragment SYM_TERMINOLOGY: 'terminology' ;
+fragment SYM_TERMINOLOGY: 'ontology' ;
 fragment SLASH_REGEX_CHAR: ~[/\n\r] | ESCAPE_SEQ | '\\/';
 
 

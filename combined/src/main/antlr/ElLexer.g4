@@ -8,7 +8,7 @@
 //
 
 lexer grammar ElLexer;
-import PathLexer, CPrimitiveValuesLexer, GeneralLexer;
+import PathLexer, Cadl2PrimitiveValuesLexer, GeneralLexer;
 
 channels {
     COMMENT
@@ -16,11 +16,22 @@ channels {
 
 // ------------------ lines and comments ------------------
 CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
+TABLE_CMT_LINE : '===' '='* EOL -> channel(COMMENT) ;
 EOL      : '\r'? '\n'   -> channel(HIDDEN) ; 
 WS       : [ \t\r]+     -> channel(HIDDEN) ;
 
+// --------- keywords ----------
+
+SYM_DEFINED : 'defined' ;
+SYM_SELF    : 'self' ;
+SYM_IN      : 'in' ;
+SYM_CHOICE  : 'choice' ;
+SYM_CASE    : 'case' ;
+
+SYM_RESULT  : 'Result' ;
+
 // --------- symbols ----------
-SYM_ASSIGNMENT: ':=' | '::=' ;
+SYM_ASSIGNMENT: ':=' ;
 SYM_COLON : ':' ;
 SYM_NE : '/=' | '!=' | '≠' ;
 SYM_EQ : '=' ;
@@ -35,6 +46,10 @@ SYM_TIMES   : '*' ;
 SYM_SLASH   : '/' ;
 SYM_PERCENT : '%' ;
 SYM_CARET   : '^' ;
+SYM_DOT     : '.' ;
+
+SYM_DOUBLE_MINUS: '--' ;
+SYM_DOUBLE_PLUS: '++' ;
 
 SYM_THEN     : [Tt][Hh][Ee][Nn] ;
 SYM_AND      : [Aa][Nn][Dd] | '∧' ;
@@ -45,7 +60,6 @@ SYM_IMPLIES  : [Ii][Mm][Pp][Ll][Ii][Ee][Ss] | '⇒' ;
 SYM_FOR_ALL  : 'for_all' | '∀' ;
 SYM_THERE_EXISTS: 'there_exists' | '∃' ;
 SYM_EXISTS   : 'exists' ;
-SYM_DEFINED  : 'defined' ;
 SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
 
-VARIABLE_ID: '$' LC_ID ;
+BOUND_VARIABLE_ID: '$' LC_ID ;
