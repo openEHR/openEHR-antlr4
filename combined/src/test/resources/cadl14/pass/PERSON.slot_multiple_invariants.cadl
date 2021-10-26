@@ -1,0 +1,19 @@
+﻿    PERSON[at0000] matches {  -- person demographic data
+        details matches {
+             allow_archetype ITEM_TREE[at0001] occurrences matches {1..1} matches {
+                 include
+			        archetype_id/value matches {/openEHR-DEMOGRAPHIC-ITEM_TREE\.person_details[a-zA-Z0-9_-]*\.v0/}
+             }
+        }
+        contacts matches {
+            CONTACT[at0003] occurrences matches {1..1} matches {  -- Contacts
+                addresses matches {
+                    allow_archetype ADDRESS[at0030] occurrences matches {1..1} matches {
+                        include
+                            archetype_id/value matches {/openEHR-DEMOGRAPHIC-ADDRESS\.address([a-zA-Z0-9_-]+)*\.v0/}
+                            archetype_id/value matches {/openEHR-DEMOGRAPHIC-ADDRESS\.electronic_communication[a-zA-Z0-9_-]*\.v0/}
+                    }
+                }
+            }
+        }
+    }

@@ -11,4 +11,41 @@
 //
 
 lexer grammar Cadl14Lexer;
-import Cadl2Lexer, PathLexer, OpenehrPatterns, Cadl2PrimitiveValuesLexer, GeneralLexer;
+import Adl14PathLexer, OpenehrPatterns, Cadl14PrimitiveValuesLexer, OdinLexer, GeneralLexer;
+
+channels {
+    COMMENT
+}
+
+// ------------------ lines and comments ------------------
+CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
+EOL      : '\r'? '\n'   -> channel(HIDDEN) ;
+WS       : [ \t\r]+     -> channel(HIDDEN) ;
+
+// ----------------------- keywords -----------------------
+SYM_EXISTENCE   : 'existence' ;
+SYM_OCCURRENCES : 'occurrences' ;
+SYM_CARDINALITY : 'cardinality' ;
+SYM_ORDERED     : 'ordered' ;
+SYM_UNORDERED   : 'unordered' ;
+SYM_UNIQUE      : 'unique' ;
+SYM_USE_NODE    : 'use_node' ;
+SYM_USE_ARCHETYPE : 'use_archetype' ;
+SYM_ALLOW_ARCHETYPE : 'allow_archetype' ;
+SYM_INCLUDE     : 'include' ;
+SYM_EXCLUDE     : 'exclude' ;
+SYM_CLOSED      : 'closed' ;
+
+// --------------------- general symbols ------------------------
+SYM_MATCHES  : 'matches' | 'is_in' | '∈' ;
+SYM_STAR  : '*' ;
+SYM_LE : '<=' | '≤' ;
+SYM_GE : '>=' | '≥' ;
+SYM_GT : '>' ;
+SYM_LT : '<' ;
+SYM_SLASH: '/' ;
+
+// ------------------ symbols for intervals ---------------------
+SYM_IVL_DELIM: '|' ;
+SYM_IVL_SEP  : '..' ;
+

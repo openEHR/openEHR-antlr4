@@ -1,0 +1,381 @@
+﻿archetype (adl_version=1.4; uid=8c4e7594-1457-4c34-9dca-ce19f00bac12)
+	openEHR-EHR-OBSERVATION.clinical_frailty_scale.v0
+
+concept
+	[at0000]	-- Clinical Frailty Scale (CFS)
+language
+	original_language = <[ISO_639-1::en]>
+	translations = <
+		["de"] = <
+			language = <[ISO_639-1::de]>
+			author = <
+				["name"] = <"Sarah Ballout">
+				["organisation"] = <"MHH-Hannover">
+				["email"] = <"ballout.sarah@mh-hannover.de">
+			>
+		>
+		["nb"] = <
+			language = <[ISO_639-1::nb]>
+			author = <
+				["name"] = <"Marit Alice Venheim, Silje Ljosland Bakke">
+				["organisation"] = <"Helse Vest IKT, Helse Vest IKT AS">
+				["email"] = <"marit.alice.venheim@helse-vest-ikt.no, silje.ljosland.bakke@helse-vest-ikt.no">
+			>
+		>
+	>
+description
+	original_author = <
+		["name"] = <"Dr Paul Miller">
+		["organisation"] = <"NES Digital Service, NHS Scotland">
+		["email"] = <"paul.miller@nes.scot.nhs.uk">
+		["date"] = <"2019-06-24">
+	>
+	details = <
+		["de"] = <
+			language = <[ISO_639-1::de]>
+			purpose = <"Zur Repräsentation der Beurteilung der klinischen Fragilty-Skala.">
+			use = <"Zur Repräsentation der Beurteilung der klinischen Fragilty-Skala.
+
+Während alle openEHR-Archetypen unter einer offenen Lizenz frei verfügbar sind, ist der spezifische Inhalt dieses Clinical Frailty Scale-Archetyps urheberrechtlich geschützt. Jede Verwendung dieses Archetyps innerhalb von Implementierungen muss in Übereinstimmung mit den von den Urheberrechtsinhabern festgelegten Bedingungen erfolgen.
+Erklärung zum Urheberrecht: ©2009. Version 1.2_DE. Alle Rechte vorbehalten. Geriatrische Medizinforschung, Dalhousie Universität, Halifax, Kanada. 
+Informationen zum Urheberrecht: https://www.dal.ca/sites/gmr/our-tools/clinical-frailty-scale.html.">
+			keywords = <"Fragilität", "Senioren", "Alter", "Aktivität", "Lebensende", "Gebrechlichkeit", "Schultereckgelenksverletzung">
+			misuse = <"">
+		>
+		["nb"] = <
+			language = <[ISO_639-1::nb]>
+			purpose = <"For å registrere vurdering av skrøpelighet i henhold til Clinical Frailty Scale (CFS).">
+			use = <"Brukes for å registrere vurdering av skrøpelighet i henhold til Clinical Frailty Scale (CFS).
+
+openEHR-arketyper er fritt tilgjengelige under en åpen lisens, men det spesifikke innholdet i denne Clinical Frailty Scale-arketypen er opphavsrettslig beskyttet. All bruk av denne arketypen i implementasjoner må gjøres i henhold til vilkår gitt av innehaverne av opphavsretten.
+Erklæring om opphavsrett: ©2009. Version 1.2_EN. All rights reserved. Geriatric Medicine Research, Dalhousie University, Halifax, Canada. 
+Informasjon om opphavsretten: https://www.dal.ca/sites/gmr/our-tools/clinical-frailty-scale.html.">
+			keywords = <"skrøpelighet, geriatrisk, gammel, høy alder, aktivitet, terminal, eldre, rockwood", ...>
+			misuse = <"">
+		>
+		["en"] = <
+			language = <[ISO_639-1::en]>
+			purpose = <"To record the Clinical Frailty Scale assessment.">
+			use = <"Use to record the Clinical Frailty Scale assessment.
+
+While openEHR archetypes are all freely available under an open license, the specific content of this Clinical Frailty Scale archetype is copyright protected. Any use of this archetype within implementations must be in compliance with the terms established by the copyright owners.
+Copyright statement: ©2009. Version 1.2_EN. All rights reserved. Geriatric Medicine Research, Dalhousie University, Halifax, Canada. 
+Copyright information: https://www.dal.ca/sites/gmr/our-tools/clinical-frailty-scale.html.">
+			keywords = <"frailty, geriatric, old age, activity, end of life, rockwood", ...>
+			misuse = <"">
+			copyright = <"© openEHR Foundation">
+		>
+	>
+	lifecycle_state = <"in_development">
+	other_contributors = <"Silje Ljosland Bakke, Helse Vest IKT AS, Norway (openEHR Editor)", "Ian McNicoll, freshEHR Clinical Informatics, United Kingdom (openEHR Editor)", "Marit Alice Venheim, Helse Vest IKT, Norway (openEHR Editor)", "Astrid Askeland, DIPS AS, Norway">
+	other_details = <
+		["licence"] = <"This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.">
+		["custodian_organisation"] = <"openEHR Foundation">
+		["references"] = <"Rockwood K, Song X, MacKnight C, Bergman H, Hogan DB, McDowell I, Mitnitski A. A global clinical measure of fitness and frailty in elderly people. CMAJ. 2005 Aug 30;173(5):489-95. doi: 10.1503/cmaj.050051. PMID: 16129869; PMCID: PMC1188185. Available from: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC1188185/.
+
+Clinical Frailty Scale [Internet]. Dalhousie University. Dalhousie University; 2019 [cited 2020 Apr 21]. Available from: https://www.dal.ca/sites/gmr/our-tools/clinical-frailty-scale.html.">
+		["current_contact"] = <"Dr Paul Miller, NDS, Scotland">
+		["original_namespace"] = <"org.openehr">
+		["original_publisher"] = <"openEHR Foundation">
+		["custodian_namespace"] = <"org.openehr">
+		["MD5-CAM-1.0.1"] = <"F8D48F0117F2FEEBAA9200D54A6AD4A7">
+		["build_uid"] = <"d8d26daa-e7be-4851-a271-e5cf64e4f0a9">
+		["ip_acknowledgements"] = <"This artefact includes content from SNOMED Clinical Terms® (SNOMED CT®) which is copyrighted material of the International Health Terminology Standards Development Organisation (IHTSDO). Where an implementation of this artefact makes use of SNOMED CT content, the implementer must have the appropriate SNOMED CT Affiliate license - for more information contact http://www.snomed.org/snomed-ct/get-snomedct or info@snomed.org. 
+Please note: SNOMED-CT term-bindings currently applied to the individual score values belong to the UK SNOMED_CT namespace.">
+		["revision"] = <"0.0.1-alpha">
+	>
+
+definition
+	OBSERVATION[at0000] matches {    -- Clinical Frailty Scale (CFS)
+		data matches {
+			HISTORY[at0001] matches {    -- History
+				events cardinality matches {0..*; unordered} matches {
+					POINT_EVENT[at0002] occurrences matches {0..*} matches {    -- Any point in time event
+						data matches {
+							ITEM_TREE[at0003] matches {    -- Tree
+								items cardinality matches {0..*; unordered} matches {
+									ELEMENT[at0004] occurrences matches {0..1} matches {    -- Frailty scale
+										value matches {
+											1|[local::at0005],
+											2|[local::at0006],
+											3|[local::at0007],
+											4|[local::at0008],
+											5|[local::at0009],
+											6|[local::at0010],
+											7|[local::at0011],
+											8|[local::at0012],
+											9|[local::at0013]
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		protocol matches {
+			ITEM_TREE[at0014] matches {    -- ItemTree
+				items cardinality matches {0..*; unordered} matches {
+					allow_archetype CLUSTER[at0015] occurrences matches {0..*} matches {    -- Extension
+						include
+							archetype_id/value matches {/.*/}
+					}
+				}
+			}
+		}
+	}
+
+
+ontology
+	terminologies_available = <"SNOMED-CT", ...>
+	term_definitions = <
+		["en"] = <
+			items = <
+				["at0000"] = <
+					text = <"Clinical Frailty Scale (CFS)">
+					description = <"An assessment scale used to screen for frailty and to broadly stratify degrees of fitness and frailty in an older adult.">
+					comment = <"Also known as the Rockford Clinical Frailty Scale.">
+				>
+				["at0001"] = <
+					text = <"History">
+					description = <"@ internal @">
+				>
+				["at0002"] = <
+					text = <"Any point in time event">
+					description = <"Default, unspecified point in time event which may be explicitly defined in a template or at run-time.">
+				>
+				["at0003"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0004"] = <
+					text = <"Frailty scale">
+					description = <"The assessed score.">
+				>
+				["at0005"] = <
+					text = <"1. Very Fit">
+					description = <"People who are robust, aclive, energetic and motivated. These people commonly exercise regularly. They are among the fittest for their age.">
+					comment = <"These people commonly exercise regularly. They are among the fittest for their age.">
+				>
+				["at0006"] = <
+					text = <"2. Well">
+					description = <"People who have no active disease symptoms but are less fit than category 1. Often, they exercise or are very active occasionally, e,g. seasonally.">
+					comment = <"Often, they exercise or are very active occasionally, e.g. seasonally.">
+				>
+				["at0007"] = <
+					text = <"3. Managing Well">
+					description = <"People whose medical problems are well controlled, but are not regularly active beyond routine walking.">
+				>
+				["at0008"] = <
+					text = <"4. Vulnerable">
+					description = <"While not dependent on others for daily help, often symptoms limit activities. A common complaint is being \"slowed up\", andlor being tired during the day.">
+					comment = <" A common complaint is being \"slowed up\", and/or being tired during the day.">
+				>
+				["at0009"] = <
+					text = <"5. Mildly Frail">
+					description = <"These people often have more evident slowing, and need help in high order IADLs (finances, transportation, heavy housework, medications), Typically, mild frailty progressively impairs shopping and walking outside alone, meal preparation and housework.">
+					comment = <"Typically, mildly frailty progressively impairs shopping and walking outside alone, meal preparation and housework. A common complaint is being \"slowed up\", and/or being tired during the day.">
+				>
+				["at0010"] = <
+					text = <"6. Moderately Frail">
+					description = <"People need help with all outside activities and with keeping house. Inside, they often have problems with stairs and need help with bathing and might need minimal assistance (cuing, standby) with dressing.">
+				>
+				["at0011"] = <
+					text = <"7. Severely Frail">
+					description = <"Completely dependent for personal care, from whatever cause (physical or cognitive). Even so, they seem stable and not at high risk of dying (within - 6 monts).">
+					comment = <"Even so, they seem stable and not at high risk of dying (within ~ 6 months).">
+				>
+				["at0012"] = <
+					text = <"8. Very Severely Frail">
+					description = <"Completely dependent, approaching the end of life. Typically, they could not recover even from a minor illness.">
+					comment = <"Typically, they could not recover even from a minor illness.">
+				>
+				["at0013"] = <
+					text = <"9. Terminally Ill">
+					description = <"Approaching the end of life,This category applies to people with a life expectancy.">
+					comment = <"This category applies to people with a life expectancy <6 months, who are not otherwise evidently frail.">
+				>
+				["at0014"] = <
+					text = <"ItemTree">
+					description = <"@ internal @">
+				>
+				["at0015"] = <
+					text = <"Extension">
+					description = <"Additional information required to extend the model with local content or to align with other reference models/formalisms.">
+					comment = <"For example: local information requirements; or additional metadata to align with FHIR.">
+				>
+			>
+		>
+		["de"] = <
+			items = <
+				["at0000"] = <
+					text = <"Klinische Frailty-Skala (CFS)">
+					description = <"Eine Bewertungsskala, die zum Screening auf Fragilität und zur allgemeinen Schichtung von Fitness- und Fragilitätsgraden bei einem älteren Erwachsenen verwendet wird.">
+					comment = <"Bekannt auch unter der Bezeichnung Rockford Clinical Frailty Scale.">
+				>
+				["at0001"] = <
+					text = <"History">
+					description = <"@ internal @">
+				>
+				["at0002"] = <
+					text = <"Beliebige zeitliche Ereignisse">
+					description = <"Standardwert, ein undefinierter/s Zeitpunkt oder Intervallereignis, das explizit im Template oder zur Laufzeit der Anwendung definiert werden kann.">
+				>
+				["at0003"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0004"] = <
+					text = <"*Frailty scale (en)">
+					description = <"Das bewertete Ergebnis.">
+				>
+				["at0005"] = <
+					text = <"*1. Very Fit (en)">
+					description = <"*People who are robust, aclive, energetic and motivated. These people commonly exercise regularly. They are among the fittest for their age. (en)">
+					comment = <"Diese Menschen bewegen sich in der Regel regelmäßig. Sie gehören zu den Stärksten für ihr Alter.">
+				>
+				["at0006"] = <
+					text = <"*2. Well (en)">
+					description = <"*People who have no active disease symptoms but are less fit than category 1. Often, they exercise or are very active occasionally, e,g. seasonally. (en)">
+					comment = <"Oft trainieren sie oder sind gelegentlich, z.B. jahreszeitlich bedingt, sehr aktiv.">
+				>
+				["at0007"] = <
+					text = <"*3. Managing Well (en)">
+					description = <"*People whose medical problems are well controlled, but are not regularly active beyond routine walking. (en)">
+				>
+				["at0008"] = <
+					text = <"*4. Vulnerable (en)">
+					description = <"*While not dependent on others for daily help, often symptoms limit activities. A common complaint is being \"slowed up\", andlor being tired during the day. (en)">
+					comment = <"Eine häufige Beschwerde Situation ist, \"verlangsamt\" zu werden und/oder tagsüber müde zu sein.">
+				>
+				["at0009"] = <
+					text = <"*5. Mildly Frail (en)">
+					description = <"*These people often have more evident slowing, and need help in high order IADLs (finances, transportation, heavy housework, medications), Typically, mild frailty progressively impairs shopping and walking outside alone, meal preparation and housework. (en)">
+					comment = <"In der Regel beeinträchtigt eine leichte Fragilität nach und nach das Einkaufen und Alleingehen im Freien, die Zubereitung von Mahlzeiten und die Hausarbeit. Eine häufige Beschwerde ist die \"Verlangsamung\" und/oder die Müdigkeit während des Tages.">
+				>
+				["at0010"] = <
+					text = <"*6. Moderately Frail (en)">
+					description = <"*People need help with all outside activities and with keeping house. Inside, they often have problems with stairs and need help with bathing and might need minimal assistance (cuing, standby) with dressing. (en)">
+				>
+				["at0011"] = <
+					text = <"*7. Severely Frail (en)">
+					description = <"*Completely dependent for personal care, from whatever cause (physical or cognitive). Even so, they seem stable and not at high risk of dying (within - 6 monts). (en)">
+					comment = <"Dennoch scheinen sie stabil zu sein und kein hohes Sterberisiko zu haben (innerhalb von ~ 6 Monaten).">
+				>
+				["at0012"] = <
+					text = <"*8. Very Severely Frail (en)">
+					description = <"*Completely dependent, approaching the end of life. Typically, they could not recover even from a minor illness. (en)">
+					comment = <"Sie konnten sich in der Regel nicht einmal von einer leichten Krankheit erholen.">
+				>
+				["at0013"] = <
+					text = <"*9. Terminally Ill (en)">
+					description = <"*Approaching the end of life,This category applies to people with a life expectancy. (en)">
+					comment = <"Diese Kategorie gilt für Personen mit einer Lebenserwartung von < 6 Monaten, die ansonsten nicht offensichtlich geschwächt sind.">
+				>
+				["at0014"] = <
+					text = <"ItemTree">
+					description = <"@ internal @">
+				>
+				["at0015"] = <
+					text = <"Erweiterungen">
+					description = <"Zusätzliche Informationen, die zur Erfassung lokaler Inhalte oder zur Anpassung an andere Referenzmodelle/Formalismen erforderlich sind.">
+					comment = <"Zum Beispiel: Lokale Informationsanforderungen oder zusätzliche Metadaten, um Verknüpfungen mit FHIR herzustellen.">
+				>
+			>
+		>
+		["nb"] = <
+			items = <
+				["at0000"] = <
+					text = <"Clinical Frailty Scale (CFS)">
+					description = <"Clinical Frailty Scale er en vurderingsskala for å gradere skrøpelighet hos eldre ved å kartlegge graden av kondisjon og skrøpelighet.">
+					comment = <"Også kjent som Rockford Clinical Frailty Scale.">
+				>
+				["at0001"] = <
+					text = <"History">
+					description = <"@ internal @">
+				>
+				["at0002"] = <
+					text = <"Uspesifisert tidspunkthendelse">
+					description = <"Standard, uspesifisert tidspunkt som kan defineres mer eksplisitt i et templat eller i en applikasjon.">
+				>
+				["at0003"] = <
+					text = <"Tree">
+					description = <"@ internal @">
+				>
+				["at0004"] = <
+					text = <"Skrøpelighetsskala">
+					description = <"Vurdering av skrøpelighet.">
+				>
+				["at0005"] = <
+					text = <"1. Veldig sprek">
+					description = <"Personer som er robuste, aktive, energiske og motiverte. De trener vanligvis regelmessig, og er blant de mest spreke i aldergruppen.">
+					comment = <"De trener vanligvis regelmessig, og er blant de mest spreke i aldersgruppen.">
+				>
+				["at0006"] = <
+					text = <"2. Sprek">
+					description = <"Personer som ikke har aktive sykdomssymptom, men er mindre spreke en kategori 1. De kan trene og være veldig aktive av og til, eks sesongpreget.">
+					comment = <"De kan trene og være veldig aktive av og til, f.eks sesongpreget.">
+				>
+				["at0007"] = <
+					text = <"3. Klarer seg bra">
+					description = <"Personer hvis medisinske problem er godt kontrollert, men er ikke regelmessig aktive foruten vanlig gange.">
+				>
+				["at0008"] = <
+					text = <"4. Sårbar">
+					description = <"Selv om de ikke er avhengig av daglig hjelp fra andre, vil symptomer begrense aktiviteter. De klager ofte over at de «svekkes» og blir fort slitne og trøtte ila dagen.">
+					comment = <"De klager ofte over at de «svekkes» og blir fort slitne og trøtte ila dagen.">
+				>
+				["at0009"] = <
+					text = <"5. Lett skrøpelig">
+					description = <"Disse er klart langsomme, og trenger hjelp til mer komplekse daglige aktiviteter (finanser, transport, vask og rengjøring, medikamenter). Vanligvis vil gruppen i økende grad ha problem med å handle eller gå utenfor huset alene, lage måltider og ordne i hjemmet.">
+					comment = <"Vanligvis vil gruppen i økende grad ha problem med å handle eller gå utenfor huset alene, lage måltider og ordne i hjemmet.">
+				>
+				["at0010"] = <
+					text = <"6. Moderat skrøpelig">
+					description = <"Personer som må ha hjelp til alle aktiviteter utenfor hjemmet og med å stelle hjemmet. De har problem med trapper, trenger hjelp til bading og kan trenge litt hjelp til å kle seg.">
+				>
+				["at0011"] = <
+					text = <"7. Alvorlig skrøpelig">
+					description = <"Disse personer er helt avhengig av hjelp til personlig pleie både av fysiske eller kognitive årsaker. De er ellers stabile, og har ikke stor risiko for å dø¸ ila en 6 måneders periode.">
+					comment = <"De er ellers stabile, og har ikke stor risiko for å dø (ila ~ 6 måneder).">
+				>
+				["at0012"] = <
+					text = <"8. Svært alvorlig skrøpelig">
+					description = <"elt avhengig av hjelp til alle gjøremål, nærmer seg livets slutt. Typisk er at de ikke kommer seg selv etter mindre akutte hendelser.">
+					comment = <"Typisk er at de ikke kommer seg selv etter mindre akutte hendelser.">
+				>
+				["at0013"] = <
+					text = <"9. Terminalt syk">
+					description = <"I livets sluttfase. Kategorien kan brukes der leveutsiktene med stor grad av sikkerhet er < 6 mnd. Selv om de ikke kan kalles «frail» (skrøpelig).">
+					comment = <"Kategorien kan brukes der leveutsiktene med stor grad av sikkerheter < 6 måneder. Selv om de ikke kan kalles \"frail\" (skrøpelig).">
+				>
+				["at0014"] = <
+					text = <"ItemTree">
+					description = <"@ internal @">
+				>
+				["at0015"] = <
+					text = <"Tilleggsinformasjon">
+					description = <"Ytterligere informasjon som trengs for å kunne registrere lokalt definert innhold eller for å tilpasse til andre referansemodeller/formalismer.">
+					comment = <"For eksempel lokale informasjonsbehov eller ytterligere metadata for å kunne tilpasse til tilsvarende konsepter i FHIR.">
+				>
+			>
+		>
+	>
+	term_bindings = <
+		["SNOMED-CT"] = <
+			items = <
+				["at0004"] = <[SNOMED-CT::763264000]>
+				["at0000"] = <[SNOMED-CT::445414007]>
+				["at0005"] = <[SNOMED-CT::1129331000000101]>
+				["at0006"] = <[SNOMED-CT::1129341000000105]>
+				["at0007"] = <[SNOMED-CT::1129351000000108]>
+				["at0008"] = <[SNOMED-CT::1129361000000106]>
+				["at0009"] = <[SNOMED-CT::1129371000000104]>
+				["at0010"] = <[SNOMED-CT::1129381000000102]>
+				["at0013"] = <[SNOMED-CT::1129411000000100]>
+				["at0011"] = <[SNOMED-CT::1129391000000100]>
+				["at0012"] = <[SNOMED-CT::1129401000000102]>
+			>
+		>
+	>

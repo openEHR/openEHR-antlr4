@@ -9,7 +9,7 @@
 
 parser grammar Cadl14Parser;
 options { tokenVocab=Cadl14Lexer; }
-import Cadl14PrimitiveValuesParser;
+import Cadl14PrimitiveValuesParser, OdinParser;
 
 //
 //  ======================= Top-level Objects ========================
@@ -19,7 +19,7 @@ cComplexObject: rmTypeId nodeId? cOccurrences? ( SYM_MATCHES '{' cComplexObjectD
 
 cComplexObjectDef: cAttribute+ | '*' ;
 
-nodeId: '[' AT_CODE ']' ;
+nodeId: '[' adl14_at_code ']' ;
 
 // ------------------- Complex constraint types ----------------------
 
@@ -37,9 +37,9 @@ cRegularObject:
     | domainSpecificExtension
     ;
 
-cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' ID_CODE ',' ARCHETYPE_REF ']' cOccurrences? ;
+cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' adl14_at_code ',' ARCHETYPE_REF ']' cOccurrences? ;
 
-cComplexObjectProxy: SYM_USE_NODE rmTypeId nodeId cOccurrences? ADL_PATH ;
+cComplexObjectProxy: SYM_USE_NODE rmTypeId cOccurrences? ADL_PATH ;
 
 cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInlinePrimitiveObject '}' )? ;
 
@@ -48,8 +48,8 @@ cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInline
 // 'assertion' rule from EL is required, which causes the whole EL
 // to be sucked in to CADL.
 archetypeSlot: SYM_ALLOW_ARCHETYPE rmTypeId nodeId (( cOccurrences? ( SYM_MATCHES '{' cIncludes? cExcludes? '}' )? ) | SYM_CLOSED ) ;
-cIncludes : SYM_INCLUDE archetypeIdConstraint ;
-cExcludes : SYM_EXCLUDE archetypeIdConstraint ;
+cIncludes : SYM_INCLUDE archetypeIdConstraint+ ;
+cExcludes : SYM_EXCLUDE archetypeIdConstraint+ ;
 archetypeIdConstraint: archetypeIdPath SYM_MATCHES '{' DELIMITED_REGEX '}' ;
 
 // have to allow for relative paths. Note the path here is not an ADL_PATH
@@ -84,7 +84,8 @@ ordinalTerm: ordinalValue '|' cTerminologyCode ;
 //      (type) <
 //          odin lines
 //      >
-domainSpecificExtension: ODIN_BLOCK_START ODIN_BLOCK_LINE+? ODIN_BLOCK_END ;
+//domainSpecificExtension: ODIN_BLOCK_START ODIN_BLOCK_LINE+ ;
+domainSpecificExtension:  rmTypeId '<' odinObject? '>';
 
 // ------------------------- model references -------------------------
 rmTypeId      : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;

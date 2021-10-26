@@ -1,0 +1,15 @@
+﻿ELEMENT[at0075] occurrences matches {0..1} matches {    -- T area
+    value matches {
+        C_DV_QUANTITY <
+            property = <[openehr::655]>
+            list = <
+                ["1"] = <
+                    units = <"4.uV.ms{Ashman units}">
+                >
+                ["2"] = <
+                    units = <"uV.ms">
+                >
+            >
+        >
+    }
+}

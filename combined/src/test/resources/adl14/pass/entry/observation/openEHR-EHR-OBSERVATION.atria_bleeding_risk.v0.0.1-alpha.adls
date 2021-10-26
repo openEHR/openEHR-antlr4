@@ -1,0 +1,378 @@
+archetype (adl_version=2.0.6; rm_release=1.0.3; generated; uid=362f6dc8-d03a-4efe-91db-5f5c83affb54)
+	openEHR-EHR-OBSERVATION.atria_bleeding_risk.v0.0.1-alpha
+
+language
+	original_language = <[ISO_639-1::en]>
+	translations = <
+		["sv"] = <
+			language = <[ISO_639-1::sv]>
+			author = <
+				["name"] = <"Dennis Forslund">
+				["organisation"] = <"Cambio Healtcare Systems">
+			>
+		>
+	>
+
+description
+	lifecycle_state = <"unmanaged">
+	original_author = <
+		["name"] = <"Eneimi Allwell-Brown">
+		["organisation"] = <"Cambio Healthcare Systems">
+		["email"] = <"models@cambiocds.com">
+		["date"] = <"2017-02-13">
+	>
+	original_namespace = <"org.openehr">
+	original_publisher = <"openEHR Foundation">
+	custodian_namespace = <"org.openehr">
+	custodian_organisation = <"openEHR Foundation">
+	copyright = <"© Cambio Healthcare Systems, openEHR Foundation">
+	licence = <"This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/.">
+	details = <
+		["sv"] = <
+			language = <[ISO_639-1::sv]>
+			purpose = <"Att hos patienter med förmaksflimmer uppskatta risken för warfarin-associerad blödning.">
+			use = <"Använd för registrering av data i enlighet med Anticoagulation and Risk Factors in Atrial Fibrillation Score (ATRIA). Instrumentet baseras på förekomst av följande faktorer:
+
+- Anemi
+- Svår njursjukdom (eGFR <30 ml/min alternativt dialys)
+- Ålder ≥75 år
+- Tidigare blödning
+- Hypertoni
+
+Resultatet uppgår till maximalt 10p, och tolkas med avseende på risk för warfarin-associerad blödning enligt:
+<4p - låg risk (0,8%)
+4p - mellanrisk (2,6%)
+>4p - hög risk (5,8%)
+
+Utfallet definieras som blödning med dödlig utgång, behov av minst två enheter blodtransfusion eller blödning i kritisk anatomisk lokal såsom intrakraniellt eller retroperitonealt.
+
+Instrumentet kan användas som stöd för beslut kring huruvida behandling med warfarin är lämplig samt för att utvärdera behandling med antikoagulantia hos patienter med förmaksflimmer. Utvärdering av poängen görs med openEHR-EHR-EVALUATION.atria_bleeding_risk.v1.">
+			keywords = <"antikoagulantia", "warfarin", "waran", "blödning", "blödningsrisk", "kardiologi", "förmaksflimmer">
+			misuse = <"Endast avsedd för patienter med förmaksflimmer.">
+		>
+		["en"] = <
+			language = <[ISO_639-1::en]>
+			purpose = <"To record the results for each component parameter and their total sum for the ATRIA bleeding risk score.
+">
+			use = <"Use to record the results for each component parameter and their total sum for the ATRIA bleeding risk score.">
+			keywords = <"anticoagulation", "atrial fibrillation", "warfarin", "major hemorrhage", "hemorrhage risk", "cardiology">
+			misuse = <"Do not use if the patient does not have atrial fibrillation.">
+		>
+	>
+	other_contributors = <"Heather Leslie, Atomica Informatics, Australia", ...>
+	references = <
+		["1"] = <"Fang MC, Go AS, Chang Y, Borowsky LH, Pomernacki NK, Udaltsova N, Singer DE. A new risk scheme to predict warfarin-associated hemorrhage: The ATRIA (Anticoagulation and Risk Factors in Atrial Fibrillation) Study. Journal of the American College of Cardiology. 2011 Jul 19;58(4):395-401.">
+		["2"] = <"Apostolakis S, Lane DA, Guo Y, Buller H, Lip GY. Performance of the HEMORR 2 HAGES, ATRIA, and HAS-BLED Bleeding Risk–Prediction Scores in Patients With Atrial Fibrillation Undergoing Anticoagulation: The AMADEUS (Evaluating the Use of SR34006 Compared to Warfarin or Acenocoumarol in Patients With Atrial Fibrillation) Study. Journal of the American College of Cardiology. 2012 Aug 28;60(9):861-7.">
+		["3"] = <"Roldán V, Marín F, Fernández H, Manzano-Fernandez S, Gallego P, Valdés M, Vicente V, Lip GY. Predictive value of the HAS-BLED and ATRIA bleeding scores for the risk of serious bleeding in a “real-world” population with atrial fibrillation receiving anticoagulant therapy. CHEST Journal. 2013 Jan 1;143(1):179-84.">
+	>
+	other_details = <
+		["MD5-CAM-1.0.1"] = <"8E08250617145FD91DF48B6B3356522D">
+		["build_uid"] = <"48b9c087-ad9c-47cd-aec5-7a3da91247e1">
+	>
+
+definition
+	OBSERVATION[id1] matches {	-- ATRIA bleeding risk score
+		data matches {
+			HISTORY[id2] matches {
+				events matches {
+					POINT_EVENT[id3] occurrences matches {0..1} matches {	-- Any point in time event
+						data matches {
+							ITEM_TREE[id4] matches {
+								items matches {
+									ELEMENT[id5] occurrences matches {0..1} matches {	-- Anemia
+										value matches {
+											DV_ORDINAL[id24] matches {
+												[value, symbol] matches {
+													[{0}, {[at20]}],
+													[{3}, {[at21]}]
+												}
+											}
+										}
+									}
+									ELEMENT[id6] occurrences matches {0..1} matches {	-- Severe renal disease
+										value matches {
+											DV_ORDINAL[id25] matches {
+												[value, symbol] matches {
+													[{0}, {[at18]}],
+													[{3}, {[at19]}]
+												}
+											}
+										}
+									}
+									ELEMENT[id7] occurrences matches {0..1} matches {	-- Age ≥75 years
+										value matches {
+											DV_ORDINAL[id26] matches {
+												[value, symbol] matches {
+													[{0}, {[at16]}],
+													[{2}, {[at17]}]
+												}
+											}
+										}
+									}
+									ELEMENT[id8] occurrences matches {0..1} matches {	-- Prior hemorrhage diagnosis
+										value matches {
+											DV_ORDINAL[id27] matches {
+												[value, symbol] matches {
+													[{0}, {[at14]}],
+													[{1}, {[at15]}]
+												}
+											}
+										}
+									}
+									ELEMENT[id9] occurrences matches {0..1} matches {	-- History of hypertension
+										value matches {
+											DV_ORDINAL[id28] matches {
+												[value, symbol] matches {
+													[{0}, {[at12]}],
+													[{1}, {[at13]}]
+												}
+											}
+										}
+									}
+									ELEMENT[id10] occurrences matches {0..1} matches {	-- Total score
+										value matches {
+											DV_COUNT[id29] matches {
+												magnitude matches {|0..10|}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		protocol matches {
+			ITEM_TREE[id22] matches {
+				items matches {
+					allow_archetype CLUSTER[id23] matches {	-- Extension
+						include
+							archetype_id/value matches {/.*/}
+					}
+				}
+			}
+		}
+	}
+
+terminology
+	term_definitions = <
+		["en"] = <
+			["id1"] = <
+				text = <"ATRIA bleeding risk score">
+				description = <"An assessment score used to predict the risk of warfarin-associated haemorrhage and guide physician decision-making regarding warfarin use in atrial fibrillation.">
+			>
+			["ac4"] = <
+				text = <"Prior hemorrhage diagnosis (synthesised)">
+				description = <"Any prior hemorrhage diagnosis (internal or external hemorrhage). (synthesised)">
+			>
+			["id3"] = <
+				text = <"Any point in time event">
+				description = <"Default, unspecified point in time event which may be explicitly defined in a template or at run-time.">
+			>
+			["ac5"] = <
+				text = <"History of hypertension (synthesised)">
+				description = <"History of diagnosed hypertension. (synthesised)">
+			>
+			["id5"] = <
+				text = <"Anemia">
+				description = <"Presence of hemoglobin concentration <13 g/dl (male) or <12 g/dl (female).">
+			>
+			["id6"] = <
+				text = <"Severe renal disease">
+				description = <"Presence of estimated glomerular filtration rate (eGFR) <30 ml/min or dialysis-dependent.">
+			>
+			["id7"] = <
+				text = <"Age ≥75 years">
+				description = <"Individual is 75 years or older.">
+			>
+			["id8"] = <
+				text = <"Prior hemorrhage diagnosis">
+				description = <"Any prior hemorrhage diagnosis (internal or external hemorrhage).">
+			>
+			["id9"] = <
+				text = <"History of hypertension">
+				description = <"History of diagnosed hypertension.">
+			>
+			["id10"] = <
+				text = <"Total score">
+				description = <"Sum of points assigned for each of the component parameters.">
+			>
+			["at12"] = <
+				text = <"No">
+				description = <"*">
+			>
+			["at13"] = <
+				text = <"Yes">
+				description = <"*">
+			>
+			["at14"] = <
+				text = <"No">
+				description = <"*">
+			>
+			["at15"] = <
+				text = <"Yes">
+				description = <"*">
+			>
+			["at16"] = <
+				text = <"No">
+				description = <"*">
+			>
+			["at17"] = <
+				text = <"Yes">
+				description = <"*">
+			>
+			["at18"] = <
+				text = <"No">
+				description = <"*">
+			>
+			["at19"] = <
+				text = <"Yes">
+				description = <"*">
+			>
+			["at20"] = <
+				text = <"No">
+				description = <"*">
+			>
+			["at21"] = <
+				text = <"Yes">
+				description = <"*">
+			>
+			["id23"] = <
+				text = <"Extension">
+				description = <"Additional information required to capture local content or to align with other reference models/formalisms.">
+			>
+			["ac1"] = <
+				text = <"Anemia (synthesised)">
+				description = <"Presence of hemoglobin concentration <13 g/dl (male) or <12 g/dl (female). (synthesised)">
+			>
+			["ac2"] = <
+				text = <"Severe renal disease (synthesised)">
+				description = <"Presence of estimated glomerular filtration rate (eGFR) <30 ml/min or dialysis-dependent. (synthesised)">
+			>
+			["ac3"] = <
+				text = <"Age ≥75 years (synthesised)">
+				description = <"Individual is 75 years or older. (synthesised)">
+			>
+		>
+		["sv"] = <
+			["id1"] = <
+				text = <"ATRIA bleeding risk score">
+				description = <"Anticoagulation and Risk Factors in Atrial Fibrillation (ATRIA) bleeding risk score uppskattar blödningsrisk hos warfarinbehandlade patienter med förmaksflimmer baserat på fem faktorer. En poäng om <4 indikerar låg risk, 4p mellanrisk och >4p hög risk för blödning. Utfallet definieras som blödning med dödlig utgång, behov av minst två enheter blodtransfusion eller blödning i kritisk anatomisk lokal såsom intrakraniellt eller retroperitonealt. ">
+			>
+			["ac4"] = <
+				text = <"Tidigare blödning (synthesised)">
+				description = <"Tidigare intern eller extern (större) blödning. (synthesised)">
+			>
+			["id3"] = <
+				text = <"*Any point in time event (en)">
+				description = <"*Default, unspecified point in time event which may be explicitly defined in a template or at run-time. (en)">
+			>
+			["ac5"] = <
+				text = <"Hypertoni (synthesised)">
+				description = <"Diagnosticerad hypertoni. (synthesised)">
+			>
+			["id5"] = <
+				text = <"Anemi">
+				description = <"(Per definition.) Hemoglobin-koncentration <13 g/dl (man) eller <12 g/dl (kvinna).">
+			>
+			["id6"] = <
+				text = <"Svår njursjukdom">
+				description = <"eGFR <30 ml/min eller dialyskrävande">
+			>
+			["id7"] = <
+				text = <"Ålder ≥75 år">
+				description = <"Patienten är minst 75 år gammal.">
+			>
+			["id8"] = <
+				text = <"Tidigare blödning">
+				description = <"Tidigare intern eller extern (större) blödning.">
+			>
+			["id9"] = <
+				text = <"Hypertoni">
+				description = <"Diagnosticerad hypertoni.">
+			>
+			["id10"] = <
+				text = <"Resultat">
+				description = <"*Sum of points assigned for each of the component parameters. (en)">
+			>
+			["at12"] = <
+				text = <"Nej">
+				description = <"*">
+			>
+			["at13"] = <
+				text = <"Ja">
+				description = <"*">
+			>
+			["at14"] = <
+				text = <"Nej">
+				description = <"*">
+			>
+			["at15"] = <
+				text = <"Ja">
+				description = <"*">
+			>
+			["at16"] = <
+				text = <"Nej">
+				description = <"*">
+			>
+			["at17"] = <
+				text = <"Ja">
+				description = <"*">
+			>
+			["at18"] = <
+				text = <"Nej">
+				description = <"*">
+			>
+			["at19"] = <
+				text = <"Ja">
+				description = <"*">
+			>
+			["at20"] = <
+				text = <"Nej">
+				description = <"*">
+			>
+			["at21"] = <
+				text = <"Ja">
+				description = <"*">
+			>
+			["id23"] = <
+				text = <"*Extension (en)">
+				description = <"*Additional information required to capture local content or to align with other reference models/formalisms. (en)">
+			>
+			["ac1"] = <
+				text = <"Anemi (synthesised)">
+				description = <"(Per definition.) Hemoglobin-koncentration <13 g/dl (man) eller <12 g/dl (kvinna). (synthesised)">
+			>
+			["ac2"] = <
+				text = <"Svår njursjukdom (synthesised)">
+				description = <"eGFR <30 ml/min eller dialyskrävande (synthesised)">
+			>
+			["ac3"] = <
+				text = <"Ålder ≥75 år (synthesised)">
+				description = <"Patienten är minst 75 år gammal. (synthesised)">
+			>
+		>
+	>
+	value_sets = <
+		["ac1"] = <
+			id = <"ac1">
+			members = <"at20", "at21">
+		>
+		["ac2"] = <
+			id = <"ac2">
+			members = <"at18", "at19">
+		>
+		["ac3"] = <
+			id = <"ac3">
+			members = <"at16", "at17">
+		>
+		["ac4"] = <
+			id = <"ac4">
+			members = <"at14", "at15">
+		>
+		["ac5"] = <
+			id = <"ac5">
+			members = <"at12", "at13">
+		>
+	>

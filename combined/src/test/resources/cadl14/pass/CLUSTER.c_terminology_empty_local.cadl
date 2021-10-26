@@ -1,0 +1,17 @@
+﻿	CLUSTER[at0000] matches {	-- Exclusion of a symptom or sign
+		items cardinality matches {1..*; unordered} matches {
+			ELEMENT[at0001] occurrences matches {0..1} matches {	-- Exclusion Statement
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0002] occurrences matches {0..1} matches {	-- Excluded Symptom
+				value matches {
+					DV_TEXT matches {*}
+					DV_CODED_TEXT matches {
+						defining_code matches {[local::]}
+					}
+				}
+			}
+		}
+	}

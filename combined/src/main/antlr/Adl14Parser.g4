@@ -28,6 +28,7 @@ adlObject: authoredArchetype EOF ;
 authoredArchetype:
     SYM_ARCHETYPE header
     specializeSection?
+    conceptSection
     languageSection
     descriptionSection
     definitionSection
@@ -41,7 +42,7 @@ authoredArchetype:
 //
 
 // Header: meta-data items in parentheses followed by archetype ID
-header: metaData? ARCHETYPE_HRID ;
+header: metaData? ARCHETYPE_REF ;
 
 metaData: METADATA_START metaDataItem ( METADATA_SEP metaDataItem )* METADATA_END ;
 
@@ -53,7 +54,7 @@ metaDataItem:
 metaDataValueItem : ALPHANUM_ID '=' metaDataItemValue ;
 metaDataFlag : ALPHANUM_ID ;
 
-metaDataItemValue : ARCHETYPE_HRID | GUID | VERSION_ID | ALPHANUM_ID | OID ;
+metaDataItemValue : ARCHETYPE_REF | GUID | VERSION_ID | ALPHANUM_ID | OID ;
 
 // ------------------- specialise section --------------------
 specializeSection : SPECIALIZE_HEADER ARCHETYPE_REF ;
@@ -64,6 +65,7 @@ specializeSection : SPECIALIZE_HEADER ARCHETYPE_REF ;
 // The lines (i.e. text block) of each section is passed to the appropriate kind of
 // specific parser.
 //
+conceptSection     : CONCEPT_HEADER SYM_LBRACKET ADL14_AT_CODE SYM_RBRACKET ;
 languageSection    : LANGUAGE_HEADER odinText ;
 descriptionSection : DESCRIPTION_HEADER odinText ;
 definitionSection  : DEFINITION_HEADER cadlText ;

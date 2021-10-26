@@ -1,0 +1,186 @@
+﻿	OBSERVATION[at0000] matches {    -- Pulse/Heart beat
+		data matches {
+			HISTORY[at0002] matches {    -- history
+				events cardinality matches {1..*; unordered} matches {
+					EVENT[at0003] occurrences matches {0..*} matches {    -- Any event
+						data matches {
+							ITEM_TREE[at0001] matches {    -- structure
+								items cardinality matches {0..*; unordered} matches {
+									ELEMENT[at1005] occurrences matches {0..1} matches {    -- Presence
+										value matches {
+											DV_CODED_TEXT matches {
+												defining_code matches {
+													[local::
+													at1024,    -- Present
+													at1025]    -- Not detected
+												}
+											}
+										}
+									}
+									ELEMENT[at0004] occurrences matches {0..1} matches {    -- Rate
+										value matches {
+											C_DV_QUANTITY <
+												property = <[openehr::382]>
+												list = <
+													["1"] = <
+														units = <"/min">
+														magnitude = <|0.0..<1000.0|>
+														precision = <|0|>
+													>
+												>
+											>
+										}
+									}
+									ELEMENT[at0005] occurrences matches {0..1} matches {    -- Regularity
+										value matches {
+											DV_CODED_TEXT matches {
+												defining_code matches {
+													[local::
+													at0006,    -- Regular
+													at1028]    -- Irregular
+												}
+											}
+										}
+									}
+									ELEMENT[at1055] occurrences matches {0..1} matches {    -- Irregular type
+										value matches {
+											DV_CODED_TEXT matches {
+												defining_code matches {
+													[local::
+													at0007,    -- Regularly Irregular
+													at0008]    -- Irregularly Irregular
+												}
+											}
+										}
+									}
+									ELEMENT[at1030] occurrences matches {0..*} matches {    -- Character
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									ELEMENT[at1022] occurrences matches {0..1} matches {    -- Clinical description
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									ELEMENT[at1023] occurrences matches {0..*} matches {    -- Clinical interpretation
+										name matches {
+											DV_CODED_TEXT matches {
+												defining_code matches {
+													[local::
+													at1057,    -- Clinical interpretation
+													at1058]    -- Rhythm
+												}
+											}
+										}
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									ELEMENT[at1059] occurrences matches {0..1} matches {    -- Comment
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+								}
+							}
+						}
+						state matches {
+							ITEM_TREE[at0012] matches {    -- List
+								items cardinality matches {0..*; unordered} matches {
+									ELEMENT[at0013] occurrences matches {0..1} matches {    -- Position
+										value matches {
+											DV_CODED_TEXT matches {
+												defining_code matches {
+													[local::
+													at1003,    -- Standing/upright
+													at1001,    -- Sitting
+													at1002,    -- Reclining
+													at1000]    -- Lying
+												}
+											}
+										}
+									}
+									ELEMENT[at1018] occurrences matches {0..*} matches {    -- Confounding factors
+										value matches {
+											DV_TEXT matches {*}
+										}
+									}
+									allow_archetype CLUSTER[at1017] occurrences matches {0..*} matches {    -- Exertion
+										include
+											archetype_id/value matches {/openEHR-EHR-CLUSTER\.level_of_exertion(-[a-zA-Z0-9_]+)*\.v1|openEHR-EHR-CLUSTER\.level_of_exertion(-[a-zA-Z0-9_]+)*\.v0/}
+									}
+								}
+							}
+						}
+					}
+					INTERVAL_EVENT[at1036] occurrences matches {0..1} matches {    -- Maximum
+						math_function matches {
+							DV_CODED_TEXT matches {
+								defining_code matches {
+									[openehr::144]
+								}
+							}
+						}
+						data matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/data[at0001]
+						}
+						state matches {
+							use_node ITEM_TREE /data[at0002]/events[at0003]/state[at0012]
+						}
+					}
+				}
+			}
+		}
+		protocol matches {
+			ITEM_TREE[at0010] matches {    -- List
+				items cardinality matches {0..*; unordered} matches {
+					ELEMENT[at1019] occurrences matches {0..1} matches {    -- Method
+						value matches {
+							DV_CODED_TEXT matches {
+								defining_code matches {
+									[local::
+									at1032,    -- Palpation
+									at1033,    -- Auscultation
+									at1034,    -- Automatic, non-invasive
+									at1050]    -- Automatic, invasive
+								}
+							}
+						}
+					}
+					ELEMENT[at1037] occurrences matches {0..1} matches {    -- Body site
+						value matches {
+							DV_CODED_TEXT matches {
+								defining_code matches {
+									[local::
+									at1038,    -- Radial Artery - Left
+									at1039,    -- Radial Artery - Right
+									at1040,    -- Heart
+									at1041,    -- Carotid Artery - Left
+									at1042,    -- Carotid Artery - Right
+									at1043,    -- Femoral Artery - Left
+									at1044,    -- Femoral Artery - Right
+									at1049,    -- Brachial artery - Right
+									at1048,    -- Brachial artery - Left
+									at1047,    -- Finger
+									at1054,    -- Toe
+									at1051]    -- Ear lobe
+								}
+							}
+							DV_TEXT matches {*}
+						}
+					}
+					allow_archetype CLUSTER[at1013] occurrences matches {0..1} matches {    -- Device
+						include
+							archetype_id/value matches {/openEHR-EHR-CLUSTER\.device(-[a-zA-Z0-9_]+)*\.v1/}
+						exclude
+							archetype_id/value matches {/.*/}
+					}
+					allow_archetype CLUSTER[at1056] occurrences matches {0..*} matches {    -- Extension
+						include
+							archetype_id/value matches {/.*/}
+					}
+				}
+			}
+		}
+	}

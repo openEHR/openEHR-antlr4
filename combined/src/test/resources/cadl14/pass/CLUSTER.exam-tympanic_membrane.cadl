@@ -1,0 +1,269 @@
+﻿	CLUSTER[at0000.1] matches {    -- Examination of a tympanic membrane
+		items cardinality matches {1..*; unordered} matches {
+			ELEMENT[at0001.1] matches {    -- System or structure examined
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.1,    -- Left tympanic membrane
+							at0.2]    -- Right tympanic membrane
+						}
+					}
+				}
+			}
+			ELEMENT[at0012] occurrences matches {0..1} matches {    -- Body site
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			allow_archetype CLUSTER[at0011] occurrences matches {0..*} matches {    -- Structured body site
+				include
+					archetype_id/value matches {/openEHR-EHR-CLUSTER\.anatomical_location(-[a-zA-Z0-9_]+)*\.v1|openEHR-EHR-CLUSTER\.anatomical_location_circle(-[a-zA-Z0-9_]+)*\.v1|openEHR-EHR-CLUSTER\.anatomical_location_relative(-[a-zA-Z0-9_]+)*\.v1/}
+			}
+			ELEMENT[at0002] occurrences matches {0..1} matches {    -- No abnormality detected
+				value matches {
+					DV_BOOLEAN matches {
+						value matches {true}
+					}
+				}
+			}
+			ELEMENT[at0003] occurrences matches {0..1} matches {    -- Clinical description
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.3] occurrences matches {0..1} matches {    -- View
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.4,    -- Adequate
+							at0.5,    -- Compromised
+							at0.6]    -- Total occlusion
+						}
+					}
+				}
+			}
+			ELEMENT[at0.7] occurrences matches {0..1} matches {    -- Reason for occlusion
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.19] occurrences matches {0..1} matches {    -- Appearance
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.20,    -- Translucent
+							at0.21]    -- Opaque
+						}
+					}
+				}
+			}
+			ELEMENT[at0.22] occurrences matches {0..1} matches {    -- Colour
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.15] occurrences matches {0..1} matches {    -- Membrane intact?
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.16,    -- Intact
+							at0.17,    -- Indeterminate
+							at0.18]    -- Perforated
+						}
+					}
+				}
+			}
+			ELEMENT[at0.23] occurrences matches {0..*} matches {    -- Surface features
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.8] occurrences matches {0..1} matches {    -- Ventilation tube present?
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.9,    -- Present
+							at0.10]    -- Absent
+						}
+					}
+				}
+			}
+			ELEMENT[at0.11] occurrences matches {0..1} matches {    -- Ventilation tube placement
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.12,    -- In situ
+							at0.13,    -- Partially extruded
+							at0.14]    -- Extruded - remains in canal
+						}
+					}
+				}
+			}
+			ELEMENT[at0.24] occurrences matches {0..*} matches {    -- Location of tympanosclerosis
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.31] occurrences matches {0..1} matches {    -- Fluid level presence
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.32,    -- Present
+							at0.33]    -- Absent
+						}
+					}
+				}
+			}
+			ELEMENT[at0.34] occurrences matches {0..1} matches {    -- Fluid level description
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.35] occurrences matches {0..*} matches {    -- Mobility
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.36,    -- Immobile
+							at0.37,    -- Hypomobile
+							at0.38,    -- Mobile
+							at0.39,    -- Hypermobile
+							at0.40]    -- Indeterminate
+						}
+					}
+				}
+			}
+			ELEMENT[at0.25] occurrences matches {0..1} matches {    -- Position of tympanic membrane
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.26,    -- Neutral
+							at0.27,    -- Retracted
+							at0.28,    -- Bulging
+							at0.29]    -- Indeterminate
+						}
+					}
+				}
+			}
+			ELEMENT[at0.30] occurrences matches {0..1} matches {    -- Retraction description
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.41] occurrences matches {0..1} matches {    -- Perforation description
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0.42] occurrences matches {0..1} matches {    -- Perforation size
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.43,    -- Pinhole
+							at0.44,    -- Intermediate
+							at0.45,    -- Subtotal
+							at0.46]    -- Total
+						}
+					}
+				}
+			}
+			ELEMENT[at0.47] occurrences matches {0..1} matches {    -- Intermediate estimation
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.48,    -- <40%
+							at0.49]    -- >40%
+						}
+					}
+				}
+			}
+			ELEMENT[at0.50] occurrences matches {0..1} matches {    -- Length of perforation
+				value matches {
+					C_DV_QUANTITY <
+						property = <[openehr::122]>
+						list = <
+							["1"] = <
+								units = <"mm">
+								magnitude = <|>=0.0|>
+							>
+						>
+					>
+				}
+			}
+			ELEMENT[at0.51] occurrences matches {0..1} matches {    -- Width of perforation
+				value matches {
+					DV_QUANTITY matches {*}
+				}
+			}
+			ELEMENT[at0.52] occurrences matches {0..1} matches {    -- Pars flaccida vs pars tensa?
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.53,    -- Pars flaccida
+							at0.54]    -- Pars tensa
+						}
+					}
+				}
+			}
+			ELEMENT[at0.55] occurrences matches {0..1} matches {    -- Marginal vs central?
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.56,    -- Marginal
+							at0.57]    -- Central
+						}
+					}
+				}
+			}
+			ELEMENT[at0.58] occurrences matches {0..1} matches {    -- Anterior?
+				value matches {
+					DV_CODED_TEXT matches {
+						defining_code matches {
+							[local::
+							at0.59,    -- Present
+							at0.60]    -- Absent
+						}
+					}
+				}
+			}
+			ELEMENT[at0.61] occurrences matches {0..1} matches {    -- Edge
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			allow_archetype CLUSTER[at0004.1] occurrences matches {0..*} matches {    -- Examination findings
+				include
+					archetype_id/value matches {/openEHR-EHR-CLUSTER\.sade\.v0|openEHR-EHR-CLUSTER\.exam-middle_ear\.v0|openEHR-EHR-CLUSTER\.tos\.v0/}
+			}
+			allow_archetype CLUSTER[at0005] occurrences matches {0..*} matches {    -- Multimedia representation
+				include
+					archetype_id/value matches {/openEHR-EHR-CLUSTER\.multimedia(-[a-zA-Z0-9_]+)*\.v1|openEHR-EHR-CLUSTER\.multimedia(-[a-zA-Z0-9_]+)*\.v0/}
+			}
+			ELEMENT[at0006] occurrences matches {0..*} matches {    -- Clinical interpretation
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0007] occurrences matches {0..1} matches {    -- Comment
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			allow_archetype CLUSTER[at0008] occurrences matches {0..*} matches {    -- Examination not done
+				include
+					archetype_id/value matches {/openEHR-EHR-CLUSTER\.exclusion_exam(-[a-zA-Z0-9_]+)*\.v1/}
+			}
+		}
+	}

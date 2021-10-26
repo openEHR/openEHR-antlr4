@@ -1,0 +1,11 @@
+﻿	CLUSTER[at0000] matches {	-- Waveform
+		items cardinality matches {1..*; unordered} matches {
+			ELEMENT[at0002] occurrences matches {0..1} matches {	-- Waveform image
+				value matches {
+					DV_MULTIMEDIA matches {
+						media_type matches {[openEHR::]}
+					}
+				}
+			}
+		}
+	}

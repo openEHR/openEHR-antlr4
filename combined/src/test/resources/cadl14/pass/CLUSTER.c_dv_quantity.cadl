@@ -1,0 +1,17 @@
+﻿	CLUSTER[at0000.1] matches {    -- Examination of a tympanic membrane
+		items cardinality matches {1..*; unordered} matches {
+			ELEMENT[at0.50] occurrences matches {0..1} matches {    -- Length of perforation
+				value matches {
+					C_DV_QUANTITY <
+						property = <[openehr::122]>
+						list = <
+							["1"] = <
+								units = <"mm">
+								magnitude = <|>=0.0|>
+							>
+						>
+					>
+				}
+			}
+		}
+	}
