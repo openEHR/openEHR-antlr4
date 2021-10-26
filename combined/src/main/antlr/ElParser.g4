@@ -35,8 +35,7 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 // ========================== EL Expressions ==========================
 
 expression:
-      valueRef
-    | operatorExpression
+      operatorExpression
     | terminalExpression
     ;
 
@@ -58,6 +57,7 @@ booleanExpr:
     | booleanExpr SYM_XOR booleanExpr
     | booleanExpr SYM_OR booleanExpr
     | booleanExpr SYM_IMPLIES booleanExpr
+    | booleanExpr SYM_IFF booleanExpr
     | booleanLeaf
     ;
 
@@ -214,6 +214,7 @@ dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
 terminalExpression:
       valueRef
     | primitiveValue
+    | LOCAL_TERM_CODE_REF
     | tuple
     ;
 

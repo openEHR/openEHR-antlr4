@@ -17,7 +17,7 @@ channels {
 // ------------------ lines and comments ------------------
 CMT_LINE : '--' .*? EOL -> channel(COMMENT) ;
 TABLE_CMT_LINE : '===' '='* EOL -> channel(COMMENT) ;
-EOL      : '\r'? '\n'   -> channel(HIDDEN) ; 
+EOL      : '\r'? '\n'   -> channel(HIDDEN) ;
 WS       : [ \t\r]+     -> channel(HIDDEN) ;
 
 // --------- keywords ----------
@@ -51,15 +51,22 @@ SYM_DOT     : '.' ;
 SYM_DOUBLE_MINUS: '--' ;
 SYM_DOUBLE_PLUS: '++' ;
 
-SYM_THEN     : [Tt][Hh][Ee][Nn] ;
-SYM_AND      : [Aa][Nn][Dd] | '∧' ;
-SYM_OR       : [Oo][Rr] | '∨' ;
-SYM_XOR      : [Xx][Oo][Rr] ;
-SYM_NOT      : [Nn][Oo][Tt] | '!' | '~' | '¬' ;
-SYM_IMPLIES  : [Ii][Mm][Pp][Ll][Ii][Ee][Ss] | '⇒' ;
+SYM_THEN     : 'then' | 'THEN' ;
+SYM_AND      : 'and' | 'AND' | '∧' ;
+SYM_OR       : 'or' | 'OR' | '∨' ;
+SYM_XOR      : 'xor' | 'XOR' ;
+SYM_NOT      : 'not' | 'NOT' | '!' | '~' | '¬' ;
+SYM_IMPLIES  : 'implies' | '⇒' | '→' ;
+SYM_IFF      : '⇔' | '↔' ;
 SYM_FOR_ALL  : 'for_all' | '∀' ;
 SYM_THERE_EXISTS: 'there_exists' | '∃' ;
+SYM_MATCHES  : 'matches' | 'is_in' | '∈' ;
+
+// TODO: replace with defined() and attached() predicates
 SYM_EXISTS   : 'exists' ;
-SYM_MATCHES  : [Mm][Aa][Tt][Cc][Hh][Ee][Ss] | [Ii][Ss]'_'[Ii][Nn] | '∈' ;
 
 BOUND_VARIABLE_ID: '$' LC_ID ;
+
+// ---------- local code that are not ADL codes -------
+// e.g. [heart_rate]
+LOCAL_TERM_CODE_REF: '[' ALPHANUM_US_CHAR+ ']' ;

@@ -48,14 +48,20 @@ fragment PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
 fragment TERMINOLOGY_ID: NAME_ID | URI ;
 
 // e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
-TERM_CODE_REF: '[' COMPACT_TERM_CODE ']' ;
-fragment COMPACT_TERM_CODE : TERM_CODE_CHAR+ ( '(' TERM_CODE_CHAR+ ')' )? '::' TERM_CODE_CHAR+ ( '|' .+? '|' )? ;
-fragment TERM_CODE_CHAR: ALPHANUM_US_HYP_CHAR | '.' ;
+QUALIFIED_TERM_CODE_REF: '[' COMPACT_QUALIFIED_TERM_CODE ']' ;
+fragment COMPACT_QUALIFIED_TERM_CODE : TERM_CODE_STRING ( '(' TERM_CODE_STRING ')' )? '::' TERM_CODE_STRING ( '|' .+? '|' )? ;
+fragment TERM_CODE_STRING: TERM_CODE_CHAR+ ;
+fragment TERM_CODE_CHAR : ALPHANUM_US_HYP_CHAR | '.' ;
 
-// ---------- various ADL codes -------
-
+// ---------- various ADL2 patterns -------
 ROOT_ID_CODE : 'id1' '.1'* ;
 ID_CODE      : 'id' CODE_STR ;
 AT_CODE      : 'at' CODE_STR ;
 AC_CODE      : 'ac' CODE_STR ;
 fragment CODE_STR : NUMBER ( '.' NUMBER )* ;
+
+// ---------- legacy ADL14 patterns -------
+ADL14_AT_CODE : 'at' ADL14_CODE_STR ;
+ADL14_AC_CODE : 'ac' ADL14_CODE_STR ;
+fragment ADL14_CODE_STR : [0-9]+ ( '.' NUMBER )* ;
+

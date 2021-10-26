@@ -19,7 +19,7 @@ channels {
 //  lines and comments
 H_CMT_LINE : '--------' '-'*? EOL  ;            // long comment line for splitting ADL2 template overlays
 CMT_LINE   : '--' .*? EOL -> channel(COMMENT) ;
-EOL        : '\r'? '\n'   -> channel(HIDDEN) ;  // throw out EOLs in default mode
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;
 WS         : [ \t\r]+     -> channel(HIDDEN) ;
 
 // ADL keywords
@@ -54,18 +54,18 @@ ALPHANUM_ID     : [a-zA-Z0-9][a-zA-Z0-9_]* ;
 // the rule may match real numbers, version ids etc.
 OID: INTEGER ( '.' INTEGER )+ ;
 
-EOL_H: EOL -> skip ;
+EOL_H: EOL -> channel(HIDDEN) ;
 
 // ------------------- MODE: specialise section --------------------
 // look for 'language' section, otherwise grab complete lines
 mode SPECIALIZE;
-WS_S             : WS   -> skip ;
+WS_S             : WS -> skip ;
 LANGUAGE_HEADER2 : EOL SYM_LANGUAGE EOL -> mode (LANGUAGE), type(LANGUAGE_HEADER) ;
 // definition section occurs after specialisation for template overlays
 DEFINITION_HEADER      : EOL SYM_DEFINITION EOL -> mode (DEFINITION) ;
 fragment SYM_DEFINITION : 'definition' ;
 ARCHETYPE_REF_2  : ARCHETYPE_REF -> type (ARCHETYPE_REF) ;
-EOL_S            : EOL -> skip ;
+EOL_S            : EOL -> channel(HIDDEN) ;
 
 // ------------------- MODE: language section --------------------
 // look for 'description' section, otherwise grab complete lines
@@ -117,7 +117,7 @@ ODIN_LINE_RMO       : NON_EOL* EOL -> type (ODIN_LINE) ;
 mode TERMINOLOGY;
 ANNOTATIONS_HEADER             : SYM_ANNOTATIONS WS? EOL -> mode (ANNOTATIONS);
 COMPONENT_TERMINOLOGIES_HEADER : SYM_COMPONENT_TERMINOLOGIES WS? EOL+ -> mode (COMPONENT_TERMINOLOGIES);
-TEMPLATE_DIVIDER               : H_CMT_LINE -> channel(HIDDEN), mode (DEFAULT_MODE) ;
+TEMPLATE_DIVIDER               : H_CMT_LINE -> skip, mode (DEFAULT_MODE) ;
 ODIN_LINE_TERM                 : ( NON_EOL* EOL | NON_EOL+ ) -> type (ODIN_LINE) ;
 fragment SYM_ANNOTATIONS       : 'annotations' ;
 fragment SYM_COMPONENT_TERMINOLOGIES : 'component_terminologies' ;
@@ -127,7 +127,7 @@ fragment SYM_COMPONENT_TERMINOLOGIES : 'component_terminologies' ;
 // otherwise grab complete lines; allow for final line with no EOL
 mode ANNOTATIONS;
 COMPONENT_TERMINOLOGIES_HEADER2 : SYM_COMPONENT_TERMINOLOGIES WS? EOL+ -> mode (COMPONENT_TERMINOLOGIES), type (COMPONENT_TERMINOLOGIES_HEADER);
-TEMPLATE_DIVIDER2               : H_CMT_LINE -> channel(HIDDEN), mode (DEFAULT_MODE) ;
+TEMPLATE_DIVIDER2               : H_CMT_LINE -> skip, mode (DEFAULT_MODE) ;
 ODIN_LINE_ANNOT                 : ( NON_EOL* EOL | NON_EOL+ ) -> type (ODIN_LINE) ;
 
 // ------------- MODE: component_terminologies section ---------------

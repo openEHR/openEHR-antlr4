@@ -54,8 +54,8 @@ cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInline
 // 'assertion' rule from EL is required, which causes the whole EL
 // to be sucked in to CADL.
 archetypeSlot: SYM_ALLOW_ARCHETYPE rmTypeId nodeId (( cOccurrences? ( SYM_MATCHES '{' cIncludes? cExcludes? '}' )? ) | SYM_CLOSED ) ;
-cIncludes : SYM_INCLUDE archetypeIdConstraint ;
-cExcludes : SYM_EXCLUDE archetypeIdConstraint ;
+cIncludes : SYM_INCLUDE archetypeIdConstraint+ ;
+cExcludes : SYM_EXCLUDE archetypeIdConstraint+ ;
 archetypeIdConstraint: archetypeIdPath SYM_MATCHES '{' DELIMITED_REGEX '}' ;
 
 // have to allow for relative paths. Note the path here is not an ADL_PATH
@@ -96,7 +96,7 @@ serialBlock:
     | otherSerialBlock 
     ; 
 
-odinBlock: ODIN_BLOCK_START ODIN_BLOCK_LINE+? ODIN_BLOCK_END ;
+odinBlock: ODIN_BLOCK_LINE+ ;
 
 otherSerialBlock: SERIAL_BLOCK_START SERIAL_BLOCK_LINE+? SERIAL_BLOCK_END ;
 

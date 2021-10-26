@@ -113,7 +113,7 @@ durationIntervalValue :
     ;
 durationIntervalListValue : durationIntervalValue ( ( ',' durationIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
-termCodeValue : TERM_CODE_REF ;
+termCodeValue : QUALIFIED_TERM_CODE_REF ;
 termCodeListValue : termCodeValue ( ( ',' termCodeValue )+ | ',' SYM_LIST_CONTINUE ) ;
 
 relop : SYM_LE | SYM_GE | SYM_GT | SYM_LT ;
