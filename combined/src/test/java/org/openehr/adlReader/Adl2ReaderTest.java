@@ -33,7 +33,7 @@ public class Adl2ReaderTest {
 
     @Test
     public void testAllCadl2() throws IOException {
-        runTest ("cadl", "cadl", new Cadl2Reader(false, false));
+        runTest ("cadl", "cadl2", new Cadl2Reader(false, false));
     }
 
     /**
@@ -62,6 +62,11 @@ public class Adl2ReaderTest {
     @Test
     public void testAllAdl2() throws IOException {
         runTest ("adls", "adl2", new Adl2Reader(false, false));
+    }
+
+    @Test
+    public void testAllAdl14() throws IOException {
+        runTest ("adl", "adl14", new Adl14Reader(false, false));
     }
 
     /**

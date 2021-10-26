@@ -1,14 +1,13 @@
 // Generated from AdlParser.g4 by ANTLR 4.9.2
 package org.openehr.adlReader;
 
-import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.combinedparser.Adl2Parser;
 import org.openehr.combinedparser.Adl2ParserListener;
+import org.openehr.common.SyntaxUtils;
 import org.openehr.expressionReader.ExpressionReader;
 import org.openehr.odinReader.OdinReader;
 
@@ -202,9 +201,8 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterLanguageSection (Adl2Parser.LanguageSectionContext ctx) {
-		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "language", ctx.LANGUAGE_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.LANGUAGE_SECTION_NAME, ctx.LANGUAGE_HEADER().getSymbol().getLine());
 		errorCollector.setLanguageErrors (odinReader.getErrors());
-
 	}
 
 	/**
@@ -220,7 +218,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDescriptionSection (Adl2Parser.DescriptionSectionContext ctx) {
-		odinReader.read(textToCharStream (ctx.odinText().ODIN_LINE()), "description", ctx.DESCRIPTION_HEADER().getSymbol().getLine());
+		odinReader.read(SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.DESCRIPTION_SECTION_NAME, ctx.DESCRIPTION_HEADER().getSymbol().getLine());
 		errorCollector.setDescriptionErrors (odinReader.getErrors());
 	}
 
@@ -237,7 +235,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDefinitionSection (Adl2Parser.DefinitionSectionContext ctx) {
-		cadl2Reader.read (textToCharStream (ctx.cadlText().CADL_LINE()), "definition", ctx.DEFINITION_HEADER().getSymbol().getLine());
+		cadl2Reader.read (SyntaxUtils.textToCharStream (ctx.cadlText().CADL_LINE()), Adl2ReaderDefinitions.DEFINITION_SECTION_NAME, ctx.DEFINITION_HEADER().getSymbol().getLine());
 		errorCollector.setDefinitionErrors (cadl2Reader.getErrors());
 	}
 
@@ -253,7 +251,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterRulesSection (Adl2Parser.RulesSectionContext ctx) {
-		expressionReader.read (textToCharStream (ctx.elText().EL_LINE()), "el", ctx.RULES_HEADER().getSymbol().getLine());
+		expressionReader.read (SyntaxUtils.textToCharStream (ctx.elText().EL_LINE()), Adl2ReaderDefinitions.RULES_SECTION_NAME, ctx.RULES_HEADER().getSymbol().getLine());
 		errorCollector.setRulesErrors (expressionReader.getErrors());
 	}
 
@@ -270,7 +268,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterRmOverlaySection (Adl2Parser.RmOverlaySectionContext ctx) {
-		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "rm_overlay", ctx.RM_OVERLAY_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.RM_OVERLAY_SECTION_NAME, ctx.RM_OVERLAY_HEADER().getSymbol().getLine());
 		errorCollector.setRmOverlayErrors (odinReader.getErrors());
 	}
 
@@ -287,7 +285,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterTerminologySection (Adl2Parser.TerminologySectionContext ctx) {
-		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "terminology", ctx.TERMINOLOGY_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.TERMINOLOGY_SECTION_NAME, ctx.TERMINOLOGY_HEADER().getSymbol().getLine());
 		errorCollector.setTerminologyErrors (odinReader.getErrors());
 	}
 
@@ -304,7 +302,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterAnnotationsSection (Adl2Parser.AnnotationsSectionContext ctx) {
-		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "annotations", ctx.ANNOTATIONS_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.ANNOTATIONS_SECTION_NAME, ctx.ANNOTATIONS_HEADER().getSymbol().getLine());
 		errorCollector.setAnnotationsErrors (odinReader.getErrors());
 	}
 
@@ -321,7 +319,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterComponentTerminologiesSection (Adl2Parser.ComponentTerminologiesSectionContext ctx) {
-		odinReader.read (textToCharStream (ctx.odinText().ODIN_LINE()), "component_terminologies", ctx.COMPONENT_TERMINOLOGIES_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.COMPONENT_TERMINOLOGIES_SECTION_NAME, ctx.COMPONENT_TERMINOLOGIES_HEADER().getSymbol().getLine());
 		errorCollector.setAnnotationsErrors (odinReader.getErrors());
 	}
 
@@ -403,16 +401,6 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	@Override public void visitErrorNode(ErrorNode node) { }
 
 	// -------------- Implementation ------------------
-	/**
-	 * Efficiently crunch a List<TerminalNode> containing lines of text
-	 * into a single string
-	 */
-	private static CharStream textToCharStream (List<TerminalNode> nodeList) {
-		StringBuilder sb = new StringBuilder(Adl2ReaderDefinitions.ADL_TEXT_SECTION_SIZE);
-		for (TerminalNode node: nodeList)
-			sb.append(node.getText());
-		return CharStreams.fromString (sb.toString());
-	}
 
 	private final OdinReader odinReader;
 	private final Cadl2Reader cadl2Reader;
