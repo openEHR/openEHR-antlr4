@@ -16,23 +16,23 @@
 //
 
 lexer grammar AqlLexer;
-import OpenehrPatterns, BaseLexer;
+import OpenehrPatterns, BaseLexer, AqlGeneral;
 
 channels {
     COMMENT_CHANNEL
 }
 
 // SKIP
-WS: [ \t\r\n]+ -> skip;
+WS: [ \t\r\n]+ -> channel(HIDDEN);
 UNICODE_BOM: (
-    '\uEFBBBF' // UTF-8 BOM
+      '\uEFBBBF' // UTF-8 BOM
     | '\uFEFF' // UTF16_BOM
     | '\u0000FEFF' // UTF32_BOM
     ) -> skip;
 COMMENT: (
-    SYM_DOUBLE_DASH ' ' ~[\r\n]* ('\r'? '\n' | EOF)
+      SYM_DOUBLE_DASH ' ' ~[\r\n]* ('\r'? '\n' | EOF)
     | SYM_DOUBLE_DASH ('\r'? '\n' | EOF)
-    ) -> channel(COMMENT_CHANNEL);
+    ) -> channel (COMMENT_CHANNEL);
 
 // Keywords
 // Common Keywords
@@ -141,6 +141,8 @@ STRING
     | SYM_DOUBLE_QUOTE ( ESCAPE_SEQ | UTF8CHAR | OCTAL_ESC | ~('\\'|'"') )* SYM_DOUBLE_QUOTE
     ;
 
+AQL_COMPACT_QUALIFIED_TERM_CODE: COMPACT_QUALIFIED_TERM_CODE;
+
 // ---------- symbols ----------
 
 SYM_LT: '<' ;
@@ -159,10 +161,6 @@ SYM_DOUBLE_DASH: '--';
 
 fragment SYM_SINGLE_QUOTE: '\'';
 fragment SYM_DOUBLE_QUOTE: '"';
-
-// general identifiers
-PARAMETER: '$' IDENTIFIER;
-IDENTIFIER: ALPHA_CHAR ALPHANUM_US_CHAR* ;
 
 // ------------------- Fragment letters ---------------------
 fragment A: [aA];

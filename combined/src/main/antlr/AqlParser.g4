@@ -111,13 +111,13 @@ standardPredicate
     ;
 
 archetypePredicate
-    : ARCHETYPE_HRID
+    : ARCHETYPE_REF
     | PARAMETER
     ;
 
 nodePredicate
-    : (ID_CODE | AT_CODE) (SYM_COMMA (STRING | PARAMETER | COMPACT_TERM_CODE | AT_CODE | ID_CODE))?
-    | ARCHETYPE_HRID (SYM_COMMA (STRING | PARAMETER | COMPACT_TERM_CODE | AT_CODE | ID_CODE))?
+    : idCode (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
+    | ARCHETYPE_REF (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
     | PARAMETER
     | objectPath COMPARISON_OPERATOR pathPredicateOperand
     | objectPath MATCHES CONTAINED_REGEX
@@ -135,8 +135,7 @@ pathPredicateOperand
     : primitive
     | objectPath
     | PARAMETER
-    | ID_CODE
-    | AT_CODE
+    | idCode
     ;
 
 objectPath
@@ -192,6 +191,12 @@ terminologyFunction
     : TERMINOLOGY SYM_LPAREN STRING SYM_COMMA STRING SYM_COMMA STRING SYM_RPAREN
     ;
 
+idCode:
+      AT_CODE
+    | ADL14_AT_CODE
+    | ID_CODE
+    ;
+    
 // (deprecated)
 top
     : TOP INTEGER direction=(FORWARD|BACKWARD)?
