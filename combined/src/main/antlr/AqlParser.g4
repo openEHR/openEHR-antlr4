@@ -79,8 +79,8 @@ containsExpr
 
 identifiedExpr
     : EXISTS identifiedPath
-    | identifiedPath COMPARISON_OPERATOR terminal
-    | functionCall COMPARISON_OPERATOR terminal
+    | identifiedPath comparisonOperator terminal
+    | functionCall comparisonOperator terminal
     | identifiedPath LIKE likeOperand
     | identifiedPath MATCHES matchesOperand
     | SYM_LPAREN identifiedExpr SYM_RPAREN
@@ -107,7 +107,7 @@ pathPredicate
     ;
 
 standardPredicate
-    : objectPath COMPARISON_OPERATOR pathPredicateOperand
+    : objectPath comparisonOperator pathPredicateOperand
     ;
 
 archetypePredicate
@@ -119,7 +119,7 @@ nodePredicate
     : idCode (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
     | ARCHETYPE_REF (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
     | PARAMETER
-    | objectPath COMPARISON_OPERATOR pathPredicateOperand
+    | objectPath comparisonOperator pathPredicateOperand
     | objectPath MATCHES CONTAINED_REGEX
     | nodePredicate AND nodePredicate
     | nodePredicate OR nodePredicate
@@ -197,6 +197,8 @@ idCode:
     | ID_CODE
     ;
     
+comparisonOperator: SYM_EQ | SYM_NE | SYM_GT | SYM_GE | SYM_LT | SYM_LE ;
+
 // (deprecated)
 top
     : TOP INTEGER direction=(FORWARD|BACKWARD)?

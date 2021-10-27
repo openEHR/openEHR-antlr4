@@ -69,7 +69,6 @@ OR : O R ;
 NOT : N O T ;
 EXISTS: E X I S T S ;
 // Comparison operators
-COMPARISON_OPERATOR: SYM_EQ | SYM_NE | SYM_GT | SYM_GE | SYM_LT | SYM_LE ;
 LIKE: L I K E ;
 MATCHES: M A T C H E S ;
 
