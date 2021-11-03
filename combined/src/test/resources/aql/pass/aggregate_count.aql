@@ -2,9 +2,11 @@
 -- all distinct test analyte names for a given EHR:
 
 SELECT
-    COUNT(DISTINCT a/items[at0001]/value) AS counter
+    COUNT (DISTINCT a/items[at0001]/value) AS counter
 FROM
-    EHR [ehr_id/value=$ehrUid]
-    CONTAINS COMPOSITION c
-        CONTAINS OBSERVATION [openEHR-EHR-OBSERVATION.laboratory_test_result.v1]
-            CONTAINS CLUSTER a[openEHR-EHR-CLUSTER.laboratory_test_analyte.v1]
+    EHR e
+        CONTAINS COMPOSITION c
+            CONTAINS OBSERVATION [openEHR-EHR-OBSERVATION.laboratory_test_result.v1]
+                CONTAINS CLUSTER a[openEHR-EHR-CLUSTER.laboratory_test_analyte.v1]
+WHERE
+    e/ehr_id/value=$ehrUid

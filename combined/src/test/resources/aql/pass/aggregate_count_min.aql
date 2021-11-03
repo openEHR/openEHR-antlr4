@@ -4,6 +4,8 @@
 SELECT
    count(*) AS counter, min(c/context/start_time) as firstTime
 FROM
-   EHR [ehr_id/value=$ehrUid]
+   EHR e
       CONTAINS COMPOSITION c[openEHR-EHR-COMPOSITION.administrative_encounter.v1]
          CONTAINS ADMIN_ENTRY [openEHR-EHR-ADMIN_ENTRY.admission.v1]
+WHERE
+    e/ehr_id/value=$ehrUid

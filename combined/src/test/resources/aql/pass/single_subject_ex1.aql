@@ -4,12 +4,13 @@ SELECT
     obs/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude AS diastolic,
     c/context/start_time AS date_time
 FROM
-    EHR [ehr_id/value=$ehrUid]
+    EHR e
         CONTAINS COMPOSITION c [openEHR-EHR-COMPOSITION.encounter.v1]
             CONTAINS OBSERVATION obs [openEHR-EHR-OBSERVATION.blood_pressure.v1]
 WHERE
-    obs/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude >= 140 OR
-    obs/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude >= 90
+    e/ehr_id/value=$ehrUid AND
+    (obs/data[at0001]/events[at0006]/data[at0003]/items[at0004]/value/magnitude >= 140 OR
+    obs/data[at0001]/events[at0006]/data[at0003]/items[at0005]/value/magnitude >= 90)
 ORDER BY
     c/context/start_time DESC
 LIMIT 5
