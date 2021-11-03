@@ -19,91 +19,99 @@ parser grammar AqlParser;
 
 options { tokenVocab=AqlLexer; }
 
+//
+// --------------- top-level parts of query --------------
+//
+
 selectQuery
     : selectClause fromClause whereClause? orderByClause? limitClause? SYM_DOUBLE_DASH? EOF
     ;
 
 selectClause
-    : SELECT DISTINCT? top? selectExpr (SYM_COMMA selectExpr)*
+    : SYM_SELECT SYM_DISTINCT? top? columnSpec ( ',' columnSpec )*
     ;
 
 fromClause
-    : FROM fromExpr
+    : SYM_FROM fromExpr
     ;
 
 whereClause
-    : WHERE whereExpr
+    : SYM_WHERE whereExpr
     ;
 
 orderByClause
-    : ORDER BY orderByExpr (SYM_COMMA orderByExpr)*
+    : SYM_ORDER BY orderByExpr ( ',' orderByExpr )*
     ;
 
 limitClause
-    : LIMIT limit=INTEGER (OFFSET offset=INTEGER) ?
+    : SYM_LIMIT limit=INTEGER ( SYM_OFFSET offset=INTEGER ) ?
     ;
 
-selectExpr
-    : columnExpr (AS aliasName=IDENTIFIER)?
+//
+// --------------- sub-parts --------------
+//
+
+columnSpec
+    : columnValue ( SYM_AS aliasName=IDENTIFIER )?
     ;
 
-fromExpr
-    : containsExpr
-    ;
-
-whereExpr
-    : identifiedExpr
-    | NOT whereExpr
-    | whereExpr AND whereExpr
-    | whereExpr OR whereExpr
-    | SYM_LPAREN whereExpr SYM_RPAREN
-    ;
-
-orderByExpr
-    : identifiedPath order=( DESCENDING | DESC | ASCENDING | ASC )?
-    ;
-
-columnExpr
+columnValue
     : identifiedPath
-    | primitive
+    | primitiveLiteral
     | aggregateFunctionCall
     | functionCall
     ;
 
-containsExpr
-    : classExprOperand (NOT? CONTAINS containsExpr)?
-    | containsExpr AND containsExpr
-    | containsExpr OR containsExpr
-    | SYM_LPAREN containsExpr SYM_RPAREN
+whereExpr
+    : identifiedPathExpr
+    | SYM_NOT whereExpr
+    | whereExpr SYM_AND whereExpr
+    | whereExpr SYM_OR whereExpr
+    | '(' whereExpr ')'
     ;
 
-identifiedExpr
-    : EXISTS identifiedPath
+orderByExpr
+    : identifiedPath order=( SYM_DESCENDING | SYM_DESC | SYM_ASCENDING | SYM_ASC )?
+    ;
+
+fromExpr
+    : classExprOperand (SYM_NOT? SYM_CONTAINS fromExpr)?
+    | fromExpr SYM_AND fromExpr
+    | fromExpr SYM_OR fromExpr
+    | '(' fromExpr ')'
+    ;
+
+//
+// Boolean-returning expressions with identifiedPath
+// as an operand
+//
+identifiedPathExpr
+    : SYM_EXISTS identifiedPath
     | identifiedPath comparisonOperator terminal
     | functionCall comparisonOperator terminal
-    | identifiedPath LIKE likeOperand
-    | identifiedPath MATCHES matchesOperand
-    | SYM_LPAREN identifiedExpr SYM_RPAREN
+    | identifiedPath SYM_LIKE likeOperand
+    | identifiedPath SYM_MATCHES matchesOperand
+    | '(' identifiedPathExpr ')'
     ;
 
 classExprOperand
     : IDENTIFIER variable=IDENTIFIER? pathPredicate?                              #classExpression
-    | VERSION variable=IDENTIFIER? (SYM_LBRACKET versionPredicate SYM_RBRACKET)?  #versionClassExpr
+    | SYM_VERSION variable=IDENTIFIER? ('[' versionPredicate ']')?  #versionClassExpr
     ;
 
 terminal
-    : primitive
+    : primitiveLiteral
     | PARAMETER
     | identifiedPath
     | functionCall
     ;
 
 identifiedPath
-    : IDENTIFIER pathPredicate? (SYM_SLASH objectPath)?
+    : IDENTIFIER pathPredicate? ('/' objectPath)?
     ;
 
 pathPredicate
-    : SYM_LBRACKET (standardPredicate | archetypePredicate | nodePredicate) SYM_RBRACKET
+    : '[' (standardPredicate | archetypePredicate | nodePredicate) ']'
     ;
 
 standardPredicate
@@ -120,27 +128,28 @@ nodePredicate
     | ARCHETYPE_REF (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
     | PARAMETER
     | objectPath comparisonOperator pathPredicateOperand
-    | objectPath MATCHES CONTAINED_REGEX
-    | nodePredicate AND nodePredicate
-    | nodePredicate OR nodePredicate
+    | objectPath SYM_MATCHES CONTAINED_REGEX
+    | nodePredicate SYM_AND nodePredicate
+    | nodePredicate SYM_OR nodePredicate
     ;
 
 versionPredicate
-    : LATEST_VERSION
-    | ALL_VERSIONS
+    : SYM_LATEST_VERSION
+    | SYM_ALL_VERSIONS
     | standardPredicate
     ;
 
 pathPredicateOperand
-    : primitive
+    : primitiveLiteral
     | objectPath
     | PARAMETER
     | idCode
     ;
 
 objectPath
-    : pathPart (SYM_SLASH pathPart)*
+    : pathPart ('/' pathPart)*
     ;
+
 pathPart
     : IDENTIFIER pathPredicate?
     ;
@@ -149,47 +158,69 @@ likeOperand
     : STRING
     | PARAMETER
     ;
+
 matchesOperand
-    : SYM_LCURLY valueListItem (SYM_COMMA valueListItem)* SYM_RCURLY
+    : '{' valueListItem (',' valueListItem)* '}'
     | terminologyFunction
-    | SYM_LCURLY AQL_URI SYM_RCURLY
+    | '{' AQL_URI '}'
     ;
 
 valueListItem
-    : primitive
+    : primitiveLiteral
     | PARAMETER
     | terminologyFunction
     ;
 
-primitive
-    : STRING
-    | numericPrimitive
-    | DATE_STRING | TIME_STRING | DATE_TIME_STRING
+//
+// --------------------- literal values ------------------
+//
+primitiveLiteral:
+      STRING
+    | numericLiteral
+    | dateTimeLiteral
     | BOOLEAN
-    | NULL
+    | SYM_NULL
     ;
 
-numericPrimitive
-    : INTEGER
+numericLiteral:
+      INTEGER
     | REAL
     | SCI_INTEGER
     | SCI_REAL
-    | SYM_MINUS numericPrimitive
+    | SYM_MINUS numericLiteral
     ;
 
+dateTimeLiteral:
+      DATE_STRING
+    | TIME_STRING
+    | DATE_TIME_STRING
+    ;
+
+//
+// --------------------- function calls ------------------
+//
 functionCall
     : terminologyFunction
-    | name=(STRING_FUNCTION_ID | NUMERIC_FUNCTION_ID | DATE_TIME_FUNCTION_ID | IDENTIFIER) SYM_LPAREN (terminal (SYM_COMMA terminal)*)? SYM_RPAREN
+    | name=(stringFunction | numericFunction | dateTimeFunction | IDENTIFIER) '(' (terminal (',' terminal)*)? ')'
     ;
 
 aggregateFunctionCall
-    : name=COUNT SYM_LPAREN (DISTINCT? identifiedPath | SYM_ASTERISK) SYM_RPAREN
-    | name=(MIN | MAX | SUM | AVG) SYM_LPAREN identifiedPath SYM_RPAREN
+    : name=SYM_COUNT '(' (SYM_DISTINCT? identifiedPath | SYM_ASTERISK) ')'
+    | name=(SYM_MIN | SYM_MAX | SYM_SUM | SYM_AVG) SYM_LPAREN identifiedPath SYM_RPAREN
     ;
 
 terminologyFunction
-    : TERMINOLOGY SYM_LPAREN STRING SYM_COMMA STRING SYM_COMMA STRING SYM_RPAREN
+    : SYM_TERMINOLOGY '(' STRING ',' STRING ',' STRING ')'
     ;
+
+// built-in functions
+stringFunction: SYM_LENGTH | SYM_CONTAINS | SYM_POSITION | SYM_SUBSTRING | SYM_CONCAT_WS | SYM_CONCAT ;
+numericFunction: SYM_ABS | SYM_MOD | SYM_CEIL | SYM_FLOOR | SYM_ROUND ;
+dateTimeFunction: SYM_NOW | SYM_CURRENT_DATE_TIME | SYM_CURRENT_DATE | SYM_CURRENT_TIMEZONE | SYM_CURRENT_TIME ;
+
+//
+// ---------------- basic elements --------------------
+//
 
 idCode:
       AT_CODE
@@ -201,5 +232,5 @@ comparisonOperator: SYM_EQ | SYM_NE | SYM_GT | SYM_GE | SYM_LT | SYM_LE ;
 
 // (deprecated)
 top
-    : TOP INTEGER direction=(FORWARD|BACKWARD)?
+    : SYM_TOP INTEGER direction=( SYM_FORWARD | SYM_BACKWARD )?
     ;

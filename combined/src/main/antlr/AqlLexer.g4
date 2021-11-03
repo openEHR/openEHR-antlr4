@@ -36,72 +36,75 @@ COMMENT: (
 
 // Keywords
 // Common Keywords
-SELECT: S E L E C T ;
-AS: A S ;
-FROM: F R O M ;
-WHERE: W H E R E ;
-ORDER: O R D E R ;
-BY: B Y ;
-DESC: D E S C ;
-DESCENDING: D E S C E N D I N G ;
-ASC: A S C ;
-ASCENDING: A S C E N D I N G ;
-LIMIT: L I M I T ;
-OFFSET: O F F S E T ;
+SYM_SELECT: 'SELECT' ;
+SYM_AS: 'AS' ;
+SYM_FROM: 'FROM' ;
+SYM_WHERE: 'WHERE' ;
+SYM_ORDER: 'ORDER' ;
+SYM_BY: 'BY' ;
+SYM_DESC: 'DESC' ;
+SYM_DESCENDING: 'DESCENDING' ;
+SYM_ASC: 'ASC' ;
+SYM_ASCENDING: 'ASCENDING' ;
+SYM_LIMIT: 'LIMIT' ;
+SYM_OFFSET: 'OFFSET' ;
+
 // other keywords
-DISTINCT: D I S T I N C T ;
-VERSION : V E R S I O N ;
-LATEST_VERSION : L A T E S T '_' V E R S I O N ;
-ALL_VERSIONS : A L L '_' V E R S I O N S ;
-NULL: N U L L ;
+SYM_DISTINCT: 'DISTINCT' ;
+SYM_VERSION : 'VERSION' ;
+SYM_LATEST_VERSION : 'LATEST_VERSION' ;
+SYM_ALL_VERSIONS : 'ALL_VERSIONS' ;
+SYM_NULL: 'NULL' ;
 
 // deprecated
-TOP: T O P ;
-FORWARD: F O R W A R D ;
-BACKWARD: B A C K W A R D ;
+SYM_TOP: 'TOP' ;
+SYM_FORWARD: 'FORWARD' ;
+SYM_BACKWARD: 'BACKWARD' ;
 
 // Operators
 // Containment operator
-CONTAINS : C O N T A I N S ;
-// Logical operators
-AND : A N D ;
-OR : O R ;
-NOT : N O T ;
-EXISTS: E X I S T S ;
-// Comparison operators
-LIKE: L I K E ;
-MATCHES: M A T C H E S ;
+SYM_CONTAINS : 'CONTAINS' ;
 
-// functions
-STRING_FUNCTION_ID: LENGTH | CONTAINS | POSITION | SUBSTRING | CONCAT_WS | CONCAT ;
-NUMERIC_FUNCTION_ID: ABS | MOD | CEIL | FLOOR | ROUND ;
-DATE_TIME_FUNCTION_ID: NOW | CURRENT_DATE_TIME | CURRENT_DATE | CURRENT_TIMEZONE | CURRENT_TIME ;
+// Logical operators
+SYM_AND : 'AND' ;
+SYM_OR : 'OR' ;
+SYM_NOT : 'NOT' ;
+SYM_EXISTS: 'EXISTS' ;
+
+// Comparison operators
+SYM_LIKE: 'LIKE' ;
+SYM_MATCHES: 'MATCHES' ;
+
 // string functions
-LENGTH: L E N G T H ;
-POSITION: P O S I T I O N ;
-SUBSTRING: S U B S T R I N G ;
-CONCAT: C O N C A T ;
-CONCAT_WS: C O N C A T '_' W S ;
+SYM_LENGTH: 'LENGTH' ;
+SYM_POSITION: 'POSITION' ;
+SYM_SUBSTRING: 'SUBSTRING' ;
+SYM_CONCAT: 'CONCAT' ;
+SYM_CONCAT_WS: 'CONCAT_WS' ;
+
 // numeric functions
-ABS: A B S ;
-MOD: M O D ;
-CEIL: C E I L ;
-FLOOR: F L O O R ;
-ROUND: R O U N D ;
+SYM_ABS: 'ABS' ;
+SYM_MOD: 'MOD' ;
+SYM_CEIL: 'CEIL' ;
+SYM_FLOOR: 'FLOOR' ;
+SYM_ROUND: 'ROUND' ;
+
 // date and time functions
-CURRENT_DATE: C U R R E N T '_' D A T E ;
-CURRENT_TIME: C U R R E N T '_' T I M E ;
-CURRENT_DATE_TIME: C U R R E N T '_' D A T E '_' T I M E ;
-NOW: N O W ;
-CURRENT_TIMEZONE: C U R R E N T '_' T I M E Z O N E ;
+SYM_CURRENT_DATE: 'CURRENT_DATE' ;
+SYM_CURRENT_TIME: 'CURRENT_TIME' ;
+SYM_CURRENT_DATE_TIME: 'CURRENT_DATE_TIME' ;
+SYM_NOW: 'NOW' ;
+SYM_CURRENT_TIMEZONE: 'CURRENT_TIMEZONE' ;
+
 // aggregate function
-COUNT: C O U N T ;
-MIN: M I N ;
-MAX: M A X ;
-SUM: S U M ;
-AVG: A V G ;
+SYM_COUNT: 'COUNT' ;
+SYM_MIN: 'MIN' ;
+SYM_MAX: 'MAX' ;
+SYM_SUM: 'SUM' ;
+SYM_AVG: 'AVG' ;
+
 // other functions
-TERMINOLOGY: T E R M I N O L O G Y ;
+SYM_TERMINOLOGY: 'TERMINOLOGY' ;
 
 //
 //  ======================= Lexical rules ========================
