@@ -7,8 +7,7 @@
 //
 
 lexer grammar AqlGeneral;
-import BaseLexer;
+import GeneralLexer;
 
 // general identifiers
-PARAMETER: '$' IDENTIFIER;
-IDENTIFIER: ALPHA_CHAR ALPHANUM_US_CHAR* ;
+PARAMETER: '$' ALPHA_CHAR ALPHANUM_US_CHAR*;

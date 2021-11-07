@@ -91,3 +91,22 @@ domainSpecificExtension:  rmTypeId '<' odinObject? '>';
 rmTypeId      : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : LC_ID ;
 
+// ==================== Query Matcher top-level object =====================
+
+cComplexObjectMatcher: rmTypeId nodeId? ( SYM_MATCHES '{' cComplexObjectMatcherDef '}' )? ;
+
+cComplexObjectMatcherDef: cAttributeMatcher+ | '*' ;
+
+// ------------------- Complex constraint types ----------------------
+
+cAttributeMatcher: rmAttributeId cExistence? cCardinality? ( SYM_MATCHES '{' ( cAttributeMatcherDef | cInlinePrimitiveObject ) '}' )? ;
+
+cAttributeMatcherDef: cRegularObjectMatcher+ ;
+
+cRegularObjectMatcher:
+      cComplexObject
+    | cArchetypeRoot
+    | cRegularPrimitiveObject
+    | cOrdinal
+    | domainSpecificExtension
+    ;

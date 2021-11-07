@@ -16,23 +16,23 @@
 //
 
 parser grammar AqlParser;
-
+import Cadl14Parser;
 options { tokenVocab=AqlLexer; }
 
 //
 // --------------- top-level parts of query --------------
 //
 
-selectQuery
+aqlQuery
     : selectClause fromClause whereClause? orderByClause? limitClause? SYM_DOUBLE_DASH? EOF
     ;
 
 selectClause
-    : SYM_SELECT SYM_DISTINCT? top? columnSpec ( ',' columnSpec )*
+    : SYM_SELECT SYM_DISTINCT? top? resultTable
     ;
 
 fromClause
-    : SYM_FROM fromExpr
+    : SYM_FROM modelTypeConstraint
     ;
 
 whereClause
@@ -40,7 +40,7 @@ whereClause
     ;
 
 orderByClause
-    : SYM_ORDER BY orderByExpr ( ',' orderByExpr )*
+    : SYM_ORDER SYM_BY orderByExpr ( ',' orderByExpr )*
     ;
 
 limitClause
@@ -48,110 +48,76 @@ limitClause
     ;
 
 //
-// --------------- sub-parts --------------
+// --------------- SELECT sub-parts --------------
 //
 
-columnSpec
-    : columnValue ( SYM_AS aliasName=IDENTIFIER )?
-    ;
+resultTable: columnSpec ( ',' columnSpec )* ;
 
-columnValue
-    : identifiedPath
-    | primitiveLiteral
+columnSpec: columnValue ( SYM_AS aliasName=LC_ID )? ;
+
+columnValue:
+      dataMatchPath
     | aggregateFunctionCall
     | functionCall
+    | primitiveLiteral
     ;
 
+orderByExpr: modelPath order=( SYM_DESCENDING | SYM_DESC | SYM_ASCENDING | SYM_ASC )? ;
+
+//
+// --------------- FROM sub-parts --------------
+//
+
+modelTypeConstraint:
+      modelType
+    | modelTypeChain
+    ;
+
+modelTypeChain: modelType SYM_NOT? SYM_CONTAINS modelTypeSubChain ;
+
+modelTypeSubChain:
+      modelTypeConstraint
+    | '(' modelTypeExpr ')'
+    ;
+
+modelTypeExpr:
+      SYM_NOT modelTypeExpr
+    | modelTypeExpr SYM_AND modelTypeExpr
+    | modelTypeExpr SYM_OR modelTypeExpr
+    | modelTypeConstraint
+    | '(' modelTypeExpr ')'
+    ;
+
+modelType: typeName=UC_ID variableName=LC_ID? ( '[' archetypeIdPredicate ']' )? ;
+
+//
+// --------------- WHERE sub-parts --------------
+//
+
 whereExpr
-    : identifiedPathExpr
+    : wherePathExpr
     | SYM_NOT whereExpr
     | whereExpr SYM_AND whereExpr
     | whereExpr SYM_OR whereExpr
     | '(' whereExpr ')'
     ;
 
-orderByExpr
-    : identifiedPath order=( SYM_DESCENDING | SYM_DESC | SYM_ASCENDING | SYM_ASC )?
-    ;
-
-fromExpr
-    : classExprOperand (SYM_NOT? SYM_CONTAINS fromExpr)?
-    | fromExpr SYM_AND fromExpr
-    | fromExpr SYM_OR fromExpr
-    | '(' fromExpr ')'
-    ;
-
 //
-// Boolean-returning expressions with identifiedPath
-// as an operand
+// Boolean-returning expressions with dataMatchPath as an operand
 //
-identifiedPathExpr
-    : SYM_EXISTS identifiedPath
-    | identifiedPath comparisonOperator terminal
+wherePathExpr
+    : SYM_EXISTS dataMatchPath
+    | dataMatchPath SYM_MATCHES matchesOperand
+    | dataMatchPath SYM_LIKE likeOperand
+    | dataMatchPath comparisonOperator terminal
     | functionCall comparisonOperator terminal
-    | identifiedPath SYM_LIKE likeOperand
-    | identifiedPath SYM_MATCHES matchesOperand
-    | '(' identifiedPathExpr ')'
-    ;
-
-classExprOperand
-    : IDENTIFIER variable=IDENTIFIER? pathPredicate?                              #classExpression
-    | SYM_VERSION variable=IDENTIFIER? ('[' versionPredicate ']')?  #versionClassExpr
     ;
 
 terminal
     : primitiveLiteral
     | PARAMETER
-    | identifiedPath
+    | dataMatchPath
     | functionCall
-    ;
-
-identifiedPath
-    : IDENTIFIER pathPredicate? ('/' objectPath)?
-    ;
-
-pathPredicate
-    : '[' (standardPredicate | archetypePredicate | nodePredicate) ']'
-    ;
-
-standardPredicate
-    : objectPath comparisonOperator pathPredicateOperand
-    ;
-
-archetypePredicate
-    : ARCHETYPE_REF
-    | PARAMETER
-    ;
-
-nodePredicate
-    : idCode (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
-    | ARCHETYPE_REF (',' (STRING | PARAMETER | AQL_COMPACT_QUALIFIED_TERM_CODE | idCode ))?
-    | PARAMETER
-    | objectPath comparisonOperator pathPredicateOperand
-    | objectPath SYM_MATCHES CONTAINED_REGEX
-    | nodePredicate SYM_AND nodePredicate
-    | nodePredicate SYM_OR nodePredicate
-    ;
-
-versionPredicate
-    : SYM_LATEST_VERSION
-    | SYM_ALL_VERSIONS
-    | standardPredicate
-    ;
-
-pathPredicateOperand
-    : primitiveLiteral
-    | objectPath
-    | PARAMETER
-    | idCode
-    ;
-
-objectPath
-    : pathPart ('/' pathPart)*
-    ;
-
-pathPart
-    : IDENTIFIER pathPredicate?
     ;
 
 likeOperand
@@ -159,17 +125,103 @@ likeOperand
     | PARAMETER
     ;
 
-matchesOperand
-    : '{' valueListItem (',' valueListItem)* '}'
+matchesOperand:
+      '{' matchesConstraint '}'
     | terminologyFunction
-    | '{' AQL_URI '}'
     ;
 
-valueListItem
-    : primitiveLiteral
-    | PARAMETER
-    | terminologyFunction
+matchesConstraint:
+      valueListItem (',' valueListItem)*
+    | cComplexObjectMatcher
+    | AQL_URI
     ;
+
+valueListItem:
+      primitiveLiteral
+    | PARAMETER
+    ;
+
+//
+// ----------------------- paths ------------------------
+//
+
+//
+// A path to a node in an archetype, which will potentially match
+// one or more data items in runtime data
+//
+archetypePath: archetypePathSegment+ ;
+
+archetypePathSegment: '/' attributeId=LC_ID ( '[' archetypePathPredicate ']' )? ;
+
+archetypePathPredicate:
+      archetypeIdPredicate
+    | idCode
+    ;
+
+archetypeIdPredicate: ARCHETYPE_REF ;
+
+//
+// A path to a node in an archetype with further model-based
+// path, referring to structure not mentioned in the archetype
+//
+augmentedArchetypePath: variableName=LC_ID archetypePath modelSubPath? ;
+
+//
+// A path within a type defined in the underlying reference model
+//
+modelPath: variableName=LC_ID modelSubPath ;
+
+modelSubPath: modelPathSegment+ ;
+
+modelPathSegment: '/' attributeId=LC_ID ;
+
+//
+// A path to match an item in data, based on an archetype path with
+// additional runtime constraint predicates. A degenerate form of
+// a dataPath (no predicates) looks like a modelPath
+//
+dataMatchPath: variableName=LC_ID dataMatchPathSegment+ ;
+    
+dataMatchPathSegment: '/' attributeId=LC_ID ( '[' dataMatchPathPredicate ']' )? ;
+
+//
+// Predicates on a data path node, which are of the general form
+//  * archetypeId or nodeId (identifying where we are in the archetype), and optionally
+//  further value constraints, linked by Boolean operators, e.g.
+//  * name/value=$nameValue
+//  * name/defining_code/code_string='F60.1' and name/defining_code/terminology_id/value='icd10AM'
+//
+// The value constraints may have model-specific shortcuts of the form:
+//  * ", value"
+// which means 'AND /some/path = value', where the '/some/path' is a path specific to the
+// reference model, which is assumed (typically a long, commonly used path)
+//
+dataMatchPathPredicate: archetypePathPredicate ( SYM_AND dataMatchPathValuePredicate | ',' modelSpecificShortcutValue )? ;
+
+//
+// Node-level Boolean-returning predicates based on value
+//
+dataMatchPathValuePredicate:
+      modelPath SYM_MATCHES CONTAINED_REGEX
+    | modelPath comparisonOperator modelPathComparatorValue
+    | dataMatchPathValuePredicate SYM_AND dataMatchPathValuePredicate
+    | dataMatchPathValuePredicate SYM_OR dataMatchPathValuePredicate
+    ;
+
+modelPathComparatorValue:
+      primitiveLiteral
+    | modelPath
+    | PARAMETER
+    ;
+
+modelSpecificShortcutValue:  ;
+
+
+versionPredicate
+    : SYM_LATEST_VERSION
+    | SYM_ALL_VERSIONS
+    ;
+
 
 //
 // --------------------- literal values ------------------
@@ -201,12 +253,22 @@ dateTimeLiteral:
 //
 functionCall
     : terminologyFunction
-    | name=(stringFunction | numericFunction | dateTimeFunction | IDENTIFIER) '(' (terminal (',' terminal)*)? ')'
+    | builtInFunction functionArgs
+    | LC_ID functionArgs
     ;
 
+functionArgs: '(' (terminal (',' terminal)*)? ')' ;
+
 aggregateFunctionCall
-    : name=SYM_COUNT '(' (SYM_DISTINCT? identifiedPath | SYM_ASTERISK) ')'
-    | name=(SYM_MIN | SYM_MAX | SYM_SUM | SYM_AVG) SYM_LPAREN identifiedPath SYM_RPAREN
+    : name=SYM_COUNT '(' ( SYM_DISTINCT? augmentedArchetypePath | SYM_ASTERISK ) ')'
+    | aggregateMathFunction '(' augmentedArchetypePath ')'
+    ;
+
+aggregateMathFunction:
+      SYM_MIN
+    | SYM_MAX
+    | SYM_SUM
+    | SYM_AVG
     ;
 
 terminologyFunction
@@ -214,6 +276,7 @@ terminologyFunction
     ;
 
 // built-in functions
+builtInFunction: stringFunction | numericFunction | dateTimeFunction ;
 stringFunction: SYM_LENGTH | SYM_CONTAINS | SYM_POSITION | SYM_SUBSTRING | SYM_CONCAT_WS | SYM_CONCAT ;
 numericFunction: SYM_ABS | SYM_MOD | SYM_CEIL | SYM_FLOOR | SYM_ROUND ;
 dateTimeFunction: SYM_NOW | SYM_CURRENT_DATE_TIME | SYM_CURRENT_DATE | SYM_CURRENT_TIMEZONE | SYM_CURRENT_TIME ;
@@ -228,9 +291,14 @@ idCode:
     | ID_CODE
     ;
     
-comparisonOperator: SYM_EQ | SYM_NE | SYM_GT | SYM_GE | SYM_LT | SYM_LE ;
+comparisonOperator:
+      SYM_EQ
+    | SYM_NE
+    | SYM_GT
+    | SYM_GE
+    | SYM_LT
+    | SYM_LE
+    ;
 
 // (deprecated)
-top
-    : SYM_TOP INTEGER direction=( SYM_FORWARD | SYM_BACKWARD )?
-    ;
+top: SYM_TOP INTEGER direction=( SYM_FORWARD | SYM_BACKWARD )? ;

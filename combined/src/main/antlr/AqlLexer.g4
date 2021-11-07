@@ -16,10 +16,10 @@
 //
 
 lexer grammar AqlLexer;
-import OpenehrPatterns, BaseLexer, AqlGeneral;
+import Cadl14Lexer, OpenehrPatterns, BaseLexer, AqlGeneral, GeneralLexer;
 
 channels {
-    COMMENT_CHANNEL
+    COMMENT
 }
 
 // SKIP
@@ -29,10 +29,8 @@ UNICODE_BOM: (
     | '\uFEFF' // UTF16_BOM
     | '\u0000FEFF' // UTF32_BOM
     ) -> skip;
-COMMENT: (
-      SYM_DOUBLE_DASH ' ' ~[\r\n]* ('\r'? '\n' | EOF)
-    | SYM_DOUBLE_DASH ('\r'? '\n' | EOF)
-    ) -> channel (COMMENT_CHANNEL);
+CMT_LINE   : '--' .*? EOL -> channel(COMMENT) ;
+EOL        : '\r'? '\n'   -> channel(HIDDEN) ;
 
 // Keywords
 // Common Keywords
@@ -73,7 +71,7 @@ SYM_EXISTS: 'EXISTS' ;
 
 // Comparison operators
 SYM_LIKE: 'LIKE' ;
-SYM_MATCHES: 'MATCHES' ;
+SYM_MATCHES: 'matches' ;
 
 // string functions
 SYM_LENGTH: 'LENGTH' ;

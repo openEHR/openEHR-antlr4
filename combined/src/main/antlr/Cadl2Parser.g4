@@ -104,3 +104,22 @@ otherSerialBlock: SERIAL_BLOCK_START SERIAL_BLOCK_LINE+? SERIAL_BLOCK_END ;
 rmTypeId      : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;
 rmAttributeId : LC_ID ;
 
+//
+//  ======================= Query matcher constraint type ========================
+//
+
+cComplexObjectMatcher: rmTypeId nodeId ( SYM_MATCHES '{' cComplexObjectMatcherDef '}' )? ;
+
+cComplexObjectMatcherDef: ( defaultValue | cAttributesMatcher defaultValue? ) ;
+
+cAttributesMatcher: ( cAttributeMatcher | cAttributeTuple )+ ;
+
+cAttributeMatcher: ( ADL_PATH | rmAttributeId ) ( SYM_MATCHES '{' ( cAttributeMatcherDef | cInlinePrimitiveObject ) '}' )? ;
+
+cAttributeMatcherDef: cRegularObjectMatcher+ ;
+
+cRegularObjectMatcher:
+      cComplexObject
+    | cArchetypeRoot
+    | cRegularPrimitiveObject
+    ;
