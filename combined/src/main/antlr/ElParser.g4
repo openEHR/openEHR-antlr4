@@ -57,7 +57,7 @@ booleanExpr:
     | booleanExpr SYM_XOR booleanExpr
     | booleanExpr SYM_OR booleanExpr
     | booleanExpr SYM_IMPLIES booleanExpr
-    | booleanExpr SYM_IFF booleanExpr
+    | booleanExpr ( SYM_IFF | SYM_EQ ) booleanExpr
     | booleanLeaf
     ;
 
