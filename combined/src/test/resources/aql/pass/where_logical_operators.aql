@@ -4,18 +4,17 @@
 SELECT
     e/ehr_id
 FROM
-    EHR e
-        CONTAINS
-            (COMPOSITION c1
-                CONTAINS ACTION a [openEHR-EHR-ACTION.medication.v1]
-                CONTAINS ITEM_TREE it [openEHR-EHR-ITEM_TREE.medication.v1])
-        AND CONTAINS
-            (COMPOSITION c2 CONTAINS EVALUATION eval [openEHR-EHR-EVALUATION.problem-diagnosis.v1])
+    EHR e CONTAINS
+        (COMPOSITION c1 CONTAINS
+            ACTION a [openEHR-EHR-ACTION.medication.v1] CONTAINS
+                ITEM_TREE it [openEHR-EHR-ITEM_TREE.medication.v1]
+        AND
+        COMPOSITION c2 CONTAINS
+            EVALUATION eval [openEHR-EHR-EVALUATION.problem-diagnosis.v1]
+        )
 WHERE
-   it/description[openEHR-EHR-ITEM_TREE.medication.v1]/items[at0001]/value matches {"SNOMED::31087008"} AND
-   eval/data[at0001]/items[at0002.1]/value/value/defining_code matches {
-      CODE_PHRASE matches {[SNOMED::294506009, 21626009]}
-   } AND
+   it/description[openEHR-EHR-ITEM_TREE.medication.v1]/items[at0001]/value matches {[SNOMED::31087008]} AND
+   eval/data[at0001]/items[at0002.1]/value/value/defining_code matches {[SNOMED::294506009, 21626009]}  AND
    eval/data[at0001]/items[at0010]/value - it/description[openEHR-EHR-ITEM_TREE.medication.v1]/items[at0018]/items[at0019]/value matches {
       DV_DURATION matches {
          value matches{<=P2d}

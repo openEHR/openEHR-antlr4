@@ -3,8 +3,8 @@
 SELECT
     e/ehr_id
 FROM
-   EHR e CONTAINS
-      ADMIN_ENTRY ae1 [openEHR-EHR-ADMIN_ENTRY.admission.v1]
+    EHR e CONTAINS
+        ADMIN_ENTRY ae1 [openEHR-EHR-ADMIN_ENTRY.admission.v1]
 WHERE
    ae1/encounter_id/value not in (
       SELECT
