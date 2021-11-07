@@ -40,7 +40,7 @@ SYM_CLOSED      : 'closed' ;
 
 // --------------------- general symbols ------------------------
 SYM_MATCHES  : 'matches' | 'is_in' | '∈' ;
-SYM_STAR  : '*' ;
+SYM_ASTERISK  : '*' ;
 SYM_LE : '<=' | '≤' ;
 SYM_GE : '>=' | '≥' ;
 SYM_GT : '>' ;
