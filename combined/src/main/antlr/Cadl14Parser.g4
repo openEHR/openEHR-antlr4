@@ -15,7 +15,7 @@ import Cadl14PrimitiveValuesParser, OdinParser;
 //  ======================= Top-level Objects ========================
 //
 
-cComplexObject: rmTypeId nodeId? cOccurrences? ( SYM_MATCHES '{' cComplexObjectDef '}' )? EOF? ;
+cComplexObject: rmTypeId nodeId? cOccurrences? ( SYM_MATCHES '{' cComplexObjectDef '}' )? ;
 
 cComplexObjectDef: cAttribute+ | '*' ;
 
