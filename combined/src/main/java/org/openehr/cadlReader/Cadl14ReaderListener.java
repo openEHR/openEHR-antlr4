@@ -366,6 +366,66 @@ public class Cadl14ReaderListener implements Cadl14ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCComplexObjectMatcher(Cadl14Parser.CComplexObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCComplexObjectMatcher(Cadl14Parser.CComplexObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCComplexObjectMatcherDef(Cadl14Parser.CComplexObjectMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCComplexObjectMatcherDef(Cadl14Parser.CComplexObjectMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCAttributeMatcher(Cadl14Parser.CAttributeMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCAttributeMatcher(Cadl14Parser.CAttributeMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCAttributeMatcherDef(Cadl14Parser.CAttributeMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCAttributeMatcherDef(Cadl14Parser.CAttributeMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCRegularObjectMatcher(Cadl14Parser.CRegularObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCRegularObjectMatcher(Cadl14Parser.CRegularObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCTerminologyCode(Cadl14Parser.CTerminologyCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -1165,6 +1225,66 @@ public class Cadl14ReaderListener implements Cadl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRelop(Cadl14Parser.RelopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPath(Cadl14Parser.AdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPath(Cadl14Parser.AdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPathSegment(Cadl14Parser.AdlPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPathSegment(Cadl14Parser.AdlPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPathPredicate(Cadl14Parser.AdlPathPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPathPredicate(Cadl14Parser.AdlPathPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArchetypeIdPredicate(Cadl14Parser.ArchetypeIdPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArchetypeIdPredicate(Cadl14Parser.ArchetypeIdPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdCode(Cadl14Parser.IdCodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdCode(Cadl14Parser.IdCodeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

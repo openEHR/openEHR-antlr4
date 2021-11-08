@@ -28,7 +28,7 @@ channels {
 //		at0005, 	-- Date last prescription issued
 //		at0020]	-- Date changed
 //
-// An constrainer is allowed, e.g. '[local::]'
+// An empty constrainer is allowed, e.g. '[local::]'
 //
 C_LOCAL_TERM_CODE_START: '[' WS? 'local' WS? '::' WS? EOL? -> mode (C_LOCAL_TERM_CODE);
 
@@ -39,7 +39,7 @@ C_LOCAL_TERM_CODE_START: '[' WS? 'local' WS? '::' WS? EOL? -> mode (C_LOCAL_TERM
 //		34,
 //		35]
 //
-// An constrainer is allowed, e.g. '[openehr::]'
+// An empty constrainer is allowed, e.g. '[openehr::]'
 //
 C_EXTERNAL_TERM_CODE_START: '[' WS? TERM_CODE_STRING WS? '::' WS? EOL? -> mode (C_EXTERNAL_TERM_CODE);
 fragment TERM_CODE_STRING: TERM_CODE_CHAR+ ;

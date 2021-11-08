@@ -9,7 +9,7 @@
 
 parser grammar Cadl14Parser;
 options { tokenVocab=Cadl14Lexer; }
-import Cadl14PrimitiveValuesParser, OdinParser;
+import Cadl14PrimitiveValuesParser, AdlPathParser, OdinParser;
 
 //
 //  ======================= Top-level Objects ========================
@@ -39,7 +39,7 @@ cRegularObject:
 
 cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' adl14_at_code ',' ARCHETYPE_REF ']' cOccurrences? ;
 
-cComplexObjectProxy: SYM_USE_NODE rmTypeId cOccurrences? ADL_PATH ;
+cComplexObjectProxy: SYM_USE_NODE rmTypeId cOccurrences? adlPath ;
 
 cRegularPrimitiveObject: rmTypeId nodeId cOccurrences? ( SYM_MATCHES '{' cInlinePrimitiveObject '}' )? ;
 
@@ -52,10 +52,10 @@ cIncludes : SYM_INCLUDE archetypeIdConstraint+ ;
 cExcludes : SYM_EXCLUDE archetypeIdConstraint+ ;
 archetypeIdConstraint: archetypeIdPath SYM_MATCHES '{' DELIMITED_REGEX '}' ;
 
-// have to allow for relative paths. Note the path here is not an ADL_PATH
+// have to allow for relative paths. Note the path here is not an adlPath
 // (which is a path in the Cadl definition part); it is a path in the
 // ARCHETYPE runtime instance
-archetypeIdPath : '/'? LC_ID ADL_PATH* ;
+archetypeIdPath : '/'? LC_ID adlPath* ;
 
 // ------------------- existence and cardinality -----------------------
 cExistence   : SYM_EXISTENCE SYM_MATCHES '{' existence '}' ;
@@ -93,19 +93,22 @@ rmAttributeId : LC_ID ;
 
 // ==================== Query Matcher top-level object =====================
 
+//
+// this will match a flattened ADL-based structure, normally occurring
+// within {} provided by the source context, e.g. an AQL query
+//
+cObjectMatcher: cComplexObjectMatcher | cInlinePrimitiveObject | domainSpecificExtension ;
+
 cComplexObjectMatcher: rmTypeId nodeId? ( SYM_MATCHES '{' cComplexObjectMatcherDef '}' )? ;
 
 cComplexObjectMatcherDef: cAttributeMatcher+ | '*' ;
 
-// ------------------- Complex constraint types ----------------------
-
-cAttributeMatcher: rmAttributeId cExistence? cCardinality? ( SYM_MATCHES '{' ( cAttributeMatcherDef | cInlinePrimitiveObject ) '}' )? ;
+cAttributeMatcher: rmAttributeId ( SYM_MATCHES '{' ( cAttributeMatcherDef | cInlinePrimitiveObject ) '}' )? ;
 
 cAttributeMatcherDef: cRegularObjectMatcher+ ;
 
 cRegularObjectMatcher:
-      cComplexObject
-    | cArchetypeRoot
+      cComplexObjectMatcher
     | cRegularPrimitiveObject
     | cOrdinal
     | domainSpecificExtension

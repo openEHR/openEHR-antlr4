@@ -174,41 +174,31 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) {
-	}
+	@Override public void enterArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) {
-	}
-
+	@Override public void exitArchetypeSlot(Cadl2Parser.ArchetypeSlotContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCIncludes(Cadl2Parser.CIncludesContext ctx) {
-
-	}
-
+	@Override public void enterCIncludes(Cadl2Parser.CIncludesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCIncludes(Cadl2Parser.CIncludesContext ctx) {
-	}
-
+	@Override public void exitCIncludes(Cadl2Parser.CIncludesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCExcludes(Cadl2Parser.CExcludesContext ctx) {
-	}
-
+	@Override public void enterCExcludes(Cadl2Parser.CExcludesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -220,23 +210,19 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-
-	@Override public void enterArchetypeIdConstraint(Cadl2Parser.ArchetypeIdConstraintContext ctx) {
-	}
+	@Override public void enterArchetypeIdConstraint(Cadl2Parser.ArchetypeIdConstraintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-
 	@Override public void exitArchetypeIdConstraint(Cadl2Parser.ArchetypeIdConstraintContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterArchetypeIdPath(Cadl2Parser.ArchetypeIdPathContext ctx) {
-	}
+	@Override public void enterArchetypeIdPath(Cadl2Parser.ArchetypeIdPathContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -476,6 +462,78 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCComplexObjectMatcher(Cadl2Parser.CComplexObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCComplexObjectMatcher(Cadl2Parser.CComplexObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCComplexObjectMatcherDef(Cadl2Parser.CComplexObjectMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCComplexObjectMatcherDef(Cadl2Parser.CComplexObjectMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCAttributesMatcher(Cadl2Parser.CAttributesMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCAttributesMatcher(Cadl2Parser.CAttributesMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCAttributeMatcher(Cadl2Parser.CAttributeMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCAttributeMatcher(Cadl2Parser.CAttributeMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCAttributeMatcherDef(Cadl2Parser.CAttributeMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCAttributeMatcherDef(Cadl2Parser.CAttributeMatcherDefContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCRegularObjectMatcher(Cadl2Parser.CRegularObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCRegularObjectMatcher(Cadl2Parser.CRegularObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCInlinePrimitiveObject(Cadl2Parser.CInlinePrimitiveObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -483,6 +541,30 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCInlinePrimitiveObject(Cadl2Parser.CInlinePrimitiveObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCBoolean(Cadl2Parser.CBooleanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCBoolean(Cadl2Parser.CBooleanContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -632,8 +714,7 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCString(Cadl2Parser.CStringContext ctx) {
-	}
+	@Override public void enterCString(Cadl2Parser.CStringContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -664,30 +745,6 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCTerminologyCode(Cadl2Parser.CTerminologyCodeContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterCBoolean(Cadl2Parser.CBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitCBoolean(Cadl2Parser.CBooleanContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void enterAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
-	/**
-	 * {@inheritDoc}
-	 *
-	 * <p>The default implementation does nothing.</p>
-	 */
-	@Override public void exitAssumedBooleanValue(Cadl2Parser.AssumedBooleanValueContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1132,6 +1189,66 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitRelop(Cadl2Parser.RelopContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPath(Cadl2Parser.AdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPath(Cadl2Parser.AdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPathSegment(Cadl2Parser.AdlPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPathSegment(Cadl2Parser.AdlPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAdlPathPredicate(Cadl2Parser.AdlPathPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAdlPathPredicate(Cadl2Parser.AdlPathPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterArchetypeIdPredicate(Cadl2Parser.ArchetypeIdPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitArchetypeIdPredicate(Cadl2Parser.ArchetypeIdPredicateContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIdCode(Cadl2Parser.IdCodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIdCode(Cadl2Parser.IdCodeContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

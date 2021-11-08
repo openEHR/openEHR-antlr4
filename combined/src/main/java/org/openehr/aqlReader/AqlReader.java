@@ -22,7 +22,7 @@ public class AqlReader extends SyntaxReader<AqlLexer, AqlParser> {
     }
 
     protected void doParse() {
-        AqlParser.SelectQueryContext aqlQuery = parser.selectQuery();
+        AqlParser.AqlQueryContext aqlQuery = parser.aqlQuery();
 
         // don't bother with traversal if artefact not well-formed
         if (errors.hasNoErrors()) {

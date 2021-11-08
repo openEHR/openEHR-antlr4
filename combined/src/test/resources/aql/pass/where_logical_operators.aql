@@ -17,7 +17,7 @@ WHERE
    eval/data[at0001]/items[at0002.1]/value/value/defining_code matches {[SNOMED::294506009, 21626009]}  AND
    eval/data[at0001]/items[at0010]/value - it/description[openEHR-EHR-ITEM_TREE.medication.v1]/items[at0018]/items[at0019]/value matches {
       DV_DURATION matches {
-         value matches{<=P2d}
+         value matches{|<=P2d|}
       }
    }
 

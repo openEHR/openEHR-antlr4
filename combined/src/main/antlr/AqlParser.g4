@@ -1,15 +1,7 @@
 //
 //  description:  ANTLR4 parser grammar for Archetype Query Language (AQL)
-//  authors:      Sebastian Iancu, Code24, Netherlands
-//                Teun van Hemert, Nedap, Netherlands
-//                Thomas Beale, Ars Semantica UK, openEHR Foundation Management Board
-//  contributors: This version of the grammar is a complete rewrite of previously published antlr3 grammar,
-//                based on current AQL specifications in combination with grammars of AQL implementations.
-//                The openEHR Foundation would like to recognise the following people for their contributions:
-//                  - Chunlan Ma & Heath Frankel, Ocean Health Systems, Australia
-//                  - Bostjan Lah, Better, Slovenia
-//                  - Christian Chevalley, EHRBase, Germany
-//                  - Michael Böckers, Nedap, Netherlands
+//  authors:      Thomas Beale, Ars Semantica UK, openEHR Foundation Management Board
+//  contributors:
 //  support:      openEHR Specifications PR tracker <https://specifications.openehr.org/releases/QUERY/open_issues>
 //  copyright:    Copyright (c) 2021- openEHR Foundation
 //  license:      Creative Commons CC-BY-SA <https://creativecommons.org/licenses/by-sa/3.0/>
@@ -27,33 +19,25 @@ aqlQuery
     : selectClause fromClause whereClause? orderByClause? limitClause? SYM_DOUBLE_DASH? EOF
     ;
 
-selectClause
-    : SYM_SELECT SYM_DISTINCT? top? resultTable
-    ;
+selectClause: SYM_SELECT SYM_DISTINCT? top? resultTable;
 
-fromClause
-    : SYM_FROM modelTypeConstraint
-    ;
+fromClause: SYM_FROM modelTypeConstraint ;
 
-whereClause
-    : SYM_WHERE whereExpr
-    ;
+whereClause: SYM_WHERE whereExpr ;
 
-orderByClause
-    : SYM_ORDER SYM_BY orderByExpr ( ',' orderByExpr )*
-    ;
+orderByClause: SYM_ORDER SYM_BY orderByExpr ( ',' orderByExpr )* ;
 
-limitClause
-    : SYM_LIMIT limit=INTEGER ( SYM_OFFSET offset=INTEGER ) ?
-    ;
+limitClause: SYM_LIMIT limit=INTEGER ( SYM_OFFSET offset=INTEGER ) ? ;
 
 //
-// --------------- SELECT sub-parts --------------
+// --------------------- SELECT sub-parts -----------------------
 //
 
 resultTable: columnSpec ( ',' columnSpec )* ;
 
-columnSpec: columnValue ( SYM_AS aliasName=LC_ID )? ;
+columnSpec: columnValue ( SYM_AS columnAlias )? ;
+
+columnAlias: LC_ID | UC_ID ;
 
 columnValue:
       dataMatchPath
@@ -65,9 +49,17 @@ columnValue:
 orderByExpr: modelPath order=( SYM_DESCENDING | SYM_DESC | SYM_ASCENDING | SYM_ASC )? ;
 
 //
-// --------------- FROM sub-parts --------------
+// ------------------------ FROM sub-parts ------------------------
 //
 
+//
+// Constraint on model type that defines the data against which the query is evaluated.
+// In general this is a CONTAINS chain of type constraints, which are:
+//      * a reference model type, e.g. 'EHR'
+//      * an archetyped reference model type, e.g. COMPOSITION[openEHR-EHR-COMPOSITION.report.v1]
+//      * a further CONTAINS chain
+//      * a logical expression of any of the above
+//
 modelTypeConstraint:
       modelType
     | modelTypeChain
@@ -94,51 +86,76 @@ modelType: typeName=UC_ID variableName=LC_ID? ( '[' archetypeIdPredicate ']' )? 
 // --------------- WHERE sub-parts --------------
 //
 
-whereExpr
-    : wherePathExpr
-    | SYM_NOT whereExpr
+whereExpr:
+      SYM_NOT whereExpr
     | whereExpr SYM_AND whereExpr
     | whereExpr SYM_OR whereExpr
     | '(' whereExpr ')'
+    | whereBooleanLeaf
     ;
 
 //
 // Boolean-returning expressions with dataMatchPath as an operand
 //
-wherePathExpr
-    : SYM_EXISTS dataMatchPath
-    | dataMatchPath SYM_MATCHES matchesOperand
+whereBooleanLeaf:
+      SYM_EXISTS dataMatchPath
+    | comparisonOperand SYM_MATCHES matchesOperand
     | dataMatchPath SYM_LIKE likeOperand
-    | dataMatchPath comparisonOperator terminal
-    | functionCall comparisonOperator terminal
+    | dataMatchPath comparisonOperator comparisonOperand
+    | functionCall comparisonOperator comparisonOperand
     ;
 
-terminal
-    : primitiveLiteral
-    | PARAMETER
-    | dataMatchPath
+comparisonOperand:
+      value
+    | arithmeticExpr
+    ;
+
+value:
+      dataMatchPath
+    | primitiveLiteral
     | functionCall
+    | PARAMETER
     ;
 
-likeOperand
-    : STRING
+likeOperand:
+      STRING
     | PARAMETER
     ;
 
 matchesOperand:
       '{' matchesConstraint '}'
-    | terminologyFunction
+    | terminologyFunctionCall
     ;
 
 matchesConstraint:
-      valueListItem (',' valueListItem)*
-    | cComplexObjectMatcher
+      cObjectMatcher
     | AQL_URI
+    | PARAMETER
     ;
 
-valueListItem:
-      primitiveLiteral
-    | PARAMETER
+//
+// Expressions evaluating to arithmetic values, using standard precedence
+//
+arithmeticExpr:
+      <assoc=right> arithmeticExpr '^' arithmeticExpr
+    | arithmeticExpr ( '/' | '*' | '%' ) arithmeticExpr
+    | arithmeticExpr ( '+' | '-' ) arithmeticExpr
+    | arithmeticLeaf
+    ;
+
+arithmeticLeaf:
+      arithmeticLiteral
+    | value
+    | '(' arithmeticExpr ')'
+    ;
+
+arithmeticLiteral:
+      integerValue
+    | realValue
+    | dateValue
+    | dateTimeValue
+    | timeValue
+    | durationValue
     ;
 
 //
@@ -146,41 +163,11 @@ valueListItem:
 //
 
 //
-// A path to a node in an archetype, which will potentially match
-// one or more data items in runtime data
-//
-archetypePath: archetypePathSegment+ ;
-
-archetypePathSegment: '/' attributeId=LC_ID ( '[' archetypePathPredicate ']' )? ;
-
-archetypePathPredicate:
-      archetypeIdPredicate
-    | idCode
-    ;
-
-archetypeIdPredicate: ARCHETYPE_REF ;
-
-//
-// A path to a node in an archetype with further model-based
-// path, referring to structure not mentioned in the archetype
-//
-augmentedArchetypePath: variableName=LC_ID archetypePath modelSubPath? ;
-
-//
-// A path within a type defined in the underlying reference model
-//
-modelPath: variableName=LC_ID modelSubPath ;
-
-modelSubPath: modelPathSegment+ ;
-
-modelPathSegment: '/' attributeId=LC_ID ;
-
-//
 // A path to match an item in data, based on an archetype path with
 // additional runtime constraint predicates. A degenerate form of
 // a dataPath (no predicates) looks like a modelPath
 //
-dataMatchPath: variableName=LC_ID dataMatchPathSegment+ ;
+dataMatchPath: variableName=LC_ID dataMatchPathSegment* ;
     
 dataMatchPathSegment: '/' attributeId=LC_ID ( '[' dataMatchPathPredicate ']' )? ;
 
@@ -196,7 +183,7 @@ dataMatchPathSegment: '/' attributeId=LC_ID ( '[' dataMatchPathPredicate ']' )? 
 // which means 'AND /some/path = value', where the '/some/path' is a path specific to the
 // reference model, which is assumed (typically a long, commonly used path)
 //
-dataMatchPathPredicate: archetypePathPredicate ( SYM_AND dataMatchPathValuePredicate | ',' modelSpecificShortcutValue )? ;
+dataMatchPathPredicate: adlPathPredicate ( SYM_AND dataMatchPathValuePredicate | ',' modelSpecificShortcutValue )? ;
 
 //
 // Node-level Boolean-returning predicates based on value
@@ -206,6 +193,7 @@ dataMatchPathValuePredicate:
     | modelPath comparisonOperator modelPathComparatorValue
     | dataMatchPathValuePredicate SYM_AND dataMatchPathValuePredicate
     | dataMatchPathValuePredicate SYM_OR dataMatchPathValuePredicate
+    | '(' dataMatchPathValuePredicate ')'
     ;
 
 modelPathComparatorValue:
@@ -214,14 +202,55 @@ modelPathComparatorValue:
     | PARAMETER
     ;
 
-modelSpecificShortcutValue:  ;
-
-
 versionPredicate
     : SYM_LATEST_VERSION
     | SYM_ALL_VERSIONS
     ;
 
+
+//
+// --------------------- function calls ---------------------
+//
+functionCall:
+      terminologyFunctionCall
+    | builtInFunction functionArgs
+    | LC_ID functionArgs
+    ;
+
+functionArgs: '(' ( value ( ',' value )* )? ')' ;
+
+aggregateFunctionCall
+    : name=SYM_COUNT '(' ( SYM_DISTINCT? augmentedAdlPath | '*' ) ')'
+    | aggregateMathFunction '(' augmentedAdlPath ')'
+    ;
+
+aggregateMathFunction:
+      SYM_MIN
+    | SYM_MAX
+    | SYM_SUM
+    | SYM_AVG
+    ;
+
+terminologyFunctionCall: SYM_TERMINOLOGY '(' operation=STRING ',' source=STRING ',' ( stringFunction functionArgs | STRING ) ')' ;
+
+// built-in functions
+builtInFunction: stringFunction | numericFunction | dateTimeFunction ;
+stringFunction: SYM_LENGTH | SYM_CONTAINS | SYM_POSITION | SYM_SUBSTRING | SYM_CONCAT_WS | SYM_CONCAT ;
+numericFunction: SYM_ABS | SYM_MOD | SYM_CEIL | SYM_FLOOR | SYM_ROUND ;
+dateTimeFunction: SYM_NOW | SYM_CURRENT_DATE_TIME | SYM_CURRENT_DATE | SYM_CURRENT_TIMEZONE | SYM_CURRENT_TIME ;
+
+//
+// ------------------------ operators --------------------
+//
+
+comparisonOperator:
+      SYM_EQ
+    | SYM_NE
+    | SYM_GT
+    | SYM_GE
+    | SYM_LT
+    | SYM_LE
+    ;
 
 //
 // --------------------- literal values ------------------
@@ -248,57 +277,14 @@ dateTimeLiteral:
     | DATE_TIME_STRING
     ;
 
-//
-// --------------------- function calls ------------------
-//
-functionCall
-    : terminologyFunction
-    | builtInFunction functionArgs
-    | LC_ID functionArgs
-    ;
-
-functionArgs: '(' (terminal (',' terminal)*)? ')' ;
-
-aggregateFunctionCall
-    : name=SYM_COUNT '(' ( SYM_DISTINCT? augmentedArchetypePath | SYM_ASTERISK ) ')'
-    | aggregateMathFunction '(' augmentedArchetypePath ')'
-    ;
-
-aggregateMathFunction:
-      SYM_MIN
-    | SYM_MAX
-    | SYM_SUM
-    | SYM_AVG
-    ;
-
-terminologyFunction
-    : SYM_TERMINOLOGY '(' STRING ',' STRING ',' STRING ')'
-    ;
-
-// built-in functions
-builtInFunction: stringFunction | numericFunction | dateTimeFunction ;
-stringFunction: SYM_LENGTH | SYM_CONTAINS | SYM_POSITION | SYM_SUBSTRING | SYM_CONCAT_WS | SYM_CONCAT ;
-numericFunction: SYM_ABS | SYM_MOD | SYM_CEIL | SYM_FLOOR | SYM_ROUND ;
-dateTimeFunction: SYM_NOW | SYM_CURRENT_DATE_TIME | SYM_CURRENT_DATE | SYM_CURRENT_TIMEZONE | SYM_CURRENT_TIME ;
 
 //
-// ---------------- basic elements --------------------
+// =================== openEHR specific syntax ======================
 //
+modelSpecificShortcutValue: STRING | idCode | QUALIFIED_TERM_CODE ;
 
-idCode:
-      AT_CODE
-    | ADL14_AT_CODE
-    | ID_CODE
-    ;
-    
-comparisonOperator:
-      SYM_EQ
-    | SYM_NE
-    | SYM_GT
-    | SYM_GE
-    | SYM_LT
-    | SYM_LE
-    ;
 
-// (deprecated)
+//
+// =================== deprecated ======================
+//
 top: SYM_TOP INTEGER direction=( SYM_FORWARD | SYM_BACKWARD )? ;

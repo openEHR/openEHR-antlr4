@@ -1,15 +1,8 @@
 //
 //  description:  ANTLR4 lexer grammar for Archetype Query Language (AQL)
-//  authors:      Sebastian Iancu, Code24, Netherlands
-//                Teun van Hemert, Nedap, Netherlands
-//                Thomas Beale, Ars Semantica UK, openEHR Foundation Management Board
-//  contributors: This version of the grammar is a complete rewrite of previously published antlr3 grammar,
-//                based on current AQL specifications in combination with grammars of AQL implementations.
-//                The openEHR Foundation would like to recognise the following people for their contributions:
-//                  - Chunlan Ma & Heath Frankel, Ocean Health Systems, Australia
-//                  - Bostjan Lah, Better, Slovenia
-//                  - Christian Chevalley, EHRBase, Germany
-//                  - Michael Böckers, Nedap, Netherlands
+//                This version of the grammar is a complete rewrite of previously published antlr4 grammar
+//  authors:      Thomas Beale, Ars Semantica UK, openEHR Foundation Management Board
+//  contributors:
 //  support:      openEHR Specifications PR tracker <https://specifications.openehr.org/releases/QUERY/open_issues>
 //  copyright:    Copyright (c) 2021- openEHR Foundation
 //  license:      Creative Commons CC-BY-SA <https://creativecommons.org/licenses/by-sa/3.0/>
@@ -35,11 +28,11 @@ EOL        : '\r'? '\n'   -> channel(HIDDEN) ;
 // Keywords
 // Common Keywords
 SYM_SELECT: 'SELECT' ;
-SYM_AS: 'AS' ;
+SYM_AS: 'AS' | 'as' ;
 SYM_FROM: 'FROM' ;
 SYM_WHERE: 'WHERE' ;
 SYM_ORDER: 'ORDER' ;
-SYM_BY: 'BY' ;
+SYM_BY: 'BY' | 'by' ;
 SYM_DESC: 'DESC' ;
 SYM_DESCENDING: 'DESCENDING' ;
 SYM_ASC: 'ASC' ;
@@ -64,13 +57,13 @@ SYM_BACKWARD: 'BACKWARD' ;
 SYM_CONTAINS : 'CONTAINS' ;
 
 // Logical operators
-SYM_AND : 'AND' ;
-SYM_OR : 'OR' ;
-SYM_NOT : 'NOT' ;
-SYM_EXISTS: 'EXISTS' ;
+SYM_AND : 'AND' | 'and' ;
+SYM_OR : 'OR' | 'or' ;
+SYM_NOT : 'NOT' | 'not' ;
+SYM_EXISTS: 'EXISTS' | 'exists' ;
 
 // Comparison operators
-SYM_LIKE: 'LIKE' ;
+SYM_LIKE: 'LIKE' | 'like' ;
 SYM_MATCHES: 'matches' ;
 
 // string functions
@@ -88,18 +81,18 @@ SYM_FLOOR: 'FLOOR' ;
 SYM_ROUND: 'ROUND' ;
 
 // date and time functions
-SYM_CURRENT_DATE: 'CURRENT_DATE' ;
-SYM_CURRENT_TIME: 'CURRENT_TIME' ;
-SYM_CURRENT_DATE_TIME: 'CURRENT_DATE_TIME' ;
+SYM_CURRENT_DATE: 'CURRENT_DATE' | 'current_date' ;
+SYM_CURRENT_TIME: 'CURRENT_TIME' | 'current_time' ;
+SYM_CURRENT_DATE_TIME: 'CURRENT_DATE_TIME'  | 'current_date_time' ;
 SYM_NOW: 'NOW' ;
-SYM_CURRENT_TIMEZONE: 'CURRENT_TIMEZONE' ;
+SYM_CURRENT_TIMEZONE: 'CURRENT_TIMEZONE' | 'current_timezone' ;
 
 // aggregate function
-SYM_COUNT: 'COUNT' ;
-SYM_MIN: 'MIN' ;
-SYM_MAX: 'MAX' ;
-SYM_SUM: 'SUM' ;
-SYM_AVG: 'AVG' ;
+SYM_COUNT: 'COUNT' | 'count' ;
+SYM_MIN: 'MIN' | 'min' ;
+SYM_MAX: 'MAX' | 'max' ;
+SYM_SUM: 'SUM' | 'sum' ;
+SYM_AVG: 'AVG' | 'avg' ;
 
 // other functions
 SYM_TERMINOLOGY: 'TERMINOLOGY' ;
@@ -141,7 +134,7 @@ STRING
     | SYM_DOUBLE_QUOTE ( ESCAPE_SEQ | UTF8CHAR | OCTAL_ESC | ~('\\'|'"') )* SYM_DOUBLE_QUOTE
     ;
 
-AQL_COMPACT_QUALIFIED_TERM_CODE: COMPACT_QUALIFIED_TERM_CODE;
+QUALIFIED_TERM_CODE: COMPACT_QUALIFIED_TERM_CODE;
 
 // ---------- symbols ----------
 

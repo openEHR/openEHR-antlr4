@@ -10,7 +10,7 @@
 
 parser grammar ExpressionParser;
 options { tokenVocab=ExpressionLexer; }
-import Cadl2PrimitiveValuesParser;
+import Cadl2PrimitiveValuesParser, AdlPathParser;
 
 //
 //  ======================= Top-level Objects ========================
@@ -174,10 +174,10 @@ valueRef:
 variableName: VARIABLE_ID ;
 
 // TODO: change to [] form, e.g.     book_list [{title.contains("Quixote")}]
-variableSubPath: VARIABLE_WITH_PATH;
+variableSubPath: VARIABLE_ID adlPath;
 
 // TODO: Remove this rule when external binding supported
-rawPath: ADL_PATH ;
+rawPath: adlPath ;
 
 constantName: UC_ID ;
 

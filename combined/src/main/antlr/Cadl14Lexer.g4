@@ -11,7 +11,7 @@
 //
 
 lexer grammar Cadl14Lexer;
-import Adl14PathLexer, OpenehrPatterns, Cadl14PrimitiveValuesLexer, OdinLexer, GeneralLexer;
+import OpenehrPatterns, Cadl14PrimitiveValuesLexer, OdinLexer, GeneralLexer;
 
 channels {
     COMMENT

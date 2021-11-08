@@ -9,7 +9,7 @@
 //
 
 lexer grammar ExpressionLexer;
-import PathLexer, Cadl2PrimitiveValuesLexer, GeneralLexer;
+import AdlPathLexer, Cadl2PrimitiveValuesLexer, GeneralLexer;
 
 channels {
     COMMENT
@@ -50,8 +50,5 @@ SYM_MATCHES  : 'matches' | 'is_in' | '∈' ;
 
 // TODO: remove when [] path predicates supported
 SYM_IN: 'in' ;
-
-// TODO: remove when [] path predicates supported
-VARIABLE_WITH_PATH: VARIABLE_ID ADL_PATH ;
 
 VARIABLE_ID: '$' LC_ID ;

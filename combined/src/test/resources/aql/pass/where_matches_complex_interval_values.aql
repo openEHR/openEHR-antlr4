@@ -10,7 +10,7 @@ FROM
             OBSERVATION o [openEHR-EHR-OBSERVATION.laboratory-glucose.v1]
 WHERE
     o/data[at0001]/events[at0002 and name/value='Any event']/data[at0003]/items[at0013.1]/value matches {
-        C_DV_QUANTITY<
+        C_DV_QUANTITY <
             list = <
                 ["1"] = <
                     units = <"mmol/L">
