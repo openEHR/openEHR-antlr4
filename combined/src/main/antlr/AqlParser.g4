@@ -149,12 +149,14 @@ arithmeticLeaf:
     | '(' arithmeticExpr ')'
     ;
 
+//
+// Note that we use string-quoted date/time literals here in AQL,
+// not the bare literals used in the rest of openEHR
+//
 arithmeticLiteral:
       integerValue
     | realValue
-    | dateValue
-    | dateTimeValue
-    | timeValue
+    | aqlDateTimeLiteral
     | durationValue
     ;
 
@@ -183,7 +185,7 @@ dataMatchPathSegment: '/' attributeId=LC_ID ( '[' dataMatchPathPredicate ']' )? 
 // which means 'AND /some/path = value', where the '/some/path' is a path specific to the
 // reference model, which is assumed (typically a long, commonly used path)
 //
-dataMatchPathPredicate: adlPathPredicate ( SYM_AND dataMatchPathValuePredicate | ',' modelSpecificShortcutValue )? ;
+dataMatchPathPredicate: adlPathPredicate ( SYM_AND dataMatchPathValuePredicate | ',' modelSpecificPredicateShortcut )? ;
 
 //
 // Node-level Boolean-returning predicates based on value
@@ -210,6 +212,12 @@ versionPredicate
 
 //
 // --------------------- function calls ---------------------
+//
+
+//
+// A function call is either one of various fixed types of function calls,
+// including terminology(), and the usual count(), max() and similar 
+// aggregate functions, or else a generic function call.
 //
 functionCall:
       terminologyFunctionCall
@@ -258,7 +266,7 @@ comparisonOperator:
 primitiveLiteral:
       STRING
     | numericLiteral
-    | dateTimeLiteral
+    | aqlDateTimeLiteral
     | BOOLEAN
     | SYM_NULL
     ;
@@ -271,7 +279,10 @@ numericLiteral:
     | SYM_MINUS numericLiteral
     ;
 
-dateTimeLiteral:
+//
+// AQL uses string-quoted date/time literals
+//
+aqlDateTimeLiteral:
       DATE_STRING
     | TIME_STRING
     | DATE_TIME_STRING
@@ -281,7 +292,7 @@ dateTimeLiteral:
 //
 // =================== openEHR specific syntax ======================
 //
-modelSpecificShortcutValue: STRING | idCode | QUALIFIED_TERM_CODE ;
+modelSpecificPredicateShortcut: STRING | idCode | QUALIFIED_TERM_CODE ;
 
 
 //
