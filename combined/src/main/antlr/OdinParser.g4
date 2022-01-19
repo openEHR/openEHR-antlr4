@@ -9,7 +9,7 @@
 
 parser grammar OdinParser;
 options { tokenVocab=OdinLexer; }
-import PrimitiveValuesParser;
+import OdinValuesParser;
 
 //
 //  ======================= Top-level Objects ========================

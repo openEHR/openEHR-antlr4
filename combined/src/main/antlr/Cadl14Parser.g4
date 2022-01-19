@@ -84,7 +84,7 @@ ordinalTerm: ordinalValue '|' cTerminologyCode ;
 //      (type) <
 //          odin lines
 //      >
-//domainSpecificExtension: ODIN_BLOCK_START ODIN_BLOCK_LINE+ ;
+//
 domainSpecificExtension:  rmTypeId '<' odinObject? '>';
 
 // ------------------------- model references -------------------------

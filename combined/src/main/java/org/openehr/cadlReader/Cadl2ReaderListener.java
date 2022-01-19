@@ -462,6 +462,18 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCObjectMatcher(Cadl2Parser.CObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCObjectMatcher(Cadl2Parser.CObjectMatcherContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCComplexObjectMatcher(Cadl2Parser.CComplexObjectMatcherContext ctx) { }
 	/**
 	 * {@inheritDoc}
@@ -774,25 +786,61 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveListValue(Cadl2Parser.PrimitiveListValueContext ctx) { }
+	@Override public void enterPrimitiveList(Cadl2Parser.PrimitiveListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveListValue(Cadl2Parser.PrimitiveListValueContext ctx) { }
+	@Override public void exitPrimitiveList(Cadl2Parser.PrimitiveListContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterPrimitiveIntervalValue(Cadl2Parser.PrimitiveIntervalValueContext ctx) { }
+	@Override public void enterPrimitiveArray(Cadl2Parser.PrimitiveArrayContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitPrimitiveIntervalValue(Cadl2Parser.PrimitiveIntervalValueContext ctx) { }
+	@Override public void exitPrimitiveArray(Cadl2Parser.PrimitiveArrayContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimitiveSet(Cadl2Parser.PrimitiveSetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveSet(Cadl2Parser.PrimitiveSetContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimitiveValues(Cadl2Parser.PrimitiveValuesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveValues(Cadl2Parser.PrimitiveValuesContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterPrimitiveInterval(Cadl2Parser.PrimitiveIntervalContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitPrimitiveInterval(Cadl2Parser.PrimitiveIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -810,13 +858,13 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterStringListValue(Cadl2Parser.StringListValueContext ctx) { }
+	@Override public void enterStringValues(Cadl2Parser.StringValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitStringListValue(Cadl2Parser.StringListValueContext ctx) { }
+	@Override public void exitStringValues(Cadl2Parser.StringValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -834,37 +882,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerListValue(Cadl2Parser.IntegerListValueContext ctx) { }
+	@Override public void enterIntegerValues(Cadl2Parser.IntegerValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerListValue(Cadl2Parser.IntegerListValueContext ctx) { }
+	@Override public void exitIntegerValues(Cadl2Parser.IntegerValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerIntervalValue(Cadl2Parser.IntegerIntervalValueContext ctx) { }
+	@Override public void enterIntegerInterval(Cadl2Parser.IntegerIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerIntervalValue(Cadl2Parser.IntegerIntervalValueContext ctx) { }
+	@Override public void exitIntegerInterval(Cadl2Parser.IntegerIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterIntegerIntervalListValue(Cadl2Parser.IntegerIntervalListValueContext ctx) { }
+	@Override public void enterIntegerIntervalRange(Cadl2Parser.IntegerIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitIntegerIntervalListValue(Cadl2Parser.IntegerIntervalListValueContext ctx) { }
+	@Override public void exitIntegerIntervalRange(Cadl2Parser.IntegerIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterIntegerIntervals(Cadl2Parser.IntegerIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitIntegerIntervals(Cadl2Parser.IntegerIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -882,37 +942,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealListValue(Cadl2Parser.RealListValueContext ctx) { }
+	@Override public void enterRealValues(Cadl2Parser.RealValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealListValue(Cadl2Parser.RealListValueContext ctx) { }
+	@Override public void exitRealValues(Cadl2Parser.RealValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealIntervalValue(Cadl2Parser.RealIntervalValueContext ctx) { }
+	@Override public void enterRealInterval(Cadl2Parser.RealIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealIntervalValue(Cadl2Parser.RealIntervalValueContext ctx) { }
+	@Override public void exitRealInterval(Cadl2Parser.RealIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterRealIntervalListValue(Cadl2Parser.RealIntervalListValueContext ctx) { }
+	@Override public void enterRealIntervalRange(Cadl2Parser.RealIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitRealIntervalListValue(Cadl2Parser.RealIntervalListValueContext ctx) { }
+	@Override public void exitRealIntervalRange(Cadl2Parser.RealIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterRealIntervals(Cadl2Parser.RealIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitRealIntervals(Cadl2Parser.RealIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -930,13 +1002,13 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterBooleanListValue(Cadl2Parser.BooleanListValueContext ctx) { }
+	@Override public void enterBooleanValues(Cadl2Parser.BooleanValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitBooleanListValue(Cadl2Parser.BooleanListValueContext ctx) { }
+	@Override public void exitBooleanValues(Cadl2Parser.BooleanValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -954,13 +1026,13 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterCharacterListValue(Cadl2Parser.CharacterListValueContext ctx) { }
+	@Override public void enterCharacterValues(Cadl2Parser.CharacterValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitCharacterListValue(Cadl2Parser.CharacterListValueContext ctx) { }
+	@Override public void exitCharacterValues(Cadl2Parser.CharacterValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -978,37 +1050,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateListValue(Cadl2Parser.DateListValueContext ctx) { }
+	@Override public void enterDateValues(Cadl2Parser.DateValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateListValue(Cadl2Parser.DateListValueContext ctx) { }
+	@Override public void exitDateValues(Cadl2Parser.DateValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateIntervalValue(Cadl2Parser.DateIntervalValueContext ctx) { }
+	@Override public void enterDateInterval(Cadl2Parser.DateIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateIntervalValue(Cadl2Parser.DateIntervalValueContext ctx) { }
+	@Override public void exitDateInterval(Cadl2Parser.DateIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateIntervalListValue(Cadl2Parser.DateIntervalListValueContext ctx) { }
+	@Override public void enterDateIntervalRange(Cadl2Parser.DateIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateIntervalListValue(Cadl2Parser.DateIntervalListValueContext ctx) { }
+	@Override public void exitDateIntervalRange(Cadl2Parser.DateIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDateIntervals(Cadl2Parser.DateIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateIntervals(Cadl2Parser.DateIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1026,37 +1110,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeListValue(Cadl2Parser.TimeListValueContext ctx) { }
+	@Override public void enterTimeValues(Cadl2Parser.TimeValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeListValue(Cadl2Parser.TimeListValueContext ctx) { }
+	@Override public void exitTimeValues(Cadl2Parser.TimeValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeIntervalValue(Cadl2Parser.TimeIntervalValueContext ctx) { }
+	@Override public void enterTimeInterval(Cadl2Parser.TimeIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeIntervalValue(Cadl2Parser.TimeIntervalValueContext ctx) { }
+	@Override public void exitTimeInterval(Cadl2Parser.TimeIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterTimeIntervalListValue(Cadl2Parser.TimeIntervalListValueContext ctx) { }
+	@Override public void enterTimeIntervalRange(Cadl2Parser.TimeIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitTimeIntervalListValue(Cadl2Parser.TimeIntervalListValueContext ctx) { }
+	@Override public void exitTimeIntervalRange(Cadl2Parser.TimeIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterTimeIntervals(Cadl2Parser.TimeIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitTimeIntervals(Cadl2Parser.TimeIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1074,37 +1170,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeListValue(Cadl2Parser.DateTimeListValueContext ctx) { }
+	@Override public void enterDateTimeValues(Cadl2Parser.DateTimeValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeListValue(Cadl2Parser.DateTimeListValueContext ctx) { }
+	@Override public void exitDateTimeValues(Cadl2Parser.DateTimeValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeIntervalValue(Cadl2Parser.DateTimeIntervalValueContext ctx) { }
+	@Override public void enterDateTimeInterval(Cadl2Parser.DateTimeIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeIntervalValue(Cadl2Parser.DateTimeIntervalValueContext ctx) { }
+	@Override public void exitDateTimeInterval(Cadl2Parser.DateTimeIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDateTimeIntervalListValue(Cadl2Parser.DateTimeIntervalListValueContext ctx) { }
+	@Override public void enterDateTimeIntervalRange(Cadl2Parser.DateTimeIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDateTimeIntervalListValue(Cadl2Parser.DateTimeIntervalListValueContext ctx) { }
+	@Override public void exitDateTimeIntervalRange(Cadl2Parser.DateTimeIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDateTimeIntervals(Cadl2Parser.DateTimeIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDateTimeIntervals(Cadl2Parser.DateTimeIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1122,37 +1230,49 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationListValue(Cadl2Parser.DurationListValueContext ctx) { }
+	@Override public void enterDurationValues(Cadl2Parser.DurationValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationListValue(Cadl2Parser.DurationListValueContext ctx) { }
+	@Override public void exitDurationValues(Cadl2Parser.DurationValuesContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationIntervalValue(Cadl2Parser.DurationIntervalValueContext ctx) { }
+	@Override public void enterDurationInterval(Cadl2Parser.DurationIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationIntervalValue(Cadl2Parser.DurationIntervalValueContext ctx) { }
+	@Override public void exitDurationInterval(Cadl2Parser.DurationIntervalContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDurationIntervalListValue(Cadl2Parser.DurationIntervalListValueContext ctx) { }
+	@Override public void enterDurationIntervalRange(Cadl2Parser.DurationIntervalRangeContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void exitDurationIntervalListValue(Cadl2Parser.DurationIntervalListValueContext ctx) { }
+	@Override public void exitDurationIntervalRange(Cadl2Parser.DurationIntervalRangeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterDurationIntervals(Cadl2Parser.DurationIntervalsContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitDurationIntervals(Cadl2Parser.DurationIntervalsContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1249,6 +1369,54 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitIdCode(Cadl2Parser.IdCodeContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAugmentedAdlPath(Cadl2Parser.AugmentedAdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAugmentedAdlPath(Cadl2Parser.AugmentedAdlPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterModelPath(Cadl2Parser.ModelPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitModelPath(Cadl2Parser.ModelPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterModelSubPath(Cadl2Parser.ModelSubPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitModelSubPath(Cadl2Parser.ModelSubPathContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterModelPathSegment(Cadl2Parser.ModelPathSegmentContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitModelPathSegment(Cadl2Parser.ModelPathSegmentContext ctx) { }
 
 	/**
 	 * {@inheritDoc}

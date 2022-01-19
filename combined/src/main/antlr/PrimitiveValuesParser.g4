@@ -11,8 +11,10 @@ options { tokenVocab=PrimitiveValuesLexer; }
 
 primitiveObject :
       primitiveValue
-    | primitiveListValue
-    | primitiveIntervalValue
+    | primitiveList
+    | primitiveArray
+    | primitiveSet
+    | primitiveInterval
     ;
 
 primitiveValue :
@@ -28,93 +30,106 @@ primitiveValue :
     | durationValue
     ;
 
-primitiveListValue :
-      stringListValue
-    | integerListValue
-    | realListValue
-    | booleanListValue
-    | characterListValue
+primitiveList: '(' primitiveValues ')' ;
+
+primitiveArray: '[' primitiveValues ']' ;
+
+primitiveSet: '{' primitiveValues '}' ;
+
+primitiveValues :
+      stringValues
+    | integerValues
+    | realValues
+    | booleanValues
+    | characterValues
     | termCodeListValue
-    | dateListValue
-    | timeListValue
-    | dateTimeListValue
-    | durationListValue
+    | dateValues
+    | timeValues
+    | dateTimeValues
+    | durationValues
     ;
 
-primitiveIntervalValue :
-      integerIntervalValue
-    | realIntervalValue
-    | dateIntervalValue
-    | timeIntervalValue
-    | dateTimeIntervalValue
-    | durationIntervalValue
+primitiveInterval:
+      integerInterval
+    | realInterval
+    | dateInterval
+    | timeInterval
+    | dateTimeInterval
+    | durationInterval
     ;
 
 stringValue : STRING ;
-stringListValue : stringValue ( ( ',' stringValue )+ | ',' SYM_LIST_CONTINUE ) ;
+stringValues : stringValue ( ',' stringValue )* ;
 
 integerValue : ( SYM_PLUS | SYM_MINUS )? ( INTEGER | SCI_INTEGER ) ;
-integerListValue : integerValue ( ( ',' integerValue )+ | ',' SYM_LIST_CONTINUE ) ;
-integerIntervalValue :
-      '|' SYM_GT? integerValue '..' SYM_LT? integerValue '|'
-    | '|' relop? integerValue '|'
-    | '|' integerValue SYM_PLUS_OR_MINUS integerValue '|'
+integerValues : integerValue ( ',' integerValue )* ;
+integerInterval : '|' integerIntervalRange '|' ;
+integerIntervalRange :
+      SYM_GT? integerValue '..' SYM_LT? integerValue
+    | relop? integerValue
+    | integerValue SYM_PLUS_OR_MINUS integerValue
     ;
-integerIntervalListValue : integerIntervalValue ( ( ',' integerIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+integerIntervals : integerInterval ( ',' integerInterval )* ;
 
 realValue : ( SYM_PLUS | SYM_MINUS )? ( REAL | SCI_REAL ) ;
-realListValue : realValue ( ( ',' realValue )+ | ',' SYM_LIST_CONTINUE ) ;
-realIntervalValue :
-      '|' SYM_GT? realValue '..' SYM_LT? realValue '|'
-    | '|' relop? realValue '|'
-    | '|' realValue SYM_PLUS_OR_MINUS realValue '|'
+realValues : realValue ( ',' realValue )* ;
+realInterval : '|' realIntervalRange '|' ;
+realIntervalRange :
+      SYM_GT? realValue '..' SYM_LT? realValue
+    | relop? realValue
+    | realValue SYM_PLUS_OR_MINUS realValue
     ;
-realIntervalListValue : realIntervalValue ( ( ',' realIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+realIntervals : realInterval ( ',' realInterval )* ;
 
 booleanValue : SYM_TRUE | SYM_FALSE ;
-booleanListValue : booleanValue ( ( ',' booleanValue )+ | ',' SYM_LIST_CONTINUE ) ;
+booleanValues : booleanValue ( ',' booleanValue )* ;
 
 characterValue : CHARACTER ;
-characterListValue : characterValue ( ( ',' characterValue )+ | ',' SYM_LIST_CONTINUE ) ;
+characterValues : characterValue ( ',' characterValue )* ;
 
 dateValue : ISO8601_DATE_AUGMENTED ;
-dateListValue : dateValue ( ( ',' dateValue )+ | ',' SYM_LIST_CONTINUE ) ;
-dateIntervalValue :
-      '|' SYM_GT? dateValue '..' SYM_LT? dateValue '|'
-    | '|' relop? dateValue '|'
-    | '|' dateValue SYM_PLUS_OR_MINUS durationValue '|'
+dateValues : dateValue ( ',' dateValue )* ;
+dateInterval : '|' dateIntervalRange '|' ;
+dateIntervalRange :
+      SYM_GT? dateValue '..' SYM_LT? dateValue
+    | relop? dateValue
+    | dateValue SYM_PLUS_OR_MINUS durationValue
     ;
-dateIntervalListValue : dateIntervalValue ( ( ',' dateIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+dateIntervals : dateInterval ( ',' dateInterval )* ;
 
 timeValue : ISO8601_TIME_AUGMENTED ;
-timeListValue : timeValue ( ( ',' timeValue )+ | ',' SYM_LIST_CONTINUE ) ;
-timeIntervalValue :
-      '|' SYM_GT? timeValue '..' SYM_LT? timeValue '|'
-    | '|' relop? timeValue '|'
-    | '|' timeValue SYM_PLUS_OR_MINUS durationValue '|'
+timeValues : timeValue ( ',' timeValue )* ;
+timeInterval : '|' timeIntervalRange '|' ;
+timeIntervalRange :
+      SYM_GT? timeValue '..' SYM_LT? timeValue
+    | relop? timeValue
+    | timeValue SYM_PLUS_OR_MINUS durationValue
     ;
-timeIntervalListValue : timeIntervalValue ( ( ',' timeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+timeIntervals : timeInterval ( ',' timeInterval )* ;
 
 dateTimeValue : ISO8601_DATE_TIME_AUGMENTED ;
-dateTimeListValue : dateTimeValue ( ( ',' dateTimeValue )+ | ',' SYM_LIST_CONTINUE ) ;
-dateTimeIntervalValue :
-      '|' SYM_GT? dateTimeValue '..' SYM_LT? dateTimeValue '|'
-    | '|' relop? dateTimeValue '|'
-    | '|' dateTimeValue SYM_PLUS_OR_MINUS durationValue '|'
+dateTimeValues : dateTimeValue ( ',' dateTimeValue )* ;
+dateTimeInterval : '|' dateTimeIntervalRange '|' ;
+dateTimeIntervalRange :
+      SYM_GT? dateTimeValue '..' SYM_LT? dateTimeValue
+    | relop? dateTimeValue
+    | dateTimeValue SYM_PLUS_OR_MINUS durationValue
     ;
-dateTimeIntervalListValue : dateTimeIntervalValue ( ( ',' dateTimeIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+dateTimeIntervals : dateTimeInterval ( ',' dateTimeInterval )* ;
 
 durationValue : ( SYM_PLUS | SYM_MINUS )? ISO8601_DURATION ;
-durationListValue : durationValue ( ( ',' durationValue )+ | ',' SYM_LIST_CONTINUE ) ;
-durationIntervalValue :
-      '|' SYM_GT? durationValue '..' SYM_LT? durationValue '|'
-    | '|' relop? durationValue '|'
-    | '|' durationValue SYM_PLUS_OR_MINUS durationValue '|'
+durationValues : durationValue ( ',' durationValue )* ;
+durationInterval : '|' durationIntervalRange '|' ;
+durationIntervalRange :
+      SYM_GT? durationValue '..' SYM_LT? durationValue
+    | relop? durationValue
+    | durationValue SYM_PLUS_OR_MINUS durationValue
     ;
-durationIntervalListValue : durationIntervalValue ( ( ',' durationIntervalValue )+ | ',' SYM_LIST_CONTINUE ) ;
+durationIntervals : durationInterval ( ',' durationInterval )* ;
 
-termCodeValue : QUALIFIED_TERM_CODE_REF ;
-termCodeListValue : termCodeValue ( ( ',' termCodeValue )+ | ',' SYM_LIST_CONTINUE ) ;
+// new style term codes of form #xxxxx, #terminology_id::code
+termCodeValue : QUALIFIED_TERM_CODE_ID | LOCAL_TERM_CODE_ID ;
+termCodeListValue : termCodeValue ( ',' termCodeValue )* ;
 
 relop : SYM_LE | SYM_GE | SYM_GT | SYM_LT ;
 
