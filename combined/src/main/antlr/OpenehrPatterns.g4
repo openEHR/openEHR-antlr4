@@ -47,7 +47,10 @@ fragment PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
 // ---------------------- Terminology ids and refs ---------------------
 fragment TERMINOLOGY_ID: NAME_ID | URI ;
 
-// e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
+// ADL and ODIN-style term codes uses []; e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
+// New EL style uses #xxxx
+QUALIFIED_TERM_CODE_ID: '#' COMPACT_QUALIFIED_TERM_CODE ;
+LOCAL_TERM_CODE_ID: '#' TERM_CODE_STRING ;
 QUALIFIED_TERM_CODE_REF: '[' COMPACT_QUALIFIED_TERM_CODE ']' ;
 fragment COMPACT_QUALIFIED_TERM_CODE : TERM_CODE_STRING ( '(' TERM_CODE_STRING ')' )? '::' TERM_CODE_STRING ( '|' .+? '|' )? ;
 fragment TERM_CODE_STRING: TERM_CODE_CHAR+ ;

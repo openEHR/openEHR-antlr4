@@ -35,8 +35,10 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 // ========================== EL Expressions ==========================
 
 expression:
-      operatorExpression
-    | terminalExpression
+      valueRef
+    | primitiveValue
+    | tuple
+    | operatorExpression
     ;
 
 operatorExpression:
@@ -44,7 +46,7 @@ operatorExpression:
     | arithmeticExpr
     ;
 
-// ------------------- Boolean-returning expressions --------------------
+// ------------------- Boolean-returning operator expressions --------------------
 
 //
 // Expressions evaluating to boolean values, using standard precedence
@@ -106,7 +108,7 @@ thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
 constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
 
-// --------------------------- Arithmetic expressions --------------------------
+// --------------------------- Arithmetic operator expressions --------------------------
 
 //
 // Comparison expressions of arithmetic operands generating Boolean results
@@ -211,13 +213,6 @@ dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
 
 // -------------------------- terminal expressions -----------------------------
 
-terminalExpression:
-      valueRef
-    | primitiveValue
-    | LOCAL_TERM_CODE_REF
-    | tuple
-    ;
-
 tuple: '[' expression ( ',' expression )+ ']';
 
 valueRef:
@@ -283,13 +278,13 @@ typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 //   =========================================================
 //   er_positive and
 //   her2_negative and
-//   not ki67.in_range ([high]):    [luminal_A],
+//   not ki67.in_range (#high):    #luminal_A,
 //   ---------------------------------------------------------
 //   er_positive and
 //   her2_negative and
-//   ki67.in_range ([high]):        [luminal_B_HER2_negative],
+//   ki67.in_range (#high):        #luminal_B_HER2_negative,
 //   ---------------------------------------------------------
-//   *:                             [none]
+//   *:                             #none
 //   =========================================================
 //   ;
 //
