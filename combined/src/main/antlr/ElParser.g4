@@ -35,7 +35,7 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 // ========================== EL Expressions ==========================
 
 expression:
-      valueRef
+      valueGenerator
     | primitiveValue
     | tuple
     | operatorExpression
@@ -215,10 +215,19 @@ dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
 
 tuple: '[' expression ( ',' expression )+ ']';
 
+valueGenerator:
+      valueRef
+    | decisionTable
+    ;
+
 valueRef:
       scopedFeatureRef
     | featureRef
     | SYM_SELF
+    ;
+
+decisionTable:
+      binaryChoice
     | caseTable
     | choiceTable
     ;
