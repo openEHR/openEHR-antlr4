@@ -67,7 +67,7 @@ booleanExpr:
 // Atomic Boolean-valued expression elements
 //
 booleanLeaf:
-      booleanLiteral
+      booleanValue
     | forAllExpr
     | thereExistsExpr
     | '(' booleanExpr ')'
@@ -135,12 +135,12 @@ arithmeticExpr:
     ;
 
 arithmeticLeaf:
-      arithmeticLiteral
+      arithmeticValue
     | '(' arithmeticExpr ')'
     | valueRef
     ;
 
-arithmeticLiteral:
+arithmeticValue:
       integerValue
     | realValue
     | dateValue
