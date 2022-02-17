@@ -30,7 +30,7 @@ constantDeclaration: constantName ':' typeId ( SYM_EQ primitiveObject )? ;
 
 assignment: variableRef SYM_ASSIGNMENT expression ;
 
-assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
+assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 
 // ========================== EL Expressions ==========================
 

@@ -2,5 +2,5 @@ $systolic:Real
 
 $diastolic:Real
 
-path_systolic: defined ($systolic)
-for_all_systolic: for_all event : $events | defined ($event)
+path_systolic: assert defined ($systolic)
+for_all_systolic: assert for_all event : $events | defined ($event)

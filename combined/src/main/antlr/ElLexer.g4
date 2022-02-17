@@ -61,6 +61,7 @@ SYM_IFF      : '⇔' | '↔' ;
 SYM_FOR_ALL  : 'for_all' | '∀' ;
 SYM_THERE_EXISTS: 'there_exists' | '∃' ;
 SYM_MATCHES  : 'matches' | 'is_in' | '∈' ;
+SYM_ASSERT   : 'assert' ;
 
 // TODO: replace with defined() and attached() predicates
 SYM_EXISTS   : 'exists' ;
