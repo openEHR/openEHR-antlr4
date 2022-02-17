@@ -79,11 +79,6 @@ booleanLeaf:
     | valueRef
     ;
 
-booleanLiteral:
-      SYM_TRUE
-    | SYM_FALSE
-    ;
-
 //
 //  Universal and existential quantifier
 //
