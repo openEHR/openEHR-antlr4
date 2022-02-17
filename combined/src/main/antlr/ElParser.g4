@@ -149,67 +149,18 @@ arithmeticValue:
     | durationValue
     ;
 
-// ------------------------ Quantity expressions -------------------------
+// -------------------- Equality operator expressions for other types ------------------------
 
-//
-// TODO: these rules do not work and are not used, since Antlr doesn't
-// correctly know to compute operator precedence for mutiple rules
-// with the same operator as being the same precedence.
-//
-
-quantityExpr:
-      durationExpr
-//    | generalQuantityExpr
+objectComparisonExpr:
+      termCodeComparison
     ;
 
-//generalQuantityExpr:
-//    ;
+termCodeComparison: valueRef equalityBinop termCodeValue ;
 
-//
-// Expressions returning a Duration
-//
-durationExpr:
-      durationValue ( '*' | '/' ) arithmeticLiteral
-
-    | dateValue '-' dateValue
-    | valueRef '-' dateValue
-    | dateValue '-' valueRef
-
-    | dateTimeValue '-' dateTimeValue
-    | valueRef '-' dateTimeValue
-    | dateTimeValue '-' valueRef
-
-    | timeValue '-' timeValue
-    | valueRef '-' timeValue
-    | timeValue '-' valueRef
-
-    | valueRef '-' valueRef
-
-    | durationValue
-    ;
-
-quantityComparisonExpr: quantityExpr comparisonBinop quantityExpr ;
-
-dateTimeExpr:
-      dateTimeLiteral ( '--' | '++' ) dateTimeDurationRhs
-    | valueRef ( '--' | '++' ) dateTimeDurationRhs
-    | dateTimeLiteral ( '+' | '-' ) dateTimeDurationRhs
-    | dateTimeLiteral
-    ;
-
-dateTimeDurationRhs:
-      durationValue
-    | valueRef
-    ;
-
-dateTimeLiteral:
-      dateValue
-    | dateTimeValue
-    | timeValue
-    ;
-
-dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
-
+equalityBinop:
+    SYM_EQ
+  | SYM_NE
+  ;
 
 // -------------------------- terminal expressions -----------------------------
 
@@ -318,3 +269,66 @@ caseTable: SYM_CASE expression SYM_IN ( caseBranch ',' )+ ( caseBranch | caseDef
 caseBranch: primitiveObject ':' expression ;
 
 caseDefaultBranch: '*' ':' expression ;
+
+
+// ------------------------ Quantity expressions -------------------------
+
+//
+// TODO: these rules do not work and are not used, since Antlr doesn't
+// correctly know to compute operator precedence for mutiple rules
+// with the same operator as being the same precedence.
+//
+
+quantityExpr:
+      durationExpr
+//    | generalQuantityExpr
+    ;
+
+//generalQuantityExpr:
+//    ;
+
+//
+// Expressions returning a Duration
+//
+durationExpr:
+      durationValue ( '*' | '/' ) arithmeticValue
+
+    | dateValue '-' dateValue
+    | valueRef '-' dateValue
+    | dateValue '-' valueRef
+
+    | dateTimeValue '-' dateTimeValue
+    | valueRef '-' dateTimeValue
+    | dateTimeValue '-' valueRef
+
+    | timeValue '-' timeValue
+    | valueRef '-' timeValue
+    | timeValue '-' valueRef
+
+    | valueRef '-' valueRef
+
+    | durationValue
+    ;
+
+quantityComparisonExpr: quantityExpr comparisonBinop quantityExpr ;
+
+dateTimeExpr:
+      dateTimeLiteral ( '--' | '++' ) dateTimeDurationRhs
+    | valueRef ( '--' | '++' ) dateTimeDurationRhs
+    | dateTimeLiteral ( '+' | '-' ) dateTimeDurationRhs
+    | dateTimeLiteral
+    ;
+
+dateTimeDurationRhs:
+      durationValue
+    | valueRef
+    ;
+
+dateTimeLiteral:
+      dateValue
+    | dateTimeValue
+    | timeValue
+    ;
+
+dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
+
