@@ -74,8 +74,7 @@ booleanLeaf:
     | constraintExpr
     | SYM_DEFINED '(' valueRef ')'
     | arithmeticComparisonExpr
-    | quantityComparisonExpr
-    | dateTimeComparisonExpr
+    | objectComparisonExpr
     | valueRef
     ;
 
@@ -100,7 +99,7 @@ thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
+constraintExpr: arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
 
 // --------------------------- Arithmetic operator expressions --------------------------
@@ -129,6 +128,7 @@ arithmeticExpr:
     | arithmeticLeaf
     ;
 
+// TODO: need to be able to plug in valueGenerator to allow decision tables in expressions
 arithmeticLeaf:
       arithmeticValue
     | '(' arithmeticExpr ')'
@@ -226,7 +226,6 @@ simpleExprList: expression ( ',' expression )* ;
 
 typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
-
 //
 // condition chains (if/then statement equivalent)
 // choice in
@@ -239,7 +238,7 @@ typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 //   her2_negative and
 //   ki67.in_range (#high):        #luminal_B_HER2_negative,
 //   ---------------------------------------------------------
-//   *:                             #none
+//   *:                            #none
 //   =========================================================
 //   ;
 //
@@ -263,7 +262,7 @@ primitiveExpr: valueRef | primitiveValue ;
 // case gfr_range in
 //   =================
 //   |>20|:      1,
-//   |10 - 20|:  0.75,
+//   |10..20|:   0.75,
 //   |<10|:      0.5
 //   =================
 //   ;
