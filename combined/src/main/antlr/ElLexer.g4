@@ -33,6 +33,7 @@ SYM_RESULT  : 'Result' ;
 // --------- symbols ----------
 SYM_ASSIGNMENT: ':=' ;
 SYM_COLON : ':' ;
+SYM_INTERROGATION: '?' ;
 SYM_NE : '/=' | '!=' | '≠' ;
 SYM_EQ : '=' ;
 SYM_GT : '>' ;

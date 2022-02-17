@@ -245,9 +245,18 @@ typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 //
 choiceTable: SYM_CHOICE SYM_IN ( choiceBranch ',' )+ ( choiceBranch | choiceDefaultBranch ) ';' ;
 
-choiceBranch: expression ':' expression ;
+choiceBranch: booleanExpr ':' expression ;
 
 choiceDefaultBranch: '*' ':' expression ;
+
+//
+// Binary-choice version of choice table, using old-school
+// C/Java syntax:
+// booleanExpr ? x : y ;
+//
+binaryChoice:  booleanExpr '?' primitiveExpr ':' primitiveExpr ;
+primitiveExpr: valueRef | primitiveValue ;
+
 
 //
 // Case tables:
