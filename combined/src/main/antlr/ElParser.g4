@@ -36,8 +36,6 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 
 expression:
       valueGenerator
-    | primitiveValue
-    | tuple
     | operatorExpression
     ;
 
@@ -50,8 +48,6 @@ operatorExpression:
 
 //
 // Expressions evaluating to boolean values, using standard precedence
-// We use this repeated structure to allow the use of valueRef as a
-// booleanExpr, which we don't want
 //
 booleanExpr:
       SYM_NOT booleanExpr
@@ -150,33 +146,35 @@ objectComparisonExpr:
       termCodeComparison
     ;
 
-termCodeComparison: valueRef equalityBinop termCodeValue ;
+termCodeComparison: valueTerminal equalityBinop termCodeValue ;
 
 equalityBinop:
     SYM_EQ
   | SYM_NE
   ;
 
-// -------------------------- terminal expressions -----------------------------
-
-tuple: '[' expression ( ',' expression )+ ']';
+//
+// -------------------------- value-generating expressions -----------------------------
+//
 
 valueGenerator:
-      valueRef
+      valueTerminal
     | decisionTable
+    ;
+
+valueTerminal:
+      primitiveValue
+    | valueRef
     ;
 
 valueRef:
       scopedFeatureRef
     | featureRef
     | SYM_SELF
+    | tuple
     ;
 
-decisionTable:
-      binaryChoice
-    | caseTable
-    | choiceTable
-    ;
+tuple: '[' expression ( ',' expression )+ ']';
 
 //
 // scoped and local feature references
@@ -220,11 +218,21 @@ localVariableId: LC_ID ;
 
 constantName: UC_ID ;
 
-functionCall: LC_ID '(' simpleExprList? ')' ;
+functionCall: LC_ID '(' exprList? ')' ';'? ;
 
-simpleExprList: expression ( ',' expression )* ;
+exprList: expression ( ',' expression )* ;
 
 typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+
+//
+// -------------------------- decision tables -----------------------------
+//
+
+decisionTable:
+      binaryChoice
+    | caseTable
+    | choiceTable
+    ;
 
 //
 // condition chains (if/then statement equivalent)
@@ -253,9 +261,7 @@ choiceDefaultBranch: '*' ':' expression ;
 // C/Java syntax:
 // booleanExpr ? x : y ;
 //
-binaryChoice:  booleanExpr '?' primitiveExpr ':' primitiveExpr ;
-primitiveExpr: valueRef | primitiveValue ;
-
+binaryChoice:  booleanExpr '?' valueTerminal ':' valueTerminal ;
 
 //
 // Case tables:
@@ -272,66 +278,3 @@ caseTable: SYM_CASE expression SYM_IN ( caseBranch ',' )+ ( caseBranch | caseDef
 caseBranch: primitiveObject ':' expression ;
 
 caseDefaultBranch: '*' ':' expression ;
-
-
-// ------------------------ Quantity expressions -------------------------
-
-//
-// TODO: these rules do not work and are not used, since Antlr doesn't
-// correctly know to compute operator precedence for mutiple rules
-// with the same operator as being the same precedence.
-//
-
-quantityExpr:
-      durationExpr
-//    | generalQuantityExpr
-    ;
-
-//generalQuantityExpr:
-//    ;
-
-//
-// Expressions returning a Duration
-//
-durationExpr:
-      durationValue ( '*' | '/' ) arithmeticValue
-
-    | dateValue '-' dateValue
-    | valueRef '-' dateValue
-    | dateValue '-' valueRef
-
-    | dateTimeValue '-' dateTimeValue
-    | valueRef '-' dateTimeValue
-    | dateTimeValue '-' valueRef
-
-    | timeValue '-' timeValue
-    | valueRef '-' timeValue
-    | timeValue '-' valueRef
-
-    | valueRef '-' valueRef
-
-    | durationValue
-    ;
-
-quantityComparisonExpr: quantityExpr comparisonBinop quantityExpr ;
-
-dateTimeExpr:
-      dateTimeLiteral ( '--' | '++' ) dateTimeDurationRhs
-    | valueRef ( '--' | '++' ) dateTimeDurationRhs
-    | dateTimeLiteral ( '+' | '-' ) dateTimeDurationRhs
-    | dateTimeLiteral
-    ;
-
-dateTimeDurationRhs:
-      durationValue
-    | valueRef
-    ;
-
-dateTimeLiteral:
-      dateValue
-    | dateTimeValue
-    | timeValue
-    ;
-
-dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
-
