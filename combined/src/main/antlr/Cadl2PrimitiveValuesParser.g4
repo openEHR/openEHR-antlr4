@@ -54,6 +54,11 @@ assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]
 // NOTE: an assumed at-code (the ';' AT_CODE pattern) can only occur after an ac-code not after the single at-code
-cTerminologyCode: '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']' ;
+// TPFP: the 3rd branch using IDs should be removed; the first two patterns are correct
+cTerminologyCode:
+      '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']'
+    | LOCAL_TERM_CODE_ID ( ';' LOCAL_TERM_CODE_ID )?
+    | LOCAL_TERM_CODE_ID (',' LOCAL_TERM_CODE_ID)+
+    ;
 
 

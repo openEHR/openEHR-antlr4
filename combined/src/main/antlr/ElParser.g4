@@ -26,7 +26,7 @@ declaration:
 
 variableDeclaration: scopableVariableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-constantDeclaration: constantName ':' typeId ( SYM_EQ primitiveObject )? ;
+constantDeclaration: constantRef ':' typeId ( SYM_EQ primitiveObject )? ;
 
 assignment: variableRef SYM_ASSIGNMENT expression ;
 
@@ -34,6 +34,9 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 
 // ========================== EL Expressions ==========================
 
+//
+// Expressions are either value-generators, or operator expressions (containing value-generators)
+//
 expression:
       valueGenerator
     | operatorExpression
@@ -47,7 +50,8 @@ operatorExpression:
 // ------------------- Boolean-returning operator expressions --------------------
 
 //
-// Expressions evaluating to boolean values, using standard precedence
+// Expressions evaluating to boolean values, using standard precedence;
+// These map to ordinary 1- and 2-argument function calls on Boolean instances
 //
 booleanExpr:
       SYM_NOT booleanExpr
@@ -129,6 +133,7 @@ arithmeticLeaf:
       arithmeticValue
     | '(' arithmeticExpr ')'
     | valueRef
+    | simpleCaseTable
     ;
 
 arithmeticValue:
@@ -142,11 +147,10 @@ arithmeticValue:
 
 // -------------------- Equality operator expressions for other types ------------------------
 
-objectComparisonExpr:
-      termCodeComparison
-    ;
-
-termCodeComparison: valueTerminal equalityBinop termCodeValue ;
+//
+// Compare any kind of objects
+//
+objectComparisonExpr: valueTerminal equalityBinop valueTerminal ;
 
 equalityBinop:
     SYM_EQ
@@ -190,7 +194,7 @@ scopedFunctionCall: scoper functionCall ;
 
 scopedPropertyRef: scoper scopableVariableRef ;
 
-scopedConstantRef: scoper constantName ;
+scopedConstantRef: scoper constantRef ;
 
 scoper: ( typeRef '.' )? ( featureRef '.' )* ;
 
@@ -199,7 +203,7 @@ typeRef: '{' typeId '}' ;
 featureRef:
       functionCall
     | variableRef
-    | constantName
+    | constantRef
     ;
 
 variableRef:
@@ -216,7 +220,7 @@ boundVariableId: BOUND_VARIABLE_ID ;
 
 localVariableId: LC_ID ;
 
-constantName: UC_ID ;
+constantRef: UC_ID ;
 
 functionCall: LC_ID '(' exprList? ')' ';'? ;
 
@@ -231,7 +235,12 @@ typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 decisionTable:
       binaryChoice
     | caseTable
-    | choiceTable
+    | conditionTable
+    ;
+
+caseTable:
+    | simpleCaseTable
+    | generalCaseTable
     ;
 
 //
@@ -250,21 +259,43 @@ decisionTable:
 //   =========================================================
 //   ;
 //
-choiceTable: SYM_CHOICE SYM_IN ( choiceBranch ',' )+ ( choiceBranch | choiceDefaultBranch ) ';' ;
+conditionTable: SYM_CHOICE SYM_IN ( conditionBranch ',' )+ ( conditionBranch | conditionDefaultBranch ) ';' ;
 
-choiceBranch: booleanExpr ':' expression ;
+conditionBranch: booleanExpr ':' expression ;
 
-choiceDefaultBranch: '*' ':' expression ;
+conditionDefaultBranch: '*' ':' expression ;
 
 //
-// Binary-choice version of choice table, using old-school
+// Binary-choice version of condition table, using old-school
 // C/Java syntax:
 // booleanExpr ? x : y ;
 //
 binaryChoice:  booleanExpr '?' valueTerminal ':' valueTerminal ;
 
 //
-// Case tables:
+// Case tables, e.g.:
+//     Result := case qCSI_score in
+//        ============================
+//        0:          expr0,
+//        ----------------------------
+//        |1..2|:     expr1,
+//        ----------------------------
+//        |3..5|:     expr2,
+//        ----------------------------
+//        |6..8|:     expr3,
+//        ----------------------------
+//        |≥ 9|:      expr4
+//        ============================
+//     ;
+//
+generalCaseTable: SYM_CASE expression SYM_IN ( generalCaseBranch ',' )+ ( generalCaseBranch | generalCaseDefaultBranch ) ';' ;
+
+generalCaseBranch: primitiveObject ':' expression ;
+
+generalCaseDefaultBranch: '*' ':' expression ;
+
+//
+// Simple value-based (typed) Case tables, e.g.:
 // case gfr_range in
 //   =================
 //   |>20|:      1,
@@ -273,8 +304,8 @@ binaryChoice:  booleanExpr '?' valueTerminal ':' valueTerminal ;
 //   =================
 //   ;
 //
-caseTable: SYM_CASE expression SYM_IN ( caseBranch ',' )+ ( caseBranch | caseDefaultBranch ) ';' ;
+simpleCaseTable: SYM_CASE valueTerminal SYM_IN ( simpleCaseBranch ',' )+ ( simpleCaseBranch | simpleCaseDefaultBranch ) ';' ;
 
-caseBranch: primitiveObject ':' expression ;
+simpleCaseBranch: primitiveObject ':' valueTerminal ;
 
-caseDefaultBranch: '*' ':' expression ;
+simpleCaseDefaultBranch: '*' ':' valueTerminal ;
