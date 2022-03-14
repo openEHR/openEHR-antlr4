@@ -103,6 +103,7 @@ fragment NUMBER : '0' | [1-9][0-9]* ;
 
 INTEGER     : DIGIT+ ; // TODO: allow leading zeros? Most langs don't...
 REAL        : DIGIT+ '.' DIGIT+ ;
+REAL_PERCENT: DIGIT+ ( '.' DIGIT+ )? '%' ;
 SCI_INTEGER : INTEGER ( E_SUFFIX | P10_SUFFIX ) ;
 SCI_REAL    : REAL ( E_SUFFIX | P10_SUFFIX ) ;
 fragment E_SUFFIX : [eE][+-]? DIGIT+ ;

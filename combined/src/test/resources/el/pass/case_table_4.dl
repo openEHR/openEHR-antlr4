@@ -1,6 +1,3 @@
-|
-| Further interpretation in accordance with [4]
-|
 annual_stroke_risk := case CHA2DS2_VASc_score in
         ==============
         0:       0.0%,

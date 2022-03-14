@@ -71,7 +71,7 @@ integerIntervalRange :
     ;
 integerIntervals : integerInterval ( ',' integerInterval )* ;
 
-realValue : ( SYM_PLUS | SYM_MINUS )? ( REAL | SCI_REAL ) ;
+realValue : ( SYM_PLUS | SYM_MINUS )? ( REAL | SCI_REAL | REAL_PERCENT ) ;
 realValues : realValue ( ',' realValue )* ;
 realInterval : '|' realIntervalRange '|' ;
 realIntervalRange :
