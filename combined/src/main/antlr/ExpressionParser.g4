@@ -44,13 +44,22 @@ localAssignment: variableName SYM_ASSIGNMENT expression ;
 
 assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 
+// ========================== EL Expressions ==========================
+
 //
-// -------------------------- Expressions --------------------------
+// Expressions are either value-generators, or operator expressions (containing value-generators)
 //
 expression:
+      valueRef
+    | operatorExpression
+    ;
+
+operatorExpression:
       booleanExpr
     | arithmeticExpr
     ;
+
+// ------------------- Boolean-returning operator expressions --------------------
 
 //
 // Expressions evaluating to boolean values, using standard precedence
@@ -71,20 +80,15 @@ booleanExpr:
 // Atomic Boolean-valued expression elements
 // TODO: SYM_EXISTS alternative to be replaced by defined() predicate
 booleanLeaf:
-      booleanLiteral
+      booleanValue
     | forAllExpr
     | thereExistsExpr
-    | SYM_EXISTS ( rawPath | variableSubPath )
+    | constraintExpr
     | '(' booleanExpr ')'
+    | SYM_EXISTS ( rawPath | variableSubPath )
     | arithmeticComparisonExpr
     | arithmeticEqualityExpr
-    | constraintExpr
     | valueRef
-    ;
-
-booleanLiteral:
-      SYM_TRUE
-    | SYM_FALSE
     ;
 
 //
@@ -108,7 +112,7 @@ thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? boole
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
+constraintExpr: arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
 
 //
 // Expressions evaluating to arithmetic values, using standard precedence
@@ -121,12 +125,12 @@ arithmeticExpr:
     ;
 
 arithmeticLeaf:
-      arithmeticLiteral
-    | valueRef
+      arithmeticValue
     | '(' arithmeticExpr ')'
+    | valueRef
     ;
 
-arithmeticLiteral:
+arithmeticValue:
       integerValue
     | realValue
     | dateValue
@@ -181,8 +185,8 @@ rawPath: adlPath ;
 
 constantName: UC_ID ;
 
-functionCall: LC_ID '(' functionArgs? ')' ;
+functionCall: LC_ID '(' exprList? ')' ;
 
-functionArgs: expression ( ',' expression )* ;
+exprList: expression ( ',' expression )* ;
 
 typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;

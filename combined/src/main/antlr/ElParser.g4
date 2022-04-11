@@ -26,7 +26,7 @@ declaration:
 
 variableDeclaration: scopableVariableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-constantDeclaration: constantRef ':' typeId ( SYM_EQ primitiveObject )? ;
+constantDeclaration: constantRef ':' typeId ( SYM_EQ expression )? ;
 
 assignment: variableRef SYM_ASSIGNMENT expression ;
 
@@ -38,7 +38,7 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 // Expressions are either value-generators, or operator expressions (containing value-generators)
 //
 expression:
-      valueGenerator
+      terminal
     | operatorExpression
     ;
 
@@ -70,20 +70,20 @@ booleanLeaf:
       booleanValue
     | forAllExpr
     | thereExistsExpr
-    | '(' booleanExpr ')'
     | constraintExpr
-    | SYM_DEFINED '(' valueRef ')'
+    | '(' booleanExpr ')'
+    | SYM_DEFINED '(' valueGenerator ')'
     | arithmeticComparisonExpr
     | objectComparisonExpr
-    | valueRef
+    | valueGenerator
     ;
 
 //
 //  Universal and existential quantifier
 //
-forAllExpr: SYM_FOR_ALL localVariableId ':' valueRef '|' booleanExpr ;
+forAllExpr: SYM_FOR_ALL localVariableId ':' valueGenerator '|' booleanExpr ;
 
-thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
+thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueGenerator '|' booleanExpr ;
 
 // Constraint expressions
 // This provides a way of using one operator (matches) to compare a
@@ -128,11 +128,11 @@ arithmeticExpr:
     | arithmeticLeaf
     ;
 
-// TODO: need to be able to plug in valueGenerator to allow decision tables in expressions
+// TODO: need to be able to plug in terminal to allow decision tables in expressions
 arithmeticLeaf:
       arithmeticValue
     | '(' arithmeticExpr ')'
-    | valueRef
+    | valueGenerator
     | simpleCaseTable
     ;
 
@@ -150,7 +150,7 @@ arithmeticValue:
 //
 // Compare any kind of objects
 //
-objectComparisonExpr: valueTerminal equalityBinop valueTerminal ;
+objectComparisonExpr: simpleTerminal equalityBinop simpleTerminal ;
 
 equalityBinop:
     SYM_EQ
@@ -161,17 +161,17 @@ equalityBinop:
 // -------------------------- value-generating expressions -----------------------------
 //
 
-valueGenerator:
-      valueTerminal
+terminal:
+      simpleTerminal
     | decisionTable
     ;
 
-valueTerminal:
+simpleTerminal:
       primitiveValue
-    | valueRef
+    | valueGenerator
     ;
 
-valueRef:
+valueGenerator:
       scopedFeatureRef
     | featureRef
     | SYM_SELF
@@ -270,7 +270,7 @@ conditionDefaultBranch: '*' ':' expression ;
 // C/Java syntax:
 // booleanExpr ? x : y ;
 //
-binaryChoice:  booleanExpr '?' valueTerminal ':' valueTerminal ;
+binaryChoice:  booleanExpr '?' simpleTerminal ':' simpleTerminal ;
 
 //
 // Case tables, e.g.:
@@ -304,8 +304,8 @@ generalCaseDefaultBranch: '*' ':' expression ;
 //   =================
 //   ;
 //
-simpleCaseTable: SYM_CASE valueTerminal SYM_IN ( simpleCaseBranch ',' )+ ( simpleCaseBranch | simpleCaseDefaultBranch ) ';' ;
+simpleCaseTable: SYM_CASE simpleTerminal SYM_IN ( simpleCaseBranch ',' )+ ( simpleCaseBranch | simpleCaseDefaultBranch ) ';' ;
 
-simpleCaseBranch: primitiveObject ':' valueTerminal ;
+simpleCaseBranch: primitiveObject ':' simpleTerminal ;
 
-simpleCaseDefaultBranch: '*' ':' valueTerminal ;
+simpleCaseDefaultBranch: '*' ':' simpleTerminal ;
