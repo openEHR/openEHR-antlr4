@@ -24,11 +24,11 @@ declaration:
     | constantDeclaration
     ;
 
-variableDeclaration: scopableVariableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
+variableDeclaration: instantiableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-constantDeclaration: constantRef ':' typeId ( SYM_EQ expression )? ;
+constantDeclaration: constantId ':' typeId ( SYM_EQ expression )? ;
 
-assignment: variableRef SYM_ASSIGNMENT expression ;
+assignment: valueGenerator SYM_ASSIGNMENT expression ;
 
 assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 
@@ -40,6 +40,7 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 expression:
       terminal
     | operatorExpression
+    | tuple
     ;
 
 operatorExpression:
@@ -158,6 +159,12 @@ equalityBinop:
   ;
 
 //
+// -------------------------- tuples -----------------------------
+//
+
+tuple: '[' expression ( ',' expression )+ ']';
+
+//
 // -------------------------- value-generating expressions -----------------------------
 //
 
@@ -171,62 +178,84 @@ simpleTerminal:
     | valueGenerator
     ;
 
+//
+// TODO: Can't syntactically distinguish between a local or other variable id
+// and a property or constant reference.
+//
 valueGenerator:
-      scopedFeatureRef
-    | featureRef
-    | SYM_SELF
-    | tuple
+      bareRef
+    | scopedFeatureRef
+    | typeRef
     ;
 
-tuple: '[' expression ( ',' expression )+ ']';
-
-//
-// scoped and local feature references
-//
-
-scopedFeatureRef: 
-      scopedFunctionCall
-    | scopedPropertyRef
-    | scopedConstantRef
-    ;
-
-scopedFunctionCall: scoper functionCall ;
-
-scopedPropertyRef: scoper scopableVariableRef ;
-
-scopedConstantRef: scoper constantRef ;
-
-scoper: ( typeRef '.' )? ( featureRef '.' )* ;
-
-typeRef: '{' typeId '}' ;
-
-featureRef:
-      functionCall
-    | variableRef
-    | constantRef
-    ;
-
-variableRef:
-      scopableVariableRef
-    | SYM_RESULT
-    ;
-
-scopableVariableRef:
+bareRef:
       boundVariableId
+    | staticRef
+    | localRef
+    | functionCall
+    ;
+
+//
+// Static and constant feature refs, distinguished by the use of
+// initial capital in the id.
+// Will map to EL_READABLE_VARIABLE or EL_STATIC_REF (unscoped)
+//
+staticRef:
+      SYM_SELF
+    | constantId
+    ;
+
+//
+// Local writable reference, distinguished by use of initial lowercase id
+// Will map to EL_WRITABLE_VARIABLE or EL_PROPERTY_REF (unscoped)
+//
+localRef:
+      SYM_RESULT
     | localVariableId
     ;
 
+//
+// scoped feature references.
+// Will map to any EL_FEATURE_REF (scoped)
+//
+scopedFeatureRef: scoper featureRef ;
+
+scoper: ( typeRef '.' )? ( bareRef '.' )* ;
+
+typeRef: '{' typeId '}' ;
+
+typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+
+featureRef:
+      functionCall
+    | instantiableRef
+    ;
+
+//
+// Instantiable feature refs
+//
+instantiableRef:
+      boundVariableId
+    | localVariableId
+    | constantId
+    ;
+
+//
+// TODO: analyse how a boundVariableId can be created as a built-in feature
+// - possibly as special variables akin to Result and Self.
+//
 boundVariableId: BOUND_VARIABLE_ID ;
 
 localVariableId: LC_ID ;
 
-constantRef: UC_ID ;
+constantId: UC_ID ;
 
+//
+// Function calls
+//
 functionCall: LC_ID '(' exprList? ')' ';'? ;
 
 exprList: expression ( ',' expression )* ;
-
-typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
 //
 // -------------------------- decision tables -----------------------------
