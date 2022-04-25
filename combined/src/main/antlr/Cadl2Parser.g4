@@ -114,7 +114,7 @@ rmAttributeId : LC_ID ;
 //
 cObjectMatcher: cComplexObjectMatcher | cInlinePrimitiveObject ;
 
-cComplexObjectMatcher: rmTypeId nodeId ( SYM_MATCHES '{' cComplexObjectMatcherDef '}' )? ;
+cComplexObjectMatcher: rmTypeId nodeId? ( SYM_MATCHES '{' cComplexObjectMatcherDef '}' )? ;
 
 cComplexObjectMatcherDef: ( defaultValue | cAttributesMatcher defaultValue? ) ;
 

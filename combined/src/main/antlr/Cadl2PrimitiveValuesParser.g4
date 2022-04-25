@@ -13,15 +13,23 @@ options { tokenVocab=Cadl2PrimitiveValuesLexer; }
 import PrimitiveValuesParser;
 
 cInlinePrimitiveObject:
-      cInteger
-    | cReal
-    | cDate
-    | cTime
-    | cDateTime
-    | cDuration
+      cInlineOrderedObject
     | cString
     | cTerminologyCode
     | cBoolean
+    ;
+
+cInlineOrderedObject:
+      cInteger
+    | cReal
+    | cInlineDTemporalObject
+    ;
+
+cInlineDTemporalObject:
+      cDate
+    | cTime
+    | cDateTime
+    | cDuration
     ;
 
 // ------------ Primitive type constraints -------------
@@ -60,5 +68,3 @@ cTerminologyCode:
     | LOCAL_TERM_CODE_ID ( ';' LOCAL_TERM_CODE_ID )?
     | LOCAL_TERM_CODE_ID (',' LOCAL_TERM_CODE_ID)+
     ;
-
-

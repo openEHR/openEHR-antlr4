@@ -9,7 +9,7 @@
 
 parser grammar ElParser;
 options { tokenVocab=ElLexer; }
-import Cadl2PrimitiveValuesParser;
+import Cadl2Parser;
 
 
 
@@ -71,7 +71,8 @@ booleanLeaf:
       booleanValue
     | forAllExpr
     | thereExistsExpr
-    | constraintExpr
+    | arithmeticConstraintExpr
+    | generalConstraintExpr
     | '(' booleanExpr ')'
     | SYM_DEFINED '(' valueGenerator ')'
     | arithmeticComparisonExpr
@@ -100,8 +101,9 @@ thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueGenerator '|' boolean
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
+arithmeticConstraintExpr: arithmeticLeaf SYM_MATCHES '{' cInlineOrderedObject '}' ;
 
+generalConstraintExpr: simpleTerminal SYM_MATCHES '{' cObjectMatcher '}' ;
 
 // --------------------------- Arithmetic operator expressions --------------------------
 
@@ -242,7 +244,6 @@ instantiableRef:
 
 //
 // TODO: analyse how a boundVariableId can be created as a built-in feature
-// - possibly as special variables akin to Result and Self.
 //
 boundVariableId: BOUND_VARIABLE_ID ;
 
