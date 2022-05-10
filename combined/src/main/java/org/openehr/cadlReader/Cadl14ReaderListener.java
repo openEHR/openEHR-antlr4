@@ -6,6 +6,7 @@ import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
 import org.openehr.combinedparser.Cadl14Parser;
 import org.openehr.combinedparser.Cadl14ParserListener;
+import org.openehr.combinedparser.Cadl2Parser;
 
 /**
  * This class provides an empty implementation of {@link Cadl14ParserListener},
@@ -601,6 +602,30 @@ public class Cadl14ReaderListener implements Cadl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCInlinePrimitiveObject(Cadl14Parser.CInlinePrimitiveObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCInlineOrderedObject(Cadl14Parser.CInlineOrderedObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCInlineOrderedObject(Cadl14Parser.CInlineOrderedObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCInlineDTemporalObject(Cadl14Parser.CInlineDTemporalObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCInlineDTemporalObject(Cadl14Parser.CInlineDTemporalObjectContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

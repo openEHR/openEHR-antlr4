@@ -558,6 +558,30 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
+	@Override public void enterCInlineOrderedObject(Cadl2Parser.CInlineOrderedObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCInlineOrderedObject(Cadl2Parser.CInlineOrderedObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCInlineDTemporalObject(Cadl2Parser.CInlineDTemporalObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCInlineDTemporalObject(Cadl2Parser.CInlineDTemporalObjectContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
 	@Override public void enterCBoolean(Cadl2Parser.CBooleanContext ctx) { }
 	/**
 	 * {@inheritDoc}

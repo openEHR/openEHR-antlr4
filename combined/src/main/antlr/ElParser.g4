@@ -176,7 +176,7 @@ terminal:
     ;
 
 simpleTerminal:
-      primitiveValue
+      primitiveObject
     | valueGenerator
     ;
 
