@@ -28,7 +28,6 @@ idCode:
     | ID_CODE
     ;
 
-
 //
 // A path to a node in an archetype with further model-based
 // path, referring to structure not mentioned in the archetype
