@@ -1,4 +1,5 @@
 = openEHR-antlr4
 
-Antlr4 grammars for ADL, ODIN, EL, BMM.
+Antlr4 grammars for ADL, ODIN, BEL, EL, BMM.
 
+This is a development repository containing Antlr4 grammars for most of the languages and syntaxes in use in openEHR. It may be used as a source for grammars for official use in various specifications.
