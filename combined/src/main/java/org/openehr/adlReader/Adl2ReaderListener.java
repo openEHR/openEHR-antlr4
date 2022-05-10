@@ -8,10 +8,8 @@ import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.combinedparser.Adl2Parser;
 import org.openehr.combinedparser.Adl2ParserListener;
 import org.openehr.common.SyntaxUtils;
-import org.openehr.expressionReader.ExpressionReader;
+import org.openehr.belReader.BelReader;
 import org.openehr.odinReader.OdinReader;
-
-import java.util.List;
 
 /**
  * This class provides an empty implementation of {@link Adl2ReaderListener},
@@ -23,7 +21,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
 		cadl2Reader = new Cadl2Reader(logging, keepAntlrErrors);
-		expressionReader = new ExpressionReader (logging, keepAntlrErrors);
+		expressionReader = new BelReader(logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
 	}
 
@@ -404,7 +402,7 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 
 	private final OdinReader odinReader;
 	private final Cadl2Reader cadl2Reader;
-	private final ExpressionReader expressionReader;
+	private final BelReader expressionReader;
 
 	private final Adl2ReaderErrors errorCollector;
 

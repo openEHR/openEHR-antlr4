@@ -1,33 +1,35 @@
-package org.openehr.expressionReader;
+package org.openehr.belReader;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.openehr.combinedparser.*;
+import org.openehr.combinedparser.BelLexer;
+import org.openehr.combinedparser.BelParser;
+import org.openehr.combinedparser.BelParserBaseListener;
 import org.openehr.common.SyntaxReader;
 
-public class ExpressionReader extends SyntaxReader<ExpressionLexer, ExpressionParser> {
+public class BelReader extends SyntaxReader<BelLexer, BelParser> {
 
     // ---------------------- Creation ----------------------
 
-    public ExpressionReader(boolean logging, boolean keepAntlrErrors) {
+    public BelReader(boolean logging, boolean keepAntlrErrors) {
         super (logging, keepAntlrErrors);
     }
 
     // ---------------------- Implementation ----------------------
 
     protected void createLexerParser (CharStream stream) {
-        lexer = new ExpressionLexer (stream);
-        parser = new ExpressionParser (new CommonTokenStream (lexer));
+        lexer = new BelLexer (stream);
+        parser = new BelParser (new CommonTokenStream (lexer));
     }
 
     protected void doParse() {
-        ExpressionParser.StatementBlockContext stmtBlock = parser.statementBlock();
+        BelParser.StatementBlockContext stmtBlock = parser.statementBlock();
 
         // don't bother with traversal if artefact not well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
-            ExpressionParserBaseListener reader =  new ExpressionParserBaseListener();
+            BelParserBaseListener reader =  new BelParserBaseListener();
             walker.walk (reader, stmtBlock);
         }
     }

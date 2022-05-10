@@ -8,7 +8,7 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-lexer grammar ExpressionLexer;
+lexer grammar BelLexer;
 import AdlPathLexer, Cadl2PrimitiveValuesLexer, GeneralLexer;
 
 channels {

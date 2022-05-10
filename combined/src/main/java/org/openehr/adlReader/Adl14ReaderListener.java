@@ -8,7 +8,7 @@ import org.openehr.cadlReader.Cadl14Reader;
 import org.openehr.combinedparser.Adl14Parser;
 import org.openehr.combinedparser.Adl14ParserListener;
 import org.openehr.common.SyntaxUtils;
-import org.openehr.expressionReader.ExpressionReader;
+import org.openehr.belReader.BelReader;
 import org.openehr.odinReader.OdinReader;
 
 /**
@@ -21,7 +21,7 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	public Adl14ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
 		odinReader = new OdinReader(logging, keepAntlrErrors);
 		cadl14Reader = new Cadl14Reader(logging, keepAntlrErrors);
-		expressionReader = new ExpressionReader(logging, keepAntlrErrors);
+		expressionReader = new BelReader(logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
 	}
 
@@ -304,7 +304,7 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 
 	private final OdinReader odinReader;
 	private final Cadl14Reader cadl14Reader;
-	private final ExpressionReader expressionReader;
+	private final BelReader expressionReader;
 
 	private final Adl2ReaderErrors errorCollector;
 

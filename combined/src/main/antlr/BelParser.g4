@@ -1,6 +1,6 @@
 //
-//  description: Antlr4 grammar for 'old' openEHR Expression Language specified at
-//               https://specifications.openehr.org/releases/BASE/Release-1.0.4/expression.html
+//  description: Antlr4 grammar for openEHR Basic Expression Language specified at
+//               https://specifications.openehr.org/releases/LANG/latest/basic_expression_language.html
 //  author:      Thomas Beale <thomas.beale@openehr.org>
 //  contributors:Pieter Bos <pieter.bos@nedap.com>
 //  support:     openEHR Specifications PR tracker <https://openehr.atlassian.net/projects/SPECPR/issues>
@@ -8,8 +8,8 @@
 //  license:     Apache 2.0 License <http://www.apache.org/licenses/LICENSE-2.0.html>
 //
 
-parser grammar ExpressionParser;
-options { tokenVocab=ExpressionLexer; }
+parser grammar BelParser;
+options { tokenVocab=BelLexer; }
 import Cadl2PrimitiveValuesParser, AdlPathParser;
 
 //
