@@ -13,47 +13,58 @@ options { tokenVocab=Cadl2PrimitiveValuesLexer; }
 import PrimitiveValuesParser;
 
 cInlinePrimitiveObject:
-      cInteger
-    | cReal
-    | cDate
-    | cTime
-    | cDateTime
-    | cDuration
+      cInlineOrderedObject
     | cString
     | cTerminologyCode
     | cBoolean
     ;
 
+cInlineOrderedObject:
+      cInteger
+    | cReal
+    | cInlineDTemporalObject
+    ;
+
+cInlineDTemporalObject:
+      cDate
+    | cTime
+    | cDateTime
+    | cDuration
+    ;
+
 // ------------ Primitive type constraints -------------
 
-cBoolean: ( booleanValue | booleanListValue ) assumedBooleanValue? ;
+cBoolean: ( booleanValue | booleanValues ) assumedBooleanValue? ;
 assumedBooleanValue: ';' booleanValue ;
 
-cInteger: ( integerValue | integerListValue | integerIntervalValue | integerIntervalListValue ) assumedIntegerValue? ;
+cInteger: ( integerValue | integerValues | integerInterval | integerIntervals ) assumedIntegerValue? ;
 assumedIntegerValue: ';' integerValue ;
 
-cReal: ( realValue | realListValue | realIntervalValue | realIntervalListValue ) assumedRealValue? ;
+cReal: ( realValue | realValues | realInterval | realIntervals ) assumedRealValue? ;
 assumedRealValue: ';' realValue ;
 
-cDateTime: ( DATE_TIME_CONSTRAINT_PATTERN | dateTimeValue | dateTimeListValue | dateTimeIntervalValue | dateTimeIntervalListValue ) assumedDateTimeValue? ;
+cDateTime: ( DATE_TIME_CONSTRAINT_PATTERN | dateTimeValue | dateTimeValues | dateTimeInterval | dateTimeIntervals ) assumedDateTimeValue? ;
 assumedDateTimeValue: ';' dateTimeValue ;
 
-cDate: ( DATE_CONSTRAINT_PATTERN | dateValue | dateListValue | dateIntervalValue | dateIntervalListValue ) assumedDateValue? ;
+cDate: ( DATE_CONSTRAINT_PATTERN | dateValue | dateValues | dateInterval | dateIntervals ) assumedDateValue? ;
 assumedDateValue: ';' dateValue ;
 
-cTime: ( TIME_CONSTRAINT_PATTERN | timeValue | timeListValue | timeIntervalValue | timeIntervalListValue ) assumedTimeValue? ;
+cTime: ( TIME_CONSTRAINT_PATTERN | timeValue | timeValues | timeInterval | timeIntervals ) assumedTimeValue? ;
 assumedTimeValue: ';' timeValue ;
 
-cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationIntervalValue | durationValue ))?
-    | durationValue | durationListValue | durationIntervalValue | durationIntervalListValue ) assumedDurationValue?
+cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationInterval | durationValue ))?
+    | durationValue | durationValues | durationInterval | durationIntervals ) assumedDurationValue?
     ;
 assumedDurationValue: ';' durationValue ;
 
-cString: ( stringValue | stringListValue | DELIMITED_REGEX ) assumedStringValue? ;
+cString: ( stringValue | stringValues | DELIMITED_REGEX ) assumedStringValue? ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]
 // NOTE: an assumed at-code (the ';' AT_CODE pattern) can only occur after an ac-code not after the single at-code
-cTerminologyCode: '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']' ;
-
-
+// TPFP: the 3rd branch using IDs should be removed; the first two patterns are correct
+cTerminologyCode:
+      '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']'
+    | LOCAL_TERM_CODE_ID ( ';' LOCAL_TERM_CODE_ID )?
+    | LOCAL_TERM_CODE_ID (',' LOCAL_TERM_CODE_ID)+
+    ;
