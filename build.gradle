@@ -1,3 +1,11 @@
+repositories {
+    mavenCentral()
+}
+
+wrapper {
+    gradleVersion = '5.6.4'
+}
+
 allprojects {
     version = '0.1.0'
     group = 'org.openehr'
@@ -7,9 +15,6 @@ allprojects {
     }
 }
 
-repositories {
-    mavenCentral()
-}
 
 subprojects {
     apply plugin: 'java'
@@ -21,7 +26,12 @@ subprojects {
     compileJava.options.encoding = "UTF-8"
     compileTestJava.options.encoding = "UTF-8"
 
-    ext.antlrVersion = '4.9.2'
+    repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
+    }
+
+    ext.antlrVersion = '4.10.1'
     ext.reflectionsVersion = '0.9.12'
 
     generateGrammarSource { //antlr4
@@ -32,8 +42,9 @@ subprojects {
     }
     dependencies {
         implementation 'junit:junit:4.12'
-        antlr 'org.antlr:antlr4:4.9.2'
-        api 'org.antlr:antlr4-runtime:4.9.2'
+        antlr 'org.antlr:antlr4:4.10.1'
+        api 'org.antlr:antlr4-runtime:4.10.1'
+
         implementation "org.reflections:reflections:${reflectionsVersion}"
 
         implementation ('commons-io:commons-io:2.11.0'){
@@ -50,10 +61,6 @@ subprojects {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
 
-    }
-
-    repositories {
-        mavenCentral()
     }
 
     test {
