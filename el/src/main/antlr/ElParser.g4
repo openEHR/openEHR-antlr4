@@ -9,7 +9,7 @@
 
 parser grammar ElParser;
 options { tokenVocab=ElLexer; }
-import Cadl2PrimitiveValuesParser;
+import Cadl2Parser;
 
 
 
@@ -24,20 +24,23 @@ declaration:
     | constantDeclaration
     ;
 
-variableDeclaration: scopableVariableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
+variableDeclaration: instantiableRef ':' typeId ( SYM_ASSIGNMENT expression )? ;
 
-constantDeclaration: constantName ':' typeId ( SYM_EQ primitiveObject )? ;
+constantDeclaration: constantId ':' typeId ( SYM_EQ expression )? ;
 
-assignment: variableRef SYM_ASSIGNMENT expression ;
+assignment: valueGenerator SYM_ASSIGNMENT expression ;
 
-assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
+assertion: ( ( LC_ID | UC_ID ) ':' )? SYM_ASSERT booleanExpr ;
 
 // ========================== EL Expressions ==========================
 
+//
+// Expressions are either value-generators, or operator expressions (containing value-generators)
+//
 expression:
-      valueRef
+      terminal
     | operatorExpression
-    | terminalExpression
+    | tuple
     ;
 
 operatorExpression:
@@ -45,12 +48,11 @@ operatorExpression:
     | arithmeticExpr
     ;
 
-// ------------------- Boolean-returning expressions --------------------
+// ------------------- Boolean-returning operator expressions --------------------
 
 //
-// Expressions evaluating to boolean values, using standard precedence
-// We use this repeated structure to allow the use of valueRef as a
-// booleanExpr, which we don't want
+// Expressions evaluating to boolean values, using standard precedence;
+// These map to ordinary 1- and 2-argument function calls on Boolean instances
 //
 booleanExpr:
       SYM_NOT booleanExpr
@@ -58,6 +60,7 @@ booleanExpr:
     | booleanExpr SYM_XOR booleanExpr
     | booleanExpr SYM_OR booleanExpr
     | booleanExpr SYM_IMPLIES booleanExpr
+    | booleanExpr ( SYM_IFF | SYM_EQ ) booleanExpr
     | booleanLeaf
     ;
 
@@ -65,29 +68,24 @@ booleanExpr:
 // Atomic Boolean-valued expression elements
 //
 booleanLeaf:
-      booleanLiteral
+      booleanValue
     | forAllExpr
     | thereExistsExpr
+    | arithmeticConstraintExpr
+    | generalConstraintExpr
     | '(' booleanExpr ')'
-    | constraintExpr
-    | SYM_DEFINED '(' valueRef ')'
+    | SYM_DEFINED '(' valueGenerator ')'
     | arithmeticComparisonExpr
-    | quantityComparisonExpr
-    | dateTimeComparisonExpr
-    | valueRef
-    ;
-
-booleanLiteral:
-      SYM_TRUE
-    | SYM_FALSE
+    | objectComparisonExpr
+    | valueGenerator
     ;
 
 //
 //  Universal and existential quantifier
 //
-forAllExpr: SYM_FOR_ALL localVariableId ':' valueRef '|' booleanExpr ;
+forAllExpr: SYM_FOR_ALL localVariableId ':' valueGenerator '|' booleanExpr ;
 
-thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
+thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueGenerator '|' booleanExpr ;
 
 // Constraint expressions
 // This provides a way of using one operator (matches) to compare a
@@ -103,10 +101,11 @@ thereExistsExpr: SYM_THERE_EXISTS localVariableId ':' valueRef '|' booleanExpr ;
 // may be used within an expression like any other Boolean (hence it
 // is a booleanLeaf).
 // TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: ( arithmeticExpr | valueRef ) SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
+arithmeticConstraintExpr: arithmeticLeaf SYM_MATCHES '{' cInlineOrderedObject '}' ;
 
+generalConstraintExpr: simpleTerminal SYM_MATCHES '{' cObjectMatcher '}' ;
 
-// --------------------------- Arithmetic expressions --------------------------
+// --------------------------- Arithmetic operator expressions --------------------------
 
 //
 // Comparison expressions of arithmetic operands generating Boolean results
@@ -132,13 +131,15 @@ arithmeticExpr:
     | arithmeticLeaf
     ;
 
+// TODO: need to be able to plug in terminal to allow decision tables in expressions
 arithmeticLeaf:
-      arithmeticLiteral
+      arithmeticValue
     | '(' arithmeticExpr ')'
-    | valueRef
+    | valueGenerator
+    | simpleCaseTable
     ;
 
-arithmeticLiteral:
+arithmeticValue:
       integerValue
     | realValue
     | dateValue
@@ -147,134 +148,130 @@ arithmeticLiteral:
     | durationValue
     ;
 
-// ------------------------ Quantity expressions -------------------------
+// -------------------- Equality operator expressions for other types ------------------------
 
 //
-// TODO: these rules do not work and are not used, since Antlr doesn't
-// correctly know to compute operator precedence for mutiple rules
-// with the same operator as being the same precedence.
+// Compare any kind of objects
 //
+objectComparisonExpr: simpleTerminal equalityBinop simpleTerminal ;
 
-quantityExpr:
-      durationExpr
-//    | generalQuantityExpr
-    ;
-
-//generalQuantityExpr:
-//    ;
+equalityBinop:
+    SYM_EQ
+  | SYM_NE
+  ;
 
 //
-// Expressions returning a Duration
+// -------------------------- tuples -----------------------------
 //
-durationExpr:
-      durationValue ( '*' | '/' ) arithmeticLiteral
-
-    | dateValue '-' dateValue
-    | valueRef '-' dateValue
-    | dateValue '-' valueRef
-
-    | dateTimeValue '-' dateTimeValue
-    | valueRef '-' dateTimeValue
-    | dateTimeValue '-' valueRef
-
-    | timeValue '-' timeValue
-    | valueRef '-' timeValue
-    | timeValue '-' valueRef
-
-    | valueRef '-' valueRef
-
-    | durationValue
-    ;
-
-quantityComparisonExpr: quantityExpr comparisonBinop quantityExpr ;
-
-dateTimeExpr:
-      dateTimeLiteral ( '--' | '++' ) dateTimeDurationRhs
-    | valueRef ( '--' | '++' ) dateTimeDurationRhs
-    | dateTimeLiteral ( '+' | '-' ) dateTimeDurationRhs
-    | dateTimeLiteral
-    ;
-
-dateTimeDurationRhs:
-      durationValue
-    | valueRef
-    ;
-
-dateTimeLiteral:
-      dateValue
-    | dateTimeValue
-    | timeValue
-    ;
-
-dateTimeComparisonExpr: dateTimeExpr comparisonBinop dateTimeExpr ;
-
-
-// -------------------------- terminal expressions -----------------------------
-
-terminalExpression:
-      valueRef
-    | primitiveValue
-    | tuple
-    ;
 
 tuple: '[' expression ( ',' expression )+ ']';
 
-valueRef:
-      scopedFeatureRef
-    | featureRef
-    | SYM_SELF
-    | caseTable
-    | choiceTable
+//
+// -------------------------- value-generating expressions -----------------------------
+//
+
+terminal:
+      simpleTerminal
+    | decisionTable
+    ;
+
+simpleTerminal:
+      primitiveObject
+    | valueGenerator
     ;
 
 //
-// scoped and local feature references
+// TODO: Can't syntactically distinguish between a local or other variable id
+// and a property or constant reference.
 //
-
-scopedFeatureRef: 
-      scopedFunctionCall
-    | scopedPropertyRef
-    | scopedConstantRef
+valueGenerator:
+      bareRef
+    | scopedFeatureRef
+    | typeRef
     ;
 
-scopedFunctionCall: scoper functionCall ;
-
-scopedPropertyRef: scoper scopableVariableRef ;
-
-scopedConstantRef: scoper constantName ;
-
-scoper: ( typeRef '.' )? ( featureRef '.' )* ;
-
-typeRef: '{' typeId '}' ;
-
-featureRef:
-      functionCall
-    | variableRef
-    | constantName
-    ;
-
-variableRef:
-      scopableVariableRef
-    | SYM_RESULT
-    ;
-
-scopableVariableRef:
+bareRef:
       boundVariableId
+    | staticRef
+    | localRef
+    | functionCall
+    ;
+
+//
+// Static and constant feature refs, distinguished by the use of
+// initial capital in the id.
+// Will map to EL_READABLE_VARIABLE or EL_STATIC_REF (unscoped)
+//
+staticRef:
+      SYM_SELF
+    | constantId
+    ;
+
+//
+// Local writable reference, distinguished by use of initial lowercase id
+// Will map to EL_WRITABLE_VARIABLE or EL_PROPERTY_REF (unscoped)
+//
+localRef:
+      SYM_RESULT
     | localVariableId
     ;
 
+//
+// scoped feature references.
+// Will map to any EL_FEATURE_REF (scoped)
+//
+scopedFeatureRef: scoper featureRef ;
+
+scoper: ( typeRef '.' )? ( bareRef '.' )* ;
+
+typeRef: '{' typeId '}' ;
+
+typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+
+featureRef:
+      functionCall
+    | instantiableRef
+    ;
+
+//
+// Instantiable feature refs
+//
+instantiableRef:
+      boundVariableId
+    | localVariableId
+    | constantId
+    ;
+
+//
+// TODO: analyse how a boundVariableId can be created as a built-in feature
+//
 boundVariableId: BOUND_VARIABLE_ID ;
 
 localVariableId: LC_ID ;
 
-constantName: UC_ID ;
+constantId: UC_ID ;
 
-functionCall: LC_ID '(' simpleExprList? ')' ;
+//
+// Function calls
+//
+functionCall: LC_ID '(' exprList? ')' ';'? ;
 
-simpleExprList: expression ( ',' expression )* ;
+exprList: expression ( ',' expression )* ;
 
-typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+//
+// -------------------------- decision tables -----------------------------
+//
 
+decisionTable:
+      binaryChoice
+    | caseTable
+    | conditionTable
+    ;
+
+caseTable:
+    | simpleCaseTable
+    | generalCaseTable
+    ;
 
 //
 // condition chains (if/then statement equivalent)
@@ -282,34 +279,63 @@ typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 //   =========================================================
 //   er_positive and
 //   her2_negative and
-//   not ki67.in_range ([high]):    [luminal_A],
+//   not ki67.in_range (#high):    #luminal_A,
 //   ---------------------------------------------------------
 //   er_positive and
 //   her2_negative and
-//   ki67.in_range ([high]):        [luminal_B_HER2_negative],
+//   ki67.in_range (#high):        #luminal_B_HER2_negative,
 //   ---------------------------------------------------------
-//   *:                             [none]
+//   *:                            #none
 //   =========================================================
 //   ;
 //
-choiceTable: SYM_CHOICE SYM_IN ( choiceBranch ',' )+ ( choiceBranch | choiceDefaultBranch ) ';' ;
+conditionTable: SYM_CHOICE SYM_IN ( conditionBranch ',' )+ ( conditionBranch | conditionDefaultBranch ) ';' ;
 
-choiceBranch: expression ':' expression ;
+conditionBranch: booleanExpr ':' expression ;
 
-choiceDefaultBranch: '*' ':' expression ;
+conditionDefaultBranch: '*' ':' expression ;
 
 //
-// Case tables:
+// Binary-choice version of condition table, using old-school
+// C/Java syntax:
+// booleanExpr ? x : y ;
+//
+binaryChoice:  booleanExpr '?' simpleTerminal ':' simpleTerminal ;
+
+//
+// Case tables, e.g.:
+//     Result := case qCSI_score in
+//        ============================
+//        0:          expr0,
+//        ----------------------------
+//        |1..2|:     expr1,
+//        ----------------------------
+//        |3..5|:     expr2,
+//        ----------------------------
+//        |6..8|:     expr3,
+//        ----------------------------
+//        |≥ 9|:      expr4
+//        ============================
+//     ;
+//
+generalCaseTable: SYM_CASE expression SYM_IN ( generalCaseBranch ',' )+ ( generalCaseBranch | generalCaseDefaultBranch ) ';' ;
+
+generalCaseBranch: primitiveObject ':' expression ;
+
+generalCaseDefaultBranch: '*' ':' expression ;
+
+//
+// Simple value-based (typed) Case tables, e.g.:
 // case gfr_range in
 //   =================
 //   |>20|:      1,
-//   |10 - 20|:  0.75,
+//   |10..20|:   0.75,
 //   |<10|:      0.5
 //   =================
 //   ;
 //
-caseTable: SYM_CASE expression SYM_IN ( caseBranch ',' )+ ( caseBranch | caseDefaultBranch ) ';' ;
+simpleCaseTable: SYM_CASE simpleTerminal SYM_IN ( simpleCaseBranch ',' )+ ( simpleCaseBranch | simpleCaseDefaultBranch ) ';' ;
 
-caseBranch: primitiveObject ':' expression ;
+simpleCaseBranch: primitiveObject ':' simpleTerminal ;
 
-caseDefaultBranch: '*' ':' expression ;
+simpleCaseDefaultBranch: '*' ':' simpleTerminal ;
