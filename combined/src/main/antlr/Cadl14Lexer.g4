@@ -49,3 +49,35 @@ SYM_SLASH: '/' ;
 SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
 
+// ----------------------- embedded ODIN blocks --------------------------
+// ODIN_BLOCK_START matches the first line below, then the ODIN_BLOCK mode gets the rest
+//      TYPE <
+//          odin lines
+//      >
+//
+// Below, we rewrite the archaic form 'TYPE <' to legal ODIN '(TYPE) <'
+ODIN14_BLOCK_START : UC_ID WS? '<' WS? EOL
+    {
+        String origText = getText();
+        String typeId = origText.substring (0, origText.indexOf("<")-1);
+        typeId.trim();
+        setText ("(" + typeId + ") <");
+    }
+    -> mode (ODIN14_BLOCK) ;
+
+//
+// The end of an ODIN block is a bit tricky - because '>' occurs numerous times
+// -> have to spot either:
+//      following '}', and return the usual token (SYM_RCURLY)
+//          in this case, we rewrite the matched text to just the symbol.
+//      following UC_ID Ws etc, which means a sibling cADL block
+//          here, we return the UC_ID and return to normal parsing
+//
+mode ODIN14_BLOCK ;
+ODIN14_BLOCK_POST  : WS '}' WS? EOL { setText ("}"); } -> mode (DEFAULT_MODE), type (SYM_RCURLY) ;
+ODIN14_BLOCK_POST2 : WS UC_ID { setText (getText().trim()); } -> mode (DEFAULT_MODE), type (UC_ID) ;
+ODIN14_BLOCK_LINE  : WS LC_ID WS NON_EOL+ EOL ;                             // ODIN lines commencing with 'attr_name'
+ODIN14_BLOCK_LINE2 : WS [<[] WS? NON_EOL+ EOL -> type (ODIN14_BLOCK_LINE) ; // ODIN lines commencing with '<' or '['
+ODIN14_BLOCK_LINE3 : WS '>' WS? EOL -> type (ODIN14_BLOCK_LINE) ;           // ODIN lines with only '>'
+WS_ODIN: WS EOL  -> channel(HIDDEN) ;
+fragment NON_EOL : ~'\n' ;

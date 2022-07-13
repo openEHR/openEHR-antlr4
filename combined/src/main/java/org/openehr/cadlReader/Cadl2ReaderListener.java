@@ -4,8 +4,15 @@ package org.openehr.cadlReader;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.openehr.adlReader.Adl2ReaderDefinitions;
+import org.openehr.adlReader.Adl2ReaderErrorCollector;
 import org.openehr.combinedparser.Cadl2Parser;
 import org.openehr.combinedparser.Cadl2ParserListener;
+import org.openehr.common.SyntaxUtils;
+import org.openehr.odinReader.OdinReader;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class provides an empty implementation of {@link Cadl2ParserListener},
@@ -13,6 +20,12 @@ import org.openehr.combinedparser.Cadl2ParserListener;
  * of the available methods.
  */
 public class Cadl2ReaderListener implements Cadl2ParserListener {
+		public Cadl2ReaderListener(boolean logging, boolean keepAntlrErrors, Cadl2ReaderErrorCollector errorCollector, int lineOffset) {
+		odinReader = new OdinReader (logging, keepAntlrErrors);
+		this.errorCollector = errorCollector;
+		this.lineOffset = lineOffset;
+	}
+
 	/**
 	 * {@inheritDoc}
 	 *
@@ -390,7 +403,22 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 *
 	 * <p>The default implementation does nothing.</p>
 	 */
-	@Override public void enterDefaultValue(Cadl2Parser.DefaultValueContext ctx) { }
+	@Override public void enterDefaultValue(Cadl2Parser.DefaultValueContext ctx) {
+		// figure out if it's ODIN or something else - have to check serialBlock rule
+		if (ctx.serialBlock().odinBlock() != null) {
+			odinReader.read (SyntaxUtils.textToCharStream (ctx.serialBlock().odinBlock().ODIN_BLOCK_LINE()),
+					Cadl2ReaderDefinitions.DEFAULT_BLOCK_NAME, ctx.DEFAULT_BLOCK_START().getSymbol().getLine() + lineOffset);
+			errorCollector.setDefaultBlockErrors (odinReader.getErrors());
+		}
+		else if (ctx.serialBlock().otherSerialBlock() != null) {
+			// TODO: figure out what syntax from ctx.DEFAULT_BLOCK_START()
+			// TODO: get a reader for that syntax and consume
+			// ctx.serialBlock().otherSerialBlock().SERIAL_BLOCK_LINE()
+		}
+		else {
+			// TODO: should never arrive here
+		}
+	}
 	/**
 	 * {@inheritDoc}
 	 *
@@ -1466,4 +1494,13 @@ public class Cadl2ReaderListener implements Cadl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void visitErrorNode(ErrorNode node) { }
+
+	// -------------- Implementation ------------------
+
+	private final int lineOffset;
+
+	private final OdinReader odinReader;
+
+	private final Cadl2ReaderErrorCollector errorCollector;
+
 }

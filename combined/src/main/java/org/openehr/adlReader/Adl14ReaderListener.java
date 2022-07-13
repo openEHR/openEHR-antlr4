@@ -18,11 +18,12 @@ import org.openehr.odinReader.OdinReader;
  */
 public class Adl14ReaderListener implements Adl14ParserListener {
 
-	public Adl14ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
+	public Adl14ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrorCollector errorCollector, int lineOffset) {
 		odinReader = new OdinReader(logging, keepAntlrErrors);
 		cadl14Reader = new Cadl14Reader(logging, keepAntlrErrors);
 		expressionReader = new BelReader(logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
+		this.lineOffset = lineOffset;
 	}
 
 	/**
@@ -150,7 +151,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterLanguageSection (Adl14Parser.LanguageSectionContext ctx) {
-		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.LANGUAGE_SECTION_NAME, ctx.LANGUAGE_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()),
+				Adl2ReaderDefinitions.LANGUAGE_SECTION_NAME, ctx.LANGUAGE_HEADER().getSymbol().getLine());
 		errorCollector.setLanguageErrors (odinReader.getErrors());
 	}
 
@@ -166,7 +168,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDescriptionSection(Adl14Parser.DescriptionSectionContext ctx) {
-		odinReader.read(SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.DESCRIPTION_SECTION_NAME, ctx.DESCRIPTION_HEADER().getSymbol().getLine());
+		odinReader.read(SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()),
+				Adl2ReaderDefinitions.DESCRIPTION_SECTION_NAME, ctx.DESCRIPTION_HEADER().getSymbol().getLine());
 		errorCollector.setDescriptionErrors (odinReader.getErrors());
 	}
 	/**
@@ -181,7 +184,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDefinitionSection(Adl14Parser.DefinitionSectionContext ctx) {
-		cadl14Reader.read (SyntaxUtils.textToCharStream (ctx.cadlText().CADL_LINE()), Adl2ReaderDefinitions.DEFINITION_SECTION_NAME, ctx.DEFINITION_HEADER().getSymbol().getLine());
+		cadl14Reader.read (SyntaxUtils.textToCharStream (ctx.cadlText().CADL_LINE()),
+				Adl2ReaderDefinitions.DEFINITION_SECTION_NAME, ctx.DEFINITION_HEADER().getSymbol().getLine());
 		errorCollector.setDefinitionErrors (cadl14Reader.getErrors());
 	}
 
@@ -198,7 +202,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterRulesSection(Adl14Parser.RulesSectionContext ctx) {
-		expressionReader.read (SyntaxUtils.textToCharStream (ctx.elText().EL_LINE()), Adl2ReaderDefinitions.RULES_SECTION_NAME, ctx.RULES_HEADER().getSymbol().getLine());
+		expressionReader.read (SyntaxUtils.textToCharStream (ctx.elText().EL_LINE()),
+				Adl2ReaderDefinitions.RULES_SECTION_NAME, ctx.RULES_HEADER().getSymbol().getLine());
 		errorCollector.setRulesErrors (expressionReader.getErrors());
 	}
 
@@ -214,7 +219,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterTerminologySection(Adl14Parser.TerminologySectionContext ctx) {
-		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.TERMINOLOGY_SECTION_NAME, ctx.TERMINOLOGY_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()),
+				Adl2ReaderDefinitions.TERMINOLOGY_SECTION_NAME, ctx.TERMINOLOGY_HEADER().getSymbol().getLine());
 		errorCollector.setTerminologyErrors (odinReader.getErrors());
 	}
 
@@ -236,7 +242,8 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitAnnotationsSection(Adl14Parser.AnnotationsSectionContext ctx) {
-		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()), Adl2ReaderDefinitions.ANNOTATIONS_SECTION_NAME, ctx.ANNOTATIONS_HEADER().getSymbol().getLine());
+		odinReader.read (SyntaxUtils.textToCharStream (ctx.odinText().ODIN_LINE()),
+				Adl2ReaderDefinitions.ANNOTATIONS_SECTION_NAME, ctx.ANNOTATIONS_HEADER().getSymbol().getLine());
 		errorCollector.setAnnotationsErrors (odinReader.getErrors());
 	}
 
@@ -302,10 +309,12 @@ public class Adl14ReaderListener implements Adl14ParserListener {
 	 */
 	@Override public void visitErrorNode(ErrorNode node) { }
 
+	private final int lineOffset;
+
 	private final OdinReader odinReader;
 	private final Cadl14Reader cadl14Reader;
 	private final BelReader expressionReader;
 
-	private final Adl2ReaderErrors errorCollector;
+	private final Adl2ReaderErrorCollector errorCollector;
 
 }

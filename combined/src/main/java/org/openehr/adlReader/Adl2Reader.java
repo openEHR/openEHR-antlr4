@@ -20,32 +20,29 @@ public class Adl2Reader extends SyntaxReader<Adl2Lexer, Adl2Parser> {
         return errorCollector;
     }
 
-    public Adl2ReaderErrors getErrorCollector() {
-        return errorCollector;
-    }
-
     // ---------------------- Implementation ----------------------
 
     protected void createLexerParser (CharStream stream) {
         lexer = new Adl2Lexer (stream);
-        parser = new Adl2Parser(new CommonTokenStream (lexer));
+        parser = new Adl2Parser (new CommonTokenStream (lexer));
     }
 
-    protected void doParse() {
-        // set up the top-level Error collector
-        errorCollector = new Adl2ReaderErrors();
+    protected void doParse (int lineOffset) {
+        // set up the top-level Error collector that will collect
+        // errors from subordinate parts, each with its own syntax
+        errorCollector = new Adl2ReaderErrorCollector();
         errorCollector.setAdlErrors (errors);
 
         // do the parse
         Adl2Parser.AdlObjectContext adlObjectCtx = parser.adlObject();
 
-        // don't bother with second level parsing if artefact not well-formed
+        // perform second level parsing if artefact well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
-            Adl2ReaderListener reader =  new Adl2ReaderListener(logging, keepAntlrErrors, errorCollector);
+            Adl2ReaderListener reader =  new Adl2ReaderListener (logging, keepAntlrErrors, errorCollector, lineOffset);
             walker.walk (reader, adlObjectCtx);
         }
     }
 
-    private Adl2ReaderErrors errorCollector;
+    private Adl2ReaderErrorCollector errorCollector;
 }

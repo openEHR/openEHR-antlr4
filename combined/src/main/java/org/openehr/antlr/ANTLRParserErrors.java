@@ -88,8 +88,9 @@ public class ANTLRParserErrors implements IANTLRParserErrors {
         return result.toString();
     }
 
-    private void append(StringBuilder result, String level, List<ANTLRParserMessage> messages) {
-        for(ANTLRParserMessage message:messages) {
+    // Append a list of messages to current String result
+    private void append (StringBuilder result, String level, List<ANTLRParserMessage> messages) {
+        for (ANTLRParserMessage message:messages) {
             result.append(level);
             result.append(": ");
             result.append(message.qualifiedMessage());

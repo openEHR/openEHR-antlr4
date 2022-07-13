@@ -21,7 +21,7 @@ public class AqlReader extends SyntaxReader<AqlLexer, AqlParser> {
         parser = new AqlParser (new CommonTokenStream (lexer));
     }
 
-    protected void doParse() {
+    protected void doParse(int lineOffset) {
         AqlParser.AqlQueryContext aqlQuery = parser.aqlQuery();
 
         // don't bother with traversal if artefact not well-formed

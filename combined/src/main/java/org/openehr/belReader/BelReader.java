@@ -23,7 +23,7 @@ public class BelReader extends SyntaxReader<BelLexer, BelParser> {
         parser = new BelParser (new CommonTokenStream (lexer));
     }
 
-    protected void doParse() {
+    protected void doParse(int lineOffset) {
         BelParser.StatementBlockContext stmtBlock = parser.statementBlock();
 
         // don't bother with traversal if artefact not well-formed

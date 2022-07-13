@@ -5,6 +5,7 @@ import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.io.input.BOMInputStream;
 import org.junit.Test;
 import org.openehr.aqlReader.AqlReader;
+import org.openehr.cadlReader.Cadl14Reader;
 import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.common.SyntaxReader;
 import org.openehr.elReader.ElReader;
@@ -34,6 +35,11 @@ public class Adl2ReaderTest {
     @Test
     public void testAllCadl2() throws IOException {
         runTest ("cadl", "cadl2", new Cadl2Reader(false, false));
+    }
+
+    @Test
+    public void testAllCadl14() throws IOException {
+        runTest ("cadl", "cadl14", new Cadl14Reader(false, false));
     }
 
     /**
@@ -84,6 +90,7 @@ public class Adl2ReaderTest {
         // run passing tests
         reflections = new Reflections (artefactType + "/pass", new ResourcesScanner());
         paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\." + fileExt)));
+//        paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*anatomical_location_precise\\.v0\\." + fileExt)));
         int passErrorCount = executeTestGroup ( paths, artefactType, reader);
         int passGroupCount = paths.size();
 
@@ -92,6 +99,7 @@ public class Adl2ReaderTest {
         // we implement validation passes. Most of this should be in archie.
         reflections = new Reflections (artefactType + "/fail", new ResourcesScanner());
         paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\." + fileExt)));
+//        paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*anatomical_location_precise\\.v0\\." + fileExt)));
         int failErrorCount = executeTestGroup ( paths, artefactType, reader);
         int failGroupCount = paths.size();
 

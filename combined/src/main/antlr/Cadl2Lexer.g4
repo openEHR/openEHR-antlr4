@@ -52,6 +52,26 @@ SYM_IVL_DELIM: '|' ;
 SYM_IVL_SEP  : '..' ;
 
 // ----------------------- default blocks --------------------------
+// ODIN flavour
+//        _default = (TYPE) <
+//            attribute_1 = <"aaaa">
+//            attribute_3 = <
+//               attribute_3_1 = <"aaaa">
+//            >
+//            attribute_N = <25.77>
+//        >
+//
+// Any other flavour, e.g. json
+//        _default = (json) <#
+//            {
+//                "_type": "TYPE",
+//                "attribute_1": value_1,
+//                "attribute_2": value_2,
+//                ...
+//                "attribute_N": value_N
+//            }
+//        #>
+
 DEFAULT_BLOCK_START : '_default' WS? '=' -> mode (OBJECT_BLOCK);
 
 // -------------------------- Modal lexers -----------------------------

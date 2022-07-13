@@ -81,11 +81,11 @@ ordinalTerm: ordinalValue '|' cTerminologyCode ;
 
 // ------------------- ADL 1.4 domain specific extensions ---------------------
 // matches:
-//      (type) <
+//      TYPE <
 //          odin lines
 //      >
 //
-domainSpecificExtension:  rmTypeId '<' odinObject? '>';
+domainSpecificExtension:  ODIN14_BLOCK_START ODIN14_BLOCK_LINE+ ;
 
 // ------------------------- model references -------------------------
 rmTypeId      : UC_ID ( '<' rmTypeId ( ',' rmTypeId )* '>' )? ;

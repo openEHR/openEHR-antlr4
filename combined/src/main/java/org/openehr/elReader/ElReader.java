@@ -1,7 +1,6 @@
 package org.openehr.elReader;
 
 import org.antlr.v4.runtime.CharStream;
-import org.antlr.v4.runtime.CharStreams;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.openehr.combinedparser.*;
@@ -22,7 +21,7 @@ public class ElReader extends SyntaxReader<ElLexer, ElParser> {
         parser = new ElParser (new CommonTokenStream (lexer));
     }
 
-    protected void doParse() {
+    protected void doParse(int lineOffset) {
         ElParser.StatementBlockContext stmtBlock = parser.statementBlock();
 
         // don't bother with traversal if artefact not well-formed

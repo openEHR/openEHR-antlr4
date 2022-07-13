@@ -18,11 +18,12 @@ import org.openehr.odinReader.OdinReader;
  */
 public class Adl2ReaderListener implements Adl2ParserListener {
 
-	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrors errorCollector) {
+	public Adl2ReaderListener(boolean logging, boolean keepAntlrErrors, Adl2ReaderErrorCollector errorCollector, int lineOffset) {
 		odinReader = new OdinReader (logging, keepAntlrErrors);
 		cadl2Reader = new Cadl2Reader(logging, keepAntlrErrors);
 		expressionReader = new BelReader(logging, keepAntlrErrors);
 		this.errorCollector = errorCollector;
+		this.lineOffset = lineOffset;
 	}
 
 	/**
@@ -233,7 +234,8 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void enterDefinitionSection (Adl2Parser.DefinitionSectionContext ctx) {
-		cadl2Reader.read (SyntaxUtils.textToCharStream (ctx.cadlText().CADL_LINE()), Adl2ReaderDefinitions.DEFINITION_SECTION_NAME, ctx.DEFINITION_HEADER().getSymbol().getLine());
+		cadl2Reader.read (SyntaxUtils.textToCharStream (ctx.cadlText().CADL_LINE()), Adl2ReaderDefinitions.DEFINITION_SECTION_NAME,
+				ctx.DEFINITION_HEADER().getSymbol().getLine());
 		errorCollector.setDefinitionErrors (cadl2Reader.getErrors());
 	}
 
@@ -400,10 +402,12 @@ public class Adl2ReaderListener implements Adl2ParserListener {
 
 	// -------------- Implementation ------------------
 
+	private final int lineOffset;
+
 	private final OdinReader odinReader;
 	private final Cadl2Reader cadl2Reader;
 	private final BelReader expressionReader;
 
-	private final Adl2ReaderErrors errorCollector;
+	private final Adl2ReaderErrorCollector errorCollector;
 
 }

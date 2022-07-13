@@ -20,7 +20,7 @@ public class OdinReader extends SyntaxReader<OdinLexer, OdinParser> {
         parser = new OdinParser(new CommonTokenStream (lexer));
     }
 
-    protected void doParse() {
+    protected void doParse(int lineOffset) {
         OdinParser.OdinObjectContext odinObjectCtx = parser.odinObject();
 
         // don't bother with traversal if artefact not well-formed

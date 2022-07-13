@@ -40,7 +40,7 @@ public abstract class SyntaxReader<L extends Lexer, P extends Parser> {
         parser.addErrorListener (errorListener);
 
         // do any specific processing of the parse result
-        doParse();
+        doParse (lineOffset);
     }
 
     // ---------------------- Access ----------------------
@@ -55,9 +55,14 @@ public abstract class SyntaxReader<L extends Lexer, P extends Parser> {
     protected abstract void createLexerParser (CharStream textStream) ;
 
     // template routine for Parser-specific processing
-    protected abstract void doParse() ;
+    protected abstract void doParse (int lineOffset) ;
 
+    // This error collector just records errors from one kind of syntax
+    // i.e. of the current artefact. For Artefacts that can have their own
+    // syntax, plus subordinate parts with other syntaxes, a multi-parser
+    // error collector will additionally be needed.
     protected ANTLRParserErrors errors;
+
     protected final boolean logging;
     protected final boolean keepAntlrErrors;
 
