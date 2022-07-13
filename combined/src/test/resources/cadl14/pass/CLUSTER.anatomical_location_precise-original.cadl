@@ -1,0 +1,39 @@
+﻿	CLUSTER[at0000] matches {    -- Precise anatomical location
+		items cardinality matches {1..*; unordered} matches {
+			ELEMENT[at0001] occurrences matches {0..1} matches {    -- Position frame of reference
+				value matches {
+					DV_TEXT matches {*}
+				}
+			}
+			ELEMENT[at0002] occurrences matches {0..1} matches {    -- X offset
+				value matches {
+					C_DV_QUANTITY <
+						property = <[openehr::122]>
+					>
+					DV_COUNT matches {
+						magnitude matches {|>=0|}
+					}
+				}
+			}
+			ELEMENT[at0003] occurrences matches {0..1} matches {    -- Y offset
+				value matches {
+					C_DV_QUANTITY <
+						property = <[openehr::122]>
+					>
+					DV_COUNT matches {
+						magnitude matches {|>=0|}
+					}
+				}
+			}
+			ELEMENT[at0004] occurrences matches {0..1} matches {    -- Z offset
+				value matches {
+					C_DV_QUANTITY <
+						property = <[openehr::122]>
+					>
+					DV_COUNT matches {
+						magnitude matches {|>=0|}
+					}
+				}
+			}
+		}
+	}

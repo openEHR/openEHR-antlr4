@@ -1,0 +1,1 @@
+	property = <[openehr::122]>
