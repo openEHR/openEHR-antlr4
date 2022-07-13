@@ -2,22 +2,32 @@
 
 Antlr4 grammars for ADL, ODIN, BEL, EL, BMM.
 
+== Overview
+
+The grammars in this project are an attempt to systematise all grammars for openEHR in one place, and using common lexers for common patterns such as identifiers, paths, terminal values and so on. The grammars use modal lexers to handle the multiple formalisms that may appear in e.g. ADL files, CADL blocks within ADL (which may have further embedded ODIN or JSON blocks) and so on.
+
+It is eventually intended to be used as the official source for grammars for various specifications, i.e. replacing existing grammars in the https://github.com/openEHR/adl-antlr[adl-antlr^] repository.
+
 == Status
 
-This is a development repository containing Antlr4 grammars for most of the languages and syntaxes in use in openEHR. It may be used as a source for grammars for official use in various specifications.
-
-Production grammars for ADL are currently in https://github.com/openEHR/adl-antlr[the adl-antlr repo^].
+This is a development repository containing Antlr4 grammars for most of the languages and syntaxes in use in openEHR.
 
 == What's in the project?
 
-The grammars are maintained under the `combined/src/main/antlr` directory.
+The grammars are maintained under the `combined/src/main/antlr` directory. The other modules may be ignored for the moment.
+
+== Testing
 
 A Java test program is in `/combined/src/test/java/org/openehr/adlReader`, and test files in `/combined/src/test/resources` .
+
+The test cases are known to work using IntelliJ Idea 2021.2.2, with the Antlr4 4.10.1 plug-in (see top-level build.gradle file), and Java 11 JRE & JDK installed.
 
 == Related Specifications
 
 Relevant specifications may be found on the https://specifications.openehr.org/development_baseline[openEHR specifications home page^], in particular:
 
-* https://specifications.openehr.org/releases/AM/latest[the ADL specifications^]
+* the https://specifications.openehr.org/releases/AM/latest[ADL specifications^]
 * the https://specifications.openehr.org/releases/LANG/latest/EL.html[Expression Language (EL) specification^]
 * the https://specifications.openehr.org/releases/LANG/latest/BEL.html[Basic Expression Language (BEL) specification^]
+* the https://specifications.openehr.org/releases/QUERY/latest/AQL.html[Archetype Query Language (AQL) specification^]
+
