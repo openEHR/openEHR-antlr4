@@ -8,7 +8,7 @@
 //
 
 lexer grammar ElLexer;
-import AdlPathLexer, Cadl2PrimitiveValuesLexer, GeneralLexer;
+import AdlPathLexer, Cadl2Lexer, GeneralLexer;
 
 channels {
     COMMENT
@@ -43,7 +43,6 @@ SYM_GE : '>=' | '≥' ;
 
 SYM_PLUS    : '+' ;
 SYM_MINUS   : '-' ;
-SYM_TIMES   : '*' ;
 SYM_SLASH   : '/' ;
 SYM_PERCENT : '%' ;
 SYM_CARET   : '^' ;

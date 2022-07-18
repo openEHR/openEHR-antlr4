@@ -126,7 +126,7 @@ comparisonBinop:
 //
 arithmeticExpr:
       <assoc=right> arithmeticExpr '^' arithmeticExpr
-    | arithmeticExpr ( '/' | '*' | '%' ) arithmeticExpr
+    | arithmeticExpr ( '/' | SYM_ASTERISK | '%' ) arithmeticExpr
     | arithmeticExpr ( '+' | '-' ) arithmeticExpr
     | arithmeticLeaf
     ;
@@ -293,7 +293,7 @@ conditionTable: SYM_CHOICE SYM_IN ( conditionBranch ',' )+ ( conditionBranch | c
 
 conditionBranch: booleanExpr ':' expression ;
 
-conditionDefaultBranch: '*' ':' expression ;
+conditionDefaultBranch: SYM_ASTERISK ':' expression ;
 
 //
 // Binary-choice version of condition table, using old-school
@@ -322,7 +322,7 @@ generalCaseTable: SYM_CASE expression SYM_IN ( generalCaseBranch ',' )+ ( genera
 
 generalCaseBranch: primitiveObject ':' expression ;
 
-generalCaseDefaultBranch: '*' ':' expression ;
+generalCaseDefaultBranch: SYM_ASTERISK ':' expression ;
 
 //
 // Simple value-based (typed) Case tables, e.g.:
@@ -338,4 +338,4 @@ simpleCaseTable: SYM_CASE simpleTerminal SYM_IN ( simpleCaseBranch ',' )+ ( simp
 
 simpleCaseBranch: primitiveObject ':' simpleTerminal ;
 
-simpleCaseDefaultBranch: '*' ':' simpleTerminal ;
+simpleCaseDefaultBranch: SYM_ASTERISK ':' simpleTerminal ;
