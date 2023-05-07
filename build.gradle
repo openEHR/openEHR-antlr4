@@ -31,7 +31,7 @@ subprojects {
         maven { url 'https://jitpack.io' }
     }
 
-    ext.antlrVersion = '4.10.1'
+    ext.antlrVersion = '4.11.1'
     ext.reflectionsVersion = '0.9.12'
 
     generateGrammarSource { //antlr4
@@ -42,8 +42,8 @@ subprojects {
     }
     dependencies {
         implementation 'junit:junit:4.12'
-        antlr 'org.antlr:antlr4:4.10.1'
-        api 'org.antlr:antlr4-runtime:4.10.1'
+        antlr 'org.antlr:antlr4:4.11.1'
+        api 'org.antlr:antlr4-runtime:4.11.1'
 
         implementation "org.reflections:reflections:${reflectionsVersion}"
 
