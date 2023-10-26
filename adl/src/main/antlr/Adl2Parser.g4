@@ -67,6 +67,7 @@ templateOverlay:
 //
 operationalTemplate:
     SYM_OPERATIONAL_TEMPLATE header
+    specializeSection?
     languageSection
     descriptionSection
     definitionSection
