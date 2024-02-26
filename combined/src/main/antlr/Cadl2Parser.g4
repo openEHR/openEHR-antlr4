@@ -43,7 +43,7 @@ cRegularObject:
     | cRegularPrimitiveObject
     ;
 
-cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' ID_CODE ',' ARCHETYPE_REF ']' cOccurrences? ;
+cArchetypeRoot: SYM_USE_ARCHETYPE rmTypeId '[' ID_CODE ',' ( FULLY_QUALIFIED_RM_ENTITY | ARCHETYPE_REF ) ']' cOccurrences? ;
 
 cComplexObjectProxy: SYM_USE_NODE rmTypeId nodeId cOccurrences? adlPath ;
 
