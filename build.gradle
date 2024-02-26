@@ -31,8 +31,8 @@ subprojects {
         maven { url 'https://jitpack.io' }
     }
 
-    ext.antlrVersion = '4.11.1'
-    ext.reflectionsVersion = '0.9.12'
+    ext.antlrVersion = '4.13.1'
+    ext.reflectionsVersion = '0.10.2'
 
     generateGrammarSource { //antlr4
         arguments = ['-encoding', 'utf-8'] + arguments
@@ -42,21 +42,22 @@ subprojects {
     }
     dependencies {
         implementation 'junit:junit:4.12'
-        antlr 'org.antlr:antlr4:4.11.1'
-        api 'org.antlr:antlr4-runtime:4.11.1'
+        antlr 'org.antlr:antlr4:4.13.1'
+        api 'org.antlr:antlr4-runtime:4.13.1'
+        api 'org.slf4j:slf4j-api:1.7.36'
 
         implementation "org.reflections:reflections:${reflectionsVersion}"
 
-        implementation ('commons-io:commons-io:2.11.0'){
+        implementation ('commons-io:commons-io:2.15.1'){
             exclude group: 'commons-logging', module: 'commons-logging'
         }
 
-        implementation 'org.apache.commons:commons-text:1.9'
-        implementation 'org.apache.commons:commons-lang3:3.12.0'
+        implementation 'org.apache.commons:commons-text:1.11.0'
+        implementation 'org.apache.commons:commons-lang3:3.14.0'
 
-        implementation 'com.google.guava:guava:30.1.1-jre'
+        implementation 'com.google.guava:guava:33.0.0-jre'
 
-        implementation 'org.slf4j:slf4j-simple:1.7.32'
+        implementation 'org.slf4j:slf4j-simple:1.7.36'
 
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.6.0'
