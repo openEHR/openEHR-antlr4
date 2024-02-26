@@ -13,6 +13,7 @@ import org.openehr.belReader.BelReader;
 import org.openehr.odinReader.OdinReader;
 import org.reflections.Reflections;
 import org.reflections.scanners.ResourcesScanner;
+import org.reflections.scanners.Scanners;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,6 +72,11 @@ public class Adl2ReaderTest {
     }
 
     @Test
+    public void testAllAdl3() throws IOException {
+        runTest ("adls", "adl3", new Adl2Reader(false, false));
+    }
+
+    @Test
     public void testAllAdl14() throws IOException {
         runTest ("adl", "adl14", new Adl14Reader(false, false));
     }
@@ -88,8 +94,9 @@ public class Adl2ReaderTest {
         List<String> paths;
 
         // run passing tests
-        reflections = new Reflections (artefactType + "/pass", new ResourcesScanner());
+        reflections = new Reflections (artefactType + ".pass", Scanners.Resources);
         paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\." + fileExt)));
+
 //        paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*anatomical_location_precise\\.v0\\." + fileExt)));
         int passErrorCount = executeTestGroup ( paths, artefactType, reader);
         int passGroupCount = paths.size();
@@ -97,7 +104,7 @@ public class Adl2ReaderTest {
         // run failing tests;
         // TODO: many of these tests will pass pure parsing, until
         // we implement validation passes. Most of this should be in archie.
-        reflections = new Reflections (artefactType + "/fail", new ResourcesScanner());
+        reflections = new Reflections (artefactType + ".fail", Scanners.Resources);
         paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*\\." + fileExt)));
 //        paths = new ArrayList<>(reflections.getResources (Pattern.compile(".*anatomical_location_precise\\.v0\\." + fileExt)));
         int failErrorCount = executeTestGroup ( paths, artefactType, reader);
