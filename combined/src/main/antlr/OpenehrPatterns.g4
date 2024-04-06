@@ -34,7 +34,7 @@ FULLY_QUALIFIED_RM_ENTITY : ( NAMESPACE '::' )? QUALIFIED_RM_ENTITY ;
 fragment QUALIFIED_RM_ENTITY : WORD_ID '-' WORD_ID '-' WORD_ID '.' NAME_ID ;
 fragment VERSION_REF: NUMBER ( '.' NUMBER ( '.' NUMBER VERSION_MOD )? )? ;
 fragment VERSION_MOD:  VERSION_PREREL? VERSION_BUILD? ;
-fragment VERSION_PREREL: ( '-rc' | '-alpha' ) ( '.' DIGIT+ )? ;
+fragment VERSION_PREREL: ( '-rc' | '-alpha' | '-beta' ) ( '.' DIGIT+ )? ;
 fragment VERSION_BUILD: '+' DIGIT+ ;
 fragment WORD_ID : ALPHANUM_CHAR ALPHANUM_US_CHAR* ;
 fragment NAME_ID : ALPHANUM_CHAR ALPHANUM_US_HYP_CHAR* ;
