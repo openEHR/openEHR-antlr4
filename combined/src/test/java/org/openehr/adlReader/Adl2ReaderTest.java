@@ -3,26 +3,25 @@ package org.openehr.adlReader;
 import com.google.common.base.Charsets;
 import org.antlr.v4.runtime.CharStreams;
 import org.apache.commons.io.input.BOMInputStream;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import org.openehr.aqlReader.AqlReader;
+import org.openehr.belReader.BelReader;
 import org.openehr.cadlReader.Cadl14Reader;
 import org.openehr.cadlReader.Cadl2Reader;
 import org.openehr.common.SyntaxReader;
 import org.openehr.elReader.ElReader;
-import org.openehr.belReader.BelReader;
 import org.openehr.odinReader.OdinReader;
 import org.reflections.Reflections;
-import org.reflections.scanners.ResourcesScanner;
 import org.reflections.scanners.Scanners;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import static org.junit.Assert.fail;
 
 public class Adl2ReaderTest {
 
@@ -111,7 +110,7 @@ public class Adl2ReaderTest {
         int failGroupCount = paths.size();
 
         if (passErrorCount > 0 || failErrorCount != paths.size())
-            fail (String.format ("%d files failed from %d in pass group; %d files passed from %d in fail group",
+            Assertions.fail(String.format ("%d files failed from %d in pass group; %d files passed from %d in fail group",
                     passErrorCount, passGroupCount, failGroupCount - failErrorCount, failGroupCount));
     }
 
