@@ -1,0 +1,67 @@
+|
+|    description:: RESOURCE_DESCRIPTION_ITEM_ITEM class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.foundation.representation.base_types ;
+
+
+|
+| Language-specific detail of resource description. When a resource is translated for use in another
+| language environment, each R`ESOURCE_DESCRIPTION_ITEM` needs to be copied and translated into the
+| new language.
+|
+class RESOURCE_DESCRIPTION_ITEM_ITEM
+    is_a Any
+
+feature_group("access")
+
+    |
+    | Language of this translation.
+    |
+    prop language : Terminology_code «iso.iso_639-1» ;
+
+    |
+    | Purpose of the resource.
+    |
+    prop purpose : String ;
+
+    |
+    | Keywords.
+    |
+    prop keywords :? list<String> ;
+
+    |
+    | Other details
+    |
+    prop other_details :? Hash<String, String> ;
+
+    |
+    | Description of the use of the resource.
+    |
+    prop use :? String ;
+
+    |
+    | Description of the misuse of the resource.
+    |
+    prop misuse :? String ;
+
+    |
+    | Original resource URI.
+    |
+    prop original_resource_uri :? Hash<String, String> ;
+
+    |
+    | Other details
+    |
+    prop other_details :? Hash<String, String> ;
+
+end
+
+
+
+

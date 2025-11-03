@@ -1,0 +1,65 @@
+|
+|    description:: Event_context class
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+|
+| Documents the context information of a healthcare event involving the subject of care and the
+| health system. The context information recorded here are independent of the attributes recorded
+| in the version audit, which document the system interaction context, i.e. the context of a user
+| interacting with the health record system. Healthcare events include patient contacts, and any
+| other business activity, such as pathology investigations which take place on behalf of the patient.
+|
+abstract class EVENT_CONTEXT
+    is_a PATHABLE
+
+feature_group("access")
+
+    |
+    | Facility.
+    |
+    prop health_care_facility :? PARTY_IDENTIFIED ;
+
+    |
+    | Physical location, e.g. 'ward 3'.
+    |
+    prop location :? String ;
+
+    |
+    | Start time.
+    |
+    prop start_time : DV_DATE_TIME ;
+
+    |
+    | End time.
+    |
+    prop end_time :? DV_DATE_TIME ;
+
+    |
+    | Participations.
+    |
+    prop participations :? List<PARTICIPATION> ;
+
+    |
+    | The setting in which the clinical session took place. Coded using the openEHR Terminology,
+    | setting group.
+    |
+    prop setting: DV_CODED_TEXT ;
+
+    |
+    | Other context.
+    |
+    prop other_context :? ITEM_STRUCTURE ;
+
+end
+
+
+
+

@@ -1,0 +1,44 @@
+|
+|    description:: Ehr_status class
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+class EHR_STATUS
+    is_a LOCATABLE
+
+feature_group("access")
+
+    |
+    | The subject of this EHR. The external_ref attribute can be used to contain a
+    | direct reference to the subject in a demographic or identity service.
+    | Alternatively, the association between patients and their records may be done
+    | elsewhere for security reasons.
+    |
+    prop subject :? PARTY_SELF ;
+
+    |
+    | True if this EHR should be included in population queries, i.e. if this EHR is
+    | considered active in the population.
+    |
+    prop is_queryable : Boolean ;
+
+    |
+    | True if the EHR, other than the EHR_STATUS object, is allowed to be written to.
+    | The EHR_STATUS object itself can always be written to.
+    |
+    prop is_modifiable : Boolean ;
+
+    |
+    | Any other details of the EHR summary object, in the form of an archetyped ITEM_STRUCTURE.
+    |
+    prop other_details :? ITEM_STRUCTURE ;
+
+end
+

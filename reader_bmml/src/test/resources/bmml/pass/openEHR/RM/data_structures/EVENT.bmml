@@ -1,0 +1,45 @@
+|
+|    description:: Event class
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.foundation.representation.base_types ;
+
+
+abstract class EVENT <T: ITERM_STRUCTURE>
+    is_a LOCATABLE
+
+feature_group("access")
+
+    |
+    | Time of event.
+    |
+    prop time : DV_DATE_TIME ;
+
+    |
+    | The data of this event
+    |
+    prop data : T ;
+
+    |
+    | Optional state data for this event
+    |
+    prop state :? ITEM_STRUCTURE ;
+
+    func offset: DV_DURATION
+        post_cond
+            Result = time.diff(parent.origin);
+        ;
+
+invariant
+    offset_validity : offset /= Void and offset = time.diff (parent.origin) ;
+
+end
+
+
+
+

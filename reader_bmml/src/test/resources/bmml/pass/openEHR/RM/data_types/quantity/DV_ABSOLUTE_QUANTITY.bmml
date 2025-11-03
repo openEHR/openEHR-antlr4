@@ -1,0 +1,25 @@
+| 
+|    description:: Data types that represent values with respect to an origin.
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+class DV_ABSOLUTE_QUANTITY
+    is_a DV_QUANTIFIED
+
+feature_group("access")
+
+    |
+    | Accuracy of the measurement, expressed as a half-range, either with
+    | measurement units, or with '%' pseudo-units
+    | Example: 0.1V means ±0.1V; 3% means ±3%
+    |
+    prop accuracy :? DV_AMOUNT;
+
+end

@@ -1,0 +1,28 @@
+| 
+|    description:: Data type representing score value / symbol pair.
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+|
+| Used to record values that are reported as integer values that may be summed to generate a score, such as
+| Apgar, Barthel and so on. The possible values for a given item (e.g. ChadVasc previous stroke) are understood as the
+| weight of those values within the overall score.
+| Each item usually has an associated coded term supplying the meaning.
+|
+class DV_ORDINAL
+    is_a DV_ORDERED
+
+feature_group("access")
+
+    prop value : Integer;
+
+    prop symbol : DV_CODED_TEXT;
+
+end

@@ -1,0 +1,36 @@
+|
+|    description:: OBJECT_REF class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+class OBJECT_REF
+    is_a Any
+
+feature_group("infrastructure")
+
+    |
+    | Optional namespace in which target object id can be resolved
+    |
+    prop namespace :? String ;
+
+    |
+    | Machine identifier of target object.
+    |
+    prop id : OBJECT_ID ;
+
+    |
+    | Typename of object in current type system.
+    | TODO: determine if anything is allowed here - probably needs to be
+    |
+    prop type : String ;
+
+end
+
+
+
+

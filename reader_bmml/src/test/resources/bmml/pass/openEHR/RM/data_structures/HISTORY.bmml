@@ -1,0 +1,66 @@
+|
+|    description:: History class
+|    keywords::    openEHR Data Structures model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+|
+| Root object of a linear history, i.e. time series structure. This is a generic class whose type
+| parameter must be a descendant of `ITEM_STRUCTURE`, ensuring that each Event in the `_events_` of
+| a given instance is of the same structural type, i.e. `ITEM_TREE`, `ITEM_LIST` etc.
+|
+| For a periodic series of events, period will be set, and the time of each Event in the History must
+| correspond; i.e. the `EVENT._offset_` must be a multiple of period for each Event. Missing events in
+| a period History are however allowed.
+|
+class HISTORY <T: ITERM_STRUCTURE>
+    is_a LOCATABLE
+
+feature_group("access")
+
+    |
+    | Origin.
+    |
+    prop origin : DV_DATE_TIME ;
+
+    |
+    | Duration of the entire History; either corresponds to the duration of all the events, and/or the
+    | duration represented by the summary, if it exists.
+    |
+    prop duration: DV_DURATION ;
+
+    |
+    | Optional summary data that aggregates, organizes, reduces and transforms the event series. This may be
+    | a text or image that presents a graphical presentation, or some data that assists with the interpretation
+    | of the data.
+    |
+    prop summary: ITEM_STRUCTURE ;
+
+    |
+    | The events in the series. This attribute is of a generic type whose parameter must be a descendant of `ITEM_SUTRUCTURE`.
+    |
+    prop events: List<EVENT<T>> ;
+
+    |
+    | The events in the series. This attribute is of a generic type whose parameter must be a descendant of `ITEM_SUTRUCTURE`.
+    |
+    func is_periodic: Boolean ;
+
+invariant
+
+    events_valid: (events /= Void and not events.is_empty) or summary /= Void ;
+
+    periodic_validity: is_periodic xor period = Void ;
+
+    period_consistency: is_periodic implies for_all e: events ¦ e.offset.to_seconds.mod(period.to_seconds) = 0 ;
+
+end
+
+
+
+

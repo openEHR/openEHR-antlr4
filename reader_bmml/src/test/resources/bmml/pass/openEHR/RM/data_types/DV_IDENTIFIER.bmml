@@ -1,0 +1,28 @@
+| 
+|    description:: Rwe_id_ref class
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+class DV_IDENTIFIER
+    is_a DATA_VALUE
+
+feature_group ("access")
+
+    prop id : String;
+
+    prop issuer :? String;
+
+    prop assigner :? String;
+
+    prop type :? String;
+
+end
+
+

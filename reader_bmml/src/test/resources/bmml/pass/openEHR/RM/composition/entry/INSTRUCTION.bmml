@@ -1,0 +1,34 @@
+|
+|    description:: Entry subtype representing an Order.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+abstract class INSTRUCTION
+    is_a CARE_ENTRY
+
+feature_group ("access")
+
+    |
+    | Focal data of the Observation.
+    |
+    prop narrative : DV_TEXT ;
+
+    |
+    | Optional expiry for this Order.
+    |
+	prop expiry_time :? DV_DATE_TIME ;
+	
+    |
+    | Performable activities in this Order.
+    |
+    prop activities : list<ACTIVITY> ;
+
+end
+

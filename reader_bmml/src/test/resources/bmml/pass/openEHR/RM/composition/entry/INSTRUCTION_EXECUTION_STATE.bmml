@@ -1,0 +1,36 @@
+| 
+|    description:: Instruction_execution_state enumeration
+|    keywords::    openEHR Care model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+enumeration INSTRUCTION_EXECUTION_STATE
+    base_type String
+
+feature_group ("values")
+
+    initial ("initial");
+
+    planned ("planned");
+
+    postponed ("postponed");
+
+    cancelled ("cancelled");
+
+    active ("active");
+
+    suspended ("suspended");
+
+    completed ("completed");
+
+    aborted ("aborted");
+
+    expired ("expired");
+
+end
+
+

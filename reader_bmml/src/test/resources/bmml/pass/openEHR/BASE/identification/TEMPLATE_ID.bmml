@@ -1,0 +1,31 @@
+|
+|    description:: TEMPLATE_ID class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+abstract class TEMPLATE_ID
+    is_a OBJECT_ID
+
+feature_group("access")
+
+    |
+    | Return the terminology id (which includes the version in some cases). Distinct names correspond to
+    | distinct (i.e. non-compatible) terminologies. Thus the names "ICD10AM" and "ICD10" refer to distinct
+    | terminologies.
+    |
+    func name : String ;
+
+    |
+    | Version of this terminology, if versioning supported, else the empty string.
+    |
+    func version_id : String ;
+
+end
+
+
+
+

@@ -1,0 +1,68 @@
+|
+|    description:: Abstract parent of Entry types.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+|
+| Abstract parent of Entry types.
+|
+abstract class ENTRY
+    is_a CONTENT_ITEM
+
+feature_group("access")
+
+    |
+    | Mandatory indicator of the localised language in which this Entry is written.
+    | Coded from openEHR Code Set languages.
+    |
+    prop language : CODE_PHRASE «iso.iso_639-1» ;
+
+    |
+    | Mandatory indicator of the localised language in which this Entry is written.
+    | Coded from openEHR Code Set languages.
+    |
+    prop encoding : CODE_PHRASE «iana.character-sets» ;
+
+    |
+    | Subject of this Statement, i.e. subject of investigation. Usually a patient.
+    |
+    prop subject : PARTY_PROXY ;
+
+    |
+    | Reporter of this Statement.
+    |
+    prop provider : PARTY_PROXY ;
+
+    |
+    | Other participations involved in the acts creating this Statement.
+    |
+    prop other_participations :? List<PARTICIPATION> ;
+
+    |
+    | Reference to workflow that caused this Statement to be created.
+    |
+    prop workflow_id :? OBJECT_REF ;
+
+    func subject_is_self: Boolean
+        post_cond
+            Result implies subject.generating_type.equal("PARTY_SELF");
+        ;
+
+invariant
+
+    other_participations_valid: other_participations /= Void implies not other_participations.is_empty;
+
+    is_archetype_root: is_archetype_root;
+
+end
+
+
+
+

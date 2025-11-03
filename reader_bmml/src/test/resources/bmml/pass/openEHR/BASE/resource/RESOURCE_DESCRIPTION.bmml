@@ -1,0 +1,104 @@
+|
+|    description:: Resource_description class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+|
+| Detailed description of the resource.
+|
+class RESOURCE_DESCRIPTION
+    is_a Any
+
+feature_group("access")
+
+    |
+    | Details of the original author.
+    |
+    prop original_author : Hash<String, String> ;
+
+    |
+    | Original namespace.
+    |
+    prop original_namespace : String ;
+
+    |
+    | Original publisher.
+    |
+    prop original_publisher :? String ;
+
+    |
+    | Other contributors, each in the form of a String, with the standard embedded
+    | email or web address, e.g. `"Marcus Aurelius <marcus@meditations.org>"`.
+    |
+    prop other_contributors :? list<String> ;
+
+    |
+    | Other details
+    |
+    prop other_details :? Hash<String, String> ;
+
+    |
+    | Current custodian namespace.
+    |
+    prop custodian_namespace :? String ;
+
+    |
+    | Current custodian publisher.
+    |
+    prop custodian_organisation :? String ;
+
+    |
+    | Copyright text.
+    |
+    prop copyright :? String ;
+
+    |
+    | License name and/or URL.
+    |
+    prop licence :? String ;
+
+    |
+    | Lifecycle state.
+    |
+    prop lifecycle_state : String ;
+
+    |
+    | URI of resource package, if applicable.
+    |
+    prop resource_package_uri :? String ;
+
+    |
+    | Copyright IP acknowledgements.
+    |
+    prop ip_acknowledgements :? Hash<String, String> ;
+
+    |
+    | References for citations within `description`.
+    |
+    prop references :? Hash<String, String> ;
+
+    |
+    | Details of conversion, if applicable, from other artefact and/or format.
+    |
+    prop conversion_details :? Hash<String, String> ;
+
+    |
+    | Reference to a parent resource, if applicable.
+    |
+    prop parent_resource :? AUTHORED_RESOURCE ;
+
+    |
+    | Details of description, keyed by language
+    |
+    prop details :? Hash<String, RESOURCE_DESCRIPTION_ITEM_ITEM> ;
+
+end
+
+
+
+

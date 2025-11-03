@@ -1,0 +1,63 @@
+|
+|    description:: FEEDER_AUDIT_DETAILS class
+|    keywords::    openEHR Common model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+|
+| Audit details for any system in a feeder system chain. Audit details here means the general
+| notion of who/where/when the information item to which the audit is attached was created.
+| None of the attributes is defined as mandatory, however, in different scenarios, various
+| combinations of attributes will usually be mandatory. This can be controlled by specifying
+| feeder audit details in legacy archetypes.
+|
+class FEEDER_AUDIT_DETAILS
+    is_a Any
+
+feature_group("infrastructure")
+
+    |
+    | System identifier; generally a domain name
+    |
+    prop system_id : String ;
+
+    |
+    | Identifier of the original data item in the original system.
+    |
+    prop system_item_id :? String ;
+
+    |
+    | Audit information from gateway system, if any.
+    |
+    prop facility :? Entity_ref_node ;
+
+    |
+    | Optional reference to subject of original information
+    |
+    prop subject :? Entity_ref_node ;
+
+    |
+    | Optional reference to recorder of original information.
+    |
+    prop recorder :? Entity_ref_node ;
+
+    |
+    | Original version identifier relating to this data item, if any.
+    |
+    prop version_id :? String ;
+
+    |
+    | Other details.
+    |
+    prop other_details :? ITEM_STRUCTURE ;
+
+end
+
+
+
+

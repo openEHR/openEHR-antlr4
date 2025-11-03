@@ -1,0 +1,82 @@
+|
+|    description:: Composition class
+|    keywords::    SPLASH representation model
+|    author::      Thomas Beale <thomas.beale@openEHR..org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+|
+| Content of one version in a `VERSIONED_COMPOSITION`. A Composition is considered the unit of
+| modification of the record, the unit of transmission in record Extracts, and the unit of 
+| attestation by authorising clinicians. In this latter sense, it may be considered equivalent 
+| to a signed document.
+|
+| Note: It is strongly recommended that the inherited attribute uid be populated in Compositions, 
+|       using the UID copied from the object_id() of the uid field of the enclosing VERSION object.
+|       For example, the `ORIGINAL_VERSION.uid 87284370-2D4B-4e3d-A3F3-F303D2F4F34B::uk.nhs.ehr1::2`
+|       would be copied to the uid field of the Composition.
+|
+abstract class COMPOSITION 
+    is_a LOCATABLE
+
+feature_group("access")
+
+    |
+    | Uuid of this Composition.
+    |
+    prop uid : UID_BASED_ID ;
+
+    |
+    | Mandatory indicator of the localised language in which this Composition is written. 
+    | Coded from openEHR Code Set `languages`. The language of an Entry if different from 
+    | the Composition is indicated in `ENTRY.language`.
+    |
+    prop language: CODE_PHRASE «iso.iso_639-1» ;
+
+    |
+    | Name of territory in which this Composition was written. Coded from openEHR countries 
+    | code set, which is an expression of the ISO 3166 standard.
+    |
+    prop territory: CODE_PHRASE «iso.iso_3166-1-alpha2» ;
+
+    |
+    | Temporal category of this Composition, i.e.
+    |
+    | * 431|persistent| - of potential life-time validity;
+    | * 451|episodic| - valid over the life of a care episode;
+    | * 433|event| - valid at the time of recording (long-term validity requires subsequent 
+    |   clinical assessment).
+    |
+    | or any other code defined in the openEHR terminology group 'category'.
+    |
+    prop category : DV_CODED_TEXT «openEHR.Composition_category» ;
+
+    |
+    | The person primarily responsible for the content of the Composition (but not 
+    | necessarily its committal into the EHR system). This is the identifier which 
+    | should appear on the screen. It may or may not be the person who entered the 
+    | data. When it is the patient, the special self instance of PARTY_PROXY will be used.
+    |
+    prop composer : PARTY_PROXY ;
+
+    |
+    | The clinical session context of this Composition, i.e. the contextual attributes 
+    | of the clinical session..
+    |
+    prop context :? EVENT_CONTEXT ;
+
+    |
+    | The content of this Composition.
+    |
+    prop content :? List<CONTENT_ITEM> ;
+
+end
+
+
+
+

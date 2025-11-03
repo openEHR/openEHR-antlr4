@@ -1,0 +1,43 @@
+|
+|    description:: INTERVAL_EVENT class
+|    keywords::    openEHR Data Structures model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+class INTERVAL_EVENT <T: ITERM_STRUCTURE>
+    is_a EVENT
+
+feature_group("access")
+
+    |
+    | Duration of the time interval during which the values recorded under `data` are true and, if set,
+    | the values recorded under `state` are true. Void if an instantaneous event.
+    |
+    prop width : DV_DURATION ;
+
+    |
+    | Optional count of original samples to which this event corresponds.
+    |
+    prop sample_count : Integer ;
+
+    |
+    | Mathematical function of the data of this event, e.g.  maximum, mean etc.
+    | Default value `640|actual|`, meaning 'actual value'
+    |
+    prop math_function : MATH_FUNCTION_KIND ;
+
+invariant
+
+    interval_start_time_valid: interval_start_time = time - width;
+
+end
+
+
+
+

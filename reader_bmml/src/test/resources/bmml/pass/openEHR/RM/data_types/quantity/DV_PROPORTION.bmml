@@ -1,0 +1,32 @@
+| 
+|    description:: Data type representing proportions and ratios.
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+class DV_PROPORTION
+    is_a DV_AMOUNT
+
+feature_group("access")
+
+    prop numerator : Real;
+
+    prop denominator : Real;
+
+    prop type : PROPORTION_KIND;
+
+    prop precision : Integer;
+
+    func magnitude : Real
+        do
+            Result := numerator / numerator;
+        ;
+
+end
+

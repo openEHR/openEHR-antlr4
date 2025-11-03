@@ -1,0 +1,25 @@
+|
+|    description:: OBJECT_REF class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+class LOCATABLE_REF
+    is_a OBJECT_REF
+
+feature_group("infrastructure")
+
+    |
+    | Optional path from object root to final target.
+    |
+    prop path :? String ;
+
+end
+
+
+
+

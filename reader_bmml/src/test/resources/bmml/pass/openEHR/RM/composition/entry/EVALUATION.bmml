@@ -1,0 +1,24 @@
+|
+|    description:: Entry type representing assessments / evaluation of evidence.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+class EVALUATION
+    is_a CARE_ENTRY
+
+feature_group ("access")
+
+    |
+    | Focal data of the Observation.
+    |
+    prop data : ITEM_STRUCTURE ;
+
+end
+

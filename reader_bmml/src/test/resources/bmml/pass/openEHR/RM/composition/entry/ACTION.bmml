@@ -1,0 +1,31 @@
+|
+|    description:: Entry subtype representing a performed Action.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+abstract class ACTION
+    is_a CARE_ENTRY
+
+feature_group ("access")
+
+    |
+    | Structured description of the Activity.
+    |
+    prop activity_id : String ;
+
+	|
+    | Structured description of the Action.
+    |
+    prop description : ITEM_STRUCTURE ;
+
+	|
+    | Transition in the state machine of the Order achieved by this Action.
+    |
+    prop ism_transition :? ISM_TRANSITION ;
+
+end
+

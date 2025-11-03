@@ -1,0 +1,23 @@
+|
+|    description:: Parent of items that may be content within a COMPOSITION.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+|
+| Abstract parent of items that may be content within a Composition.
+|
+abstract class CONTENT_ITEM
+    is_a LOCATABLE
+
+end
+
+
+
+

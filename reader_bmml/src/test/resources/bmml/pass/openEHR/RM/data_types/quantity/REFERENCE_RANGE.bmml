@@ -1,0 +1,22 @@
+| 
+|    description:: Reference ranges.
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+class REFERENCE_RANGE <T: DV_ORDERED>
+    is_a Any
+
+feature_group("access")
+
+    prop meaning : DV_TEXT;
+
+    prop range : DV_INTERVAL <T>;
+
+end

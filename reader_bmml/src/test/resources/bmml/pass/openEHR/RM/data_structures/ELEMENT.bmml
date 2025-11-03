@@ -1,0 +1,42 @@
+|
+|    description:: ELEMENT class
+|    keywords::    openEHR Data Structures model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+|
+| The leaf variant of `ITEM`, to which a `DATA_VALUE` instance is attached.
+|
+class ELEMENT
+    is_a ITEM
+
+feature_group("access")
+
+    |
+    | Property representing leaf value object of `ELEMENT`. In real data, any concrete subtype of
+    | `DATA_VALUE` can be used.
+    |
+    prop value : DATA_VALUE;
+
+    |
+    | Flavour of null value, e.g. `253|unknown|`, `271|no information|`, `272|masked|`, and `273|not applicable|`.
+    |
+    prop null_flavor :? Terminology_term «splash-lang.NullFlavor» ;
+
+    |
+    | Optional specific reason for null value; if set, `_null_flavour_` must be set. Null reason
+    | may apply only to a minority of clinical data, commonly needed in reporting contexts.
+    |
+    prop null_reason :? DV_TEXT ;
+
+end
+
+
+
+

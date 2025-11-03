@@ -1,0 +1,54 @@
+|
+|    description:: Translation_details class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+|
+| Details of one translation of a resource.
+|
+class TRANSLATION_DETAILS
+    is_a Any
+
+feature_group("access")
+
+    |
+    | Language of this translation.
+    |
+    prop language : Terminology_code «iso.iso_639-1» ;
+
+    |
+    | Details of the author.
+    |
+    prop author : Hash<String, String> ;
+
+    |
+    | Translator's accreditation.
+    |
+    prop accreditation : String ;
+
+    |
+    | Version of the original resource used as the basis of this translation.
+    | Different translations might be based on different versions.
+    |
+    prop version_last_translated :? String ;
+
+    |
+    | Other contributors to the translation.
+    |
+    prop other_contributors :? list<String> ;
+
+    |
+    | Other details
+    |
+    prop other_details :? Hash<String, String> ;
+
+end
+
+
+
+

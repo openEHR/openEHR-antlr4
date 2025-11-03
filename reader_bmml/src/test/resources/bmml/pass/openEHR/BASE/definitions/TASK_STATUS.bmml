@@ -1,0 +1,28 @@
+| 
+|    description:: Task_status class
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+enumeration TASK_STATUS
+    base_type String
+
+feature_group ("values")
+
+    planned ("planned");
+
+    in_progress ("in_progress");
+
+    on_hold ("on_hold");
+
+    completed ("completed");
+
+    abandoned ("abandoned");
+
+end
+
+

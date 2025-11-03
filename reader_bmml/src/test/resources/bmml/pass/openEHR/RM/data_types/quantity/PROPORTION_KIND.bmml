@@ -1,0 +1,30 @@
+| 
+|    description:: Ratio_kind class
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+enumeration PROPORTION_KIND
+    base_type Integer
+
+feature_group ("values")
+
+    pk_ratio (0);
+
+    pk_unitary (1);
+
+    pk_percent (2);
+
+    pk_fraction (3);
+
+    pk_integral (4);
+
+end
+
+

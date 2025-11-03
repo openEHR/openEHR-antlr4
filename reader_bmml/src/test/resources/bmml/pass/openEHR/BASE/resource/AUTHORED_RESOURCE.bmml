@@ -1,0 +1,48 @@
+|
+|    description:: AUTHORED_RESOURCE class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+|
+| Meta-data container for design-time resource that may have translations.
+|
+abstract class AUTHORED_RESOURCE
+    is_a Any
+
+feature_group("access")
+
+    |
+    | Original lanuage of authoring.
+    |
+    prop original_language : Terminology_code «iso.iso_639-1» ;
+
+    |
+    | Indicator for whether this resource instance has an authoritative, controlled resource.
+    |
+    prop is_controlled : Boolean ;
+
+    |
+    | Description of the resource.
+    |
+    prop description : RESOURCE_DESCRIPTION ;
+
+    |
+    | Annotations.
+    |
+    prop annotations :? Resource_annotations ;
+
+    |
+    | Translations of the resource, keyed by language code
+    |
+    prop translations :? Hash<String, Translation_details> ;
+
+end
+
+
+
+

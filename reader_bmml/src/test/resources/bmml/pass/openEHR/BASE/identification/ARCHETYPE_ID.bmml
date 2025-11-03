@@ -1,0 +1,55 @@
+|
+|    description:: ARCHETYPE_ID class
+|    keywords::    openEHR Base Types model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+class ARCHETYPE_ID
+    is_a OBJECT_ID
+
+feature_group("access")
+
+    |
+    | Globally qualified reference model entity, e.g. "openehr-EHR-OBSERVATION".
+    |
+    func qualified_rm_entity: String ;
+
+    |
+    | Name of the concept represented by this archetype, including specialisation, e.g. "Biochemistry_result-cholesterol".
+    |
+    func domain_concept : String ;
+
+    |
+    | Organisation originating the reference model on which this archetype is based, e.g. "openEHR", "CEN", "HL7".
+    |
+    func rm_originator : String ;
+
+    |
+    | Name of the reference model, e.g. "RIM", "EHR", "EN13606".
+    |
+    func rm_name : String ;
+
+    |
+    | Name of the ontological level within the reference model to which this archetype is targeted, e.g.
+    | for openEHR: "FOLDER", "COMPOSITION", "SECTION", "OBSERVATION".
+    |
+    func rm_entity : String ;
+
+    |
+    | Name of specialisation of concept, if this archetype is a specialisation of another archetype, e.g. "cholesterol".
+    |
+    func specialisation : String ;
+
+    |
+    | Version of this archetype.
+    |
+    func version_id : String ;
+
+end
+
+
+
+

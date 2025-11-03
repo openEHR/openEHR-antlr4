@@ -1,0 +1,65 @@
+|
+|    description:: Ehr class
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+class Ehr
+    is_a Any
+
+feature_group("access")
+
+    |
+    | TODO:
+    |
+    prop ehr_id : HIER_OBJECT_ID ;
+
+    |
+    | TODO: 
+    |
+    prop system_id : HIER_OBJECT_ID ;
+
+
+    |
+    | TODO:
+    |
+    prop time_created : DV_DATE_TIME ;
+
+    |
+    | TODO: 
+    |
+    prop contributions : List<OBJECT_REF> ;
+
+    |
+    | TODO: 
+    |
+    prop folders :? List<OBJECT_REF> ;
+
+    |
+    | TODO: 
+    |
+    prop compositions : List<OBJECT_REF> ;
+
+    |
+    | TODO: 
+    |
+    prop directory : OBJECT_REF;
+
+    |
+    | TODO: 
+    |
+    prop ehr_status : OBJECT_REF ;
+
+    |
+    | TODO: 
+    |
+    prop ehr_access : OBJECT_REF ;
+
+end
+

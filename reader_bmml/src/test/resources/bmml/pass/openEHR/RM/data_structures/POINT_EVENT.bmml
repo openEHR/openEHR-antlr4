@@ -1,0 +1,22 @@
+|
+|    description:: Point_event class
+|    keywords::    openEHR Data Structures model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.foundation.representation.base_types ;
+
+|
+| Defines a single point event in a series.
+|
+class POINT_EVENT <T: ITERM_STRUCTURE>
+    is_a EVENT
+
+end
+
+
+
+

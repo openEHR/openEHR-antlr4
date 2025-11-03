@@ -1,0 +1,29 @@
+|
+|    description:: Entry subtype representing any kind of statement about a care event,
+|                  relating to a subject.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+abstract class CARE_ENTRY
+    is_a ENTRY
+
+feature_group ("access")
+
+	|
+    | Qualifying information relating to the focal items of the statement. Qualifiers
+    | are non meaning-modifying, i.e. not required for correct clinical interpretation
+    | of the focal data.
+    |
+    prop protocol :? ITEM_STRUCTURE ;
+
+    prop protocol :? OBJECT_REF ;
+
+end
+

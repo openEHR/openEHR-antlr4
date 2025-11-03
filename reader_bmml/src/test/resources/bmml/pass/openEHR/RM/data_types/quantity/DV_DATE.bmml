@@ -1,0 +1,20 @@
+| 
+|    description:: Date values.
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+class DV_DATE 
+    is_a DV_TEMPORAL
+
+feature_group("access")
+
+    prop value : String;
+
+end

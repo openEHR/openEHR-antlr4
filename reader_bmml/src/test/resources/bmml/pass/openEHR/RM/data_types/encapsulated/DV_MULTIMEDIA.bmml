@@ -1,0 +1,37 @@
+| 
+|    description:: Multimedia class
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base.foundation_types ;
+
+
+class DV_MULTIMEDIA
+    is_a DV_ENCAPSULATED
+
+feature_group("access")
+
+    prop alternate_text :? String;
+
+    prop uri :? DV_URI;
+
+    prop data : array<Byte>;
+
+    prop integrity_check :? array<Byte>;
+
+    prop media_type : Terminology_code «iana.media-types»;
+
+    prop compression_algorithm :? Terminology_code «iana.compression-algorithms»;
+
+    prop integrity_check_algorithm :? Terminology_code «iana.integrity-check-algorithms»;
+
+    prop thumbnail :? Multimedia;
+
+    prop size : Integer;
+
+end
+

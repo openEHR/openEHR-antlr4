@@ -1,0 +1,39 @@
+|
+|    description:: Representation of a state machine transition due to an Action.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+import org.openEHR.base ;
+
+
+abstract class ISM_TRANSITION
+    is_a PATHABLE
+
+feature_group ("access")
+
+    |
+    | Current (post-transition) state, i.e. resulting from the Action.
+    |
+    prop current_state : INSTRUCTION_EXECUTION_STATE ;
+
+    |
+    | Transition that occurred.
+    |
+	prop transition : INSTRUCTION_EXECUTION_TRANSITION ;
+
+    |
+    | Coded careflow step, if applicable.
+    |
+    prop careflow_step :? DV_CODED_TEXT ;
+
+    |
+    | Optional reason(s).
+    |
+	prop reason :? list <DV_TEXT> ;
+
+end
+

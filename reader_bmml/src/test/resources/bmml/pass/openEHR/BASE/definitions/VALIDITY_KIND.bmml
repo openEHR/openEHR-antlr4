@@ -1,0 +1,21 @@
+| 
+|    description:: VALIDITY_KIND class
+|    keywords::    openEHR data value model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+enumeration VALIDITY_KIND
+    base_type String
+
+feature_group ("values")
+
+    mandatory ("mandatory");
+    optional ("optional");
+    prohibited ("prohibited");
+
+end
+
+

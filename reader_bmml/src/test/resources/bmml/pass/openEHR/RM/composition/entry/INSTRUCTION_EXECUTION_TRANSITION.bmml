@@ -1,0 +1,53 @@
+|
+|    description:: Instruction state machine transition names.
+|    keywords::    openEHR representation model
+|    author::      Thomas Beale <thomas.beale@openEHR.org>
+|    support::     https://openehr.atlassian.net/issues/
+|    copyright::   Copyright (c) 2025- openEHR International <http://www.openEHR.org>>
+|    license::     Apache 2.0 <http://www.apache.org/licenses/LICENSE-2.0.html>
+|
+
+
+enumeration INSTRUCTION_EXECUTION_TRANSITION
+    base_type String
+
+feature_group ("values")
+
+    ism_t_initiate ("initiate");
+
+    ism_t_start ("start");
+
+    ism_t_schedule ("schedule");
+
+    ism_t_plan_step ("plan_step");
+
+    ism_t_cancel ("cancel");
+
+    ism_t_do ("do");
+
+    ism_t_resume ("resume");
+
+    ism_t_suspend ("suspend");
+
+    ism_t_suspended_step ("suspended_step");
+
+    ism_t_active_step ("active_step");
+
+    ism_t_scheduled_step ("scheduled_step");
+
+    ism_t_postponed_step ("postponed_step");
+
+    ism_t_abort ("abort");
+
+    ism_t_restore ("restore");
+
+    ism_t_postpone ("postpone");
+
+    ism_t_time_out ("time_out");
+
+    ism_t_notify_completed ("notify_completed");
+
+    ism_t_notify_aborted ("notify_aborted");
+
+end
+
