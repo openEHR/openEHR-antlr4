@@ -4,7 +4,7 @@ Antlr4 grammars for ADL, ODIN, BEL, EL, BMM.
 
 == Overview
 
-The grammars in this project are an attempt to systematise all grammars for openEHR in one place, and using common lexers for common patterns such as identifiers, paths, terminal values and so on. The grammars use modal lexers (example: https://github.com/openEHR/openEHR-antlr4/blob/master/reader_common/src/main/antlr/Adl2Lexer.g4[ADL2 lexer^]) to handle the multiple formalisms that may appear in e.g. ADL files, CADL blocks within ADL (which may have further embedded ODIN or JSON blocks) and so on.
+The grammars in this project are an attempt to systematise all grammars for openEHR in one place, and using common lexers for common patterns such as identifiers, paths, terminal values and so on. The grammars use modal lexers (example: https://github.com/openEHR/openEHR-antlr4/blob/master/reader_adl2/src/main/antlr/Adl2Lexer.g4[ADL2 lexer^]) to handle the multiple formalisms that may appear in e.g. ADL files, CADL blocks within ADL (which may have further embedded ODIN or JSON blocks) and so on.
 
 It is eventually intended to be used as the official source for grammars for various specifications, i.e. replacing existing grammars in the https://github.com/openEHR/adl-antlr[adl-antlr^] repository.
 
@@ -14,11 +14,11 @@ This is a development repository containing Antlr4 grammars for most of the lang
 
 == How is the project structured?
 
-This is a multi-module project, using gradle as the build system. IntelliJ is the usual IDE, but it is configured with gradle rather than the internal build and test.
+This is a multi-module project, using gradle as the build system. IntelliJ is the usual IDE, but it is configured with gradle rather than the internal build and test, and should work in Visual Studio, Eclipse and other IDEs.
 
 === Build Design
 
-Building is set up with an attempt at best practices using gradle 9.1.0 or later. Common build specifications are in the gradle special module `buildSrc`, which contains a file `java-build-conventions.gradle`, which defines a plugin that can be re-used in all other modules using the following include:
+Building is set up with an attempt at best practices using gradle 9.1.0 or later. Common build specifications (i.e. instructions normally found in `build.gradle` files) are in the gradle special module `buildSrc`, which contains a file `java-build-conventions.gradle`, which in turn defines a plugin that can be re-used in the `build.gradle` file for in other modules using the following include:
 
 ```
 plugins {
@@ -33,7 +33,7 @@ Building can be performed from the command line, e.g. within IntelliJ's terminal
 ./gradlew build --continue
 ```
 
-THe `--continue` switch above will ensure that a build continues across all modules, even if test cases fail post build of each module.
+The `--continue` switch above will ensure that a build continues across all modules, even if test cases fail post build of each module.
 
 === Grammars
 
@@ -48,7 +48,7 @@ dependencies {
 }
 ```
 
-NOTE: to use the Antlr plugin preview function for any of the top-level grammars, e.g. `bmml`, testing within te `reader_bmml` module will not work. Although there are gradle rules to make gradle pass the 'grammar import' directory to the antlr plug-in code generator during gradle building, the plugin previewer does not use the import directory, and cannot correctly evaluate a grammar in one of these modules, because it doesn't see the referenced grammars in `reader_common`. To run the previewer therefore, there is currently no option but to copy the grammar files from `reader_bmml`, `reader_adl2` etc, to the `antlr` directory in `reader_common` and do it there, followed by removing these files.
+NOTE: To use the Antlr plugin preview function for any of the top-level grammars, e.g. `bmml`, testing within the `reader_bmml` module will not work. Although there are gradle rules to make gradle pass the 'grammar import' directory to the antlr plug-in code generator during gradle building, the Antlr plugin previewer does not use the import directory (!), and cannot correctly evaluate a grammar in one of these modules, because it doesn't see the referenced grammars in `reader_common`. To run the previewer therefore, there is currently no option but to copy the grammar files from `reader_bmml`, `reader_adl2` etc, to the `antlr` directory in `reader_common` and do it there, followed by removing these files.
 
 == Testing
 
