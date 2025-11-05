@@ -181,69 +181,45 @@ elSimpleTerminal:
     ;
 
 //
-// TODO: Can't syntactically distinguish between a local or other variable id
-// and a property or constant reference.
+// TODO: Can't syntactically distinguish between a local variable
+//       and a property or constant reference.
 //
 elValueGenerator:
-      elBareRef
+      SYM_SELF
+    | elBareRef
     | elScopedFeatureRef
-    | typeRef
     ;
 
 //
 // An unscoped reference of some kind
-//
-elBareRef:
-      elBoundVariableId
-    | elStaticRef
-    | elLocalRef
-    | elFunctionCall
-    ;
-
-//
-// Static and constant feature refs, distinguished by the use of
-// initial capital in the id.
-// Will map to EL_READABLE_VARIABLE or EL_STATIC_REF (unscoped)
-//
-elStaticRef:
-      SYM_SELF
-    | elConstantId
-    ;
-
-//
-// Local writable reference, distinguished by use of initial lowercase id
 // Will map to EL_WRITABLE_VARIABLE or EL_PROPERTY_REF (unscoped)
 //
-elLocalRef:
-      SYM_RESULT
-    | elLocalVariableId
-    ;
-
-//
-// scoped feature references.
-// Will map to any EL_FEATURE_REF (scoped)
-//
-elScopedFeatureRef: elScoper elFeatureRef ;
-
-elScoper: ( typeRef '.' )? ( elBareRef '.' )* ;
-
-typeRef: '{' typeId '}' ;
-
-typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
-
-elFeatureRef:
-      elFunctionCall
-    | elInstantiableRef
-    ;
-
-//
-// Instantiable feature refs
-//
-elInstantiableRef:
-      elBoundVariableId
-    | elLocalVariableId
+elBareRef:
+      elInstantiableRef
+    | elFunctionCall
     | elConstantId
     ;
+
+//
+// Instantiable feature refs; may be the target of an assignment
+//
+elInstantiableRef:
+      SYM_RESULT
+    | elBoundVariableId
+    | elLocalVariableId
+    ;
+
+
+//
+// Scoped feature references. Has to have at least one scoping element, either a
+// class name in {} or else a baseRef name; then any number of bareRefs.
+// Will map to any EL_FEATURE_REF (scoped)
+//
+elScopedFeatureRef: elScoper elBareRef ;
+
+elScoper: ( '{' typeId '}' | elBareRef ) '.'  ( elBareRef '.' )* ;
+
+typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
 //
 // A variable bound to a data source, lexical form '$xxxx'
