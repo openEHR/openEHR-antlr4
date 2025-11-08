@@ -32,6 +32,10 @@ assignment: elValueGenerator SYM_ASSIGNMENT elExpression ;
 
 assertion: LC_ID ':' elBooleanExpr ;
 
+// ========================== Type names ==========================
+
+typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+
 // ========================== EL Expressions ==========================
 
 //
@@ -218,8 +222,6 @@ elInstantiableRef:
 elScopedFeatureRef: elScoper elBareRef ;
 
 elScoper: ( '{' typeId '}' | elBareRef ) '.'  ( elBareRef '.' )* ;
-
-typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
 
 //
 // A variable bound to a data source, lexical form '$xxxx'
