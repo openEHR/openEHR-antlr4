@@ -3,8 +3,10 @@ package org.openehr.elReader;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.tree.ParseTreeWalker;
-import org.openehr.reader_common.*;
 import org.openehr.common.SyntaxReader;
+import org.openehr.reader_common.ElLexer;
+import org.openehr.reader_common.ElParser;
+import org.openehr.reader_common.ElParserBaseListener;
 
 public class ElReader extends SyntaxReader<ElLexer, ElParser> {
 

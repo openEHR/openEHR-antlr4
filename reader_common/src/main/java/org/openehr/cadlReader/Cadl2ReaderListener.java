@@ -4,10 +4,10 @@ package org.openehr.cadlReader;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import org.openehr.reader_common.Cadl2Parser;
-import org.openehr.reader_common.Cadl2ParserListener;
 import org.openehr.common.SyntaxUtils;
 import org.openehr.odinReader.OdinReader;
+import org.openehr.reader_common.Cadl2Parser;
+import org.openehr.reader_common.Cadl2ParserListener;
 
 /**
  * This class provides an empty implementation of {@link Cadl2ParserListener},
