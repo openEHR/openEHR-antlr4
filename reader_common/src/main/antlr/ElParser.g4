@@ -12,135 +12,149 @@ options { tokenVocab=ElLexer; }
 import Cadl2Parser;
 
 
-
-// ========================== EL Statements ==========================
-
-statementBlock: statement+ EOF? ;
-
-statement: ( declaration | assignment | assertion ) ';' ;
-
-declaration:
-      variableDecl
-    | constantDecl
-    ;
-
-variableDecl: elInstantiableRef ':' typeId ( SYM_ASSIGNMENT elExpression )? ;
-
-constantDecl: UC_ID ':' typeId SYM_EQ elExpression ;
-
-assignment: elValueGenerator SYM_ASSIGNMENT elExpression ;
-
-assertion: LC_ID ':' elBooleanExpr ;
-
 // ========================== Type names ==========================
 
-typeId: UC_ID ( '<' typeId ( ',' typeId )* '>' )? ;
+typeId: simpleTypeId | genericTypeId ;
+
+simpleTypeId: simpleTypeName typeValueConstraint? ;
+simpleTypeName: UC_ID ;
+typeValueConstraint: SYM_LEFT_GUILLEMET namespaceId SYM_RIGHT_GUILLEMET ;
+
+// a namespace id has at least one '.'
+namespaceId: namespaceSegmentId ( '.' namespaceSegmentId )+ ;
+namespaceSegmentId: LC_ID | UC_ID | WEB_ID ;
+
+genericTypeId: simpleTypeName '<' typeId ( ',' typeId )* '>' ;
 
 // ========================== EL Expressions ==========================
 
 //
-// Expressions are either value-generators, or operator expressions (containing value-generators)
+// Stratified expression grammar
+//
+// Note on spurious "FULL AMBIGUITY" warnings: parsing real .bmml sources through this grammar
+// reports numerous ANTLR FULL AMBIGUITY warnings (always exact: false), centred on the
+// loop-continue-vs-exit decision of the `( op operand )*` repetitions below - most visibly
+// elExprAnd's and elExprEquality's. These are confirmed benign, not a grammar defect:
+//
+// - elExpression (and everything under it) is reached from dozens of unrelated call sites
+//   across the combined Bmml+Cadl2+El grammar (bmmConstantDecl, bmmPropertyDecl,
+//   bmmVariableDecl, bmmAssignment, dlConditionBranch, elArgsList, bmmClassAssertion,
+//   elExprForAll/ThereExists bodies, etc.), each with a different follow context. When ANTLR
+//   escalates one of these loop-exit decisions to full-context (LL) analysis, its default
+//   (non-exact) mode deliberately stops looking as soon as it can guarantee the correct
+//   prediction, without proving there is no ambiguity for some other, unreached follow
+//   context - hence exact is always false here. See ParserATNSimulator's own comment on this
+//   trade-off ("we just can't say for sure there is an ambiguity without looking further").
+// - ANTLR always resolves a reported ambiguity by picking the lowest-numbered alternative,
+//   and for a `(...)* ` loop that is always "take another iteration" (the greedy, intended
+//   reading) - never "exit early".
+// - Verified directly: dumping the parse tree for inputs like `r.source = self` and
+//   `a = b and c = d` (both of which trigger this warning) shows the operators are built
+//   correctly regardless - e.g. `elExprEquality(elExprComparison(r.source), =,
+//   elExprComparison(self))` - not truncated or misparsed.
+//
+// Net effect: noisy but harmless. Eliminating the warning would require restructuring away
+// from a widely shared elExpression subtree (e.g. back to native left-recursion, which is
+// what an earlier grammar iteration used to dodge a *different*, genuine ambiguity - see git
+// history) - not something to take on just to silence a cosmetic warning.
 //
 elExpression:
-      elTerminal
-    | elOperatorExpression
+      elExprTernary
     | elTuple
     ;
 
-elOperatorExpression:
-      elBooleanExpr
-    | elArithmeticExpr
+elExprTernary: elExprImplies ( '?' elSimpleTerminal ':' elSimpleTerminal )? ;
+
+elExprImplies: elExprOr ( SYM_IMPLIES elExprOr )* ;
+
+elExprOr: elExprAnd ( elOrBinop elExprAnd )* ;
+
+elExprAnd: elExprEquality ( SYM_AND elExprEquality )* ;
+
+elExprEquality: elExprComparison ( elEqualityBinop elExprComparison )* ;
+
+elExprComparison: elExprAddSub ( elComparisonBinop elExprAddSub )* ;
+
+elExprAddSub: elExprMultDiv ( elAddSubBinop elExprMultDiv )* ;
+
+elExprMultDiv: elExprExp ( elMultDivBinop elExprExp )* ;
+
+// Uses RHS recursion to achieve right-associativity
+elExprExp: elExprNot ( '^' elExprExp )? ;
+
+elExprNot: SYM_NOT? elExprPostfixUnary ;
+
+//
+// Placeholder, if/when postfix markers needed
+//
+elExprPostfixUnary: elExprTerminal ;
+
+elExprTerminal:
+      elExprVoidComparison
+    | elExprParen
+    | elAtom
+    | elExprMatches
+    | elExprForAll
+    | elExprThereExists
+    | dlDecisionTable
     ;
 
-// ------------------- Boolean-returning operator expressions --------------------
+elExprParen: '(' elExpression ')' ;
+
+elExprMatches: elValueGenerator SYM_MATCHES '{' primitiveObjectMatcher '}' ;
+
+elExprForAll: SYM_FOR_ALL elVariableId ':' elValueGenerator '¦' elExpression ;
+
+elExprThereExists: SYM_THERE_EXISTS elVariableId ':' elValueGenerator '¦' elExpression ;
 
 //
-// Expressions evaluating to boolean values, using standard precedence;
-// These map to ordinary 1- and 2-argument function calls on Boolean instances
+// Equivalent of aaa != Void, or similar. We use instead the form ∃aaa
 //
-elBooleanExpr:
-      SYM_NOT elBooleanExpr
-    | elBooleanExpr SYM_AND elBooleanExpr
-    | elBooleanExpr SYM_XOR elBooleanExpr
-    | elBooleanExpr SYM_OR elBooleanExpr
-    | elBooleanExpr SYM_IMPLIES elBooleanExpr
-    | elBooleanExpr ( SYM_IFF | SYM_EQ ) elBooleanExpr
-    | elBooleanLeaf
+elExprVoidComparison: SYM_THERE_EXISTS elValueGenerator ;
+
+//
+// --------- Various operators ----------
+//
+
+elOrBinop:
+      SYM_OR
+    | SYM_XOR
     ;
 
-//
-// Atomic Boolean-valued expression elements
-//
-elBooleanLeaf:
-      booleanValue
-    | elForAllExpr
-    | elThereExistsExpr
-    | elArithmeticConstraintExpr
-    | elGeneralConstraintExpr
-    | '(' elBooleanExpr ')'
-    | SYM_EXISTS elValueGenerator
-    | elArithmeticComparisonExpr
-    | elObjectComparisonExpr
-    | elValueGenerator
-    ;
-
-//
-//  Universal and existential quantifier
-//
-elForAllExpr: SYM_FOR_ALL elLocalVariableId ':' elValueGenerator '¦' elBooleanExpr ;
-
-elThereExistsExpr: SYM_THERE_EXISTS elLocalVariableId ':' elValueGenerator '¦' elBooleanExpr ;
-
-// Constraint expressions
-// This provides a way of using one operator (matches) to compare a
-// value (LHS) with a value range (RHS). As per ADL, the value range
-// for ordered types like Integer, Date etc may be a single value,
-// a list of values, or a list of intervals, and in future, potentially
-// other comparators, including functions (e.g. divisible_by_N).
-//
-// For non-ordered types like String and Terminology_code, the RHS
-// is in other forms, e.g. regex for Strings.
-//
-// The matches operator can be used to generate a Boolean value that
-// may be used within an expression like any other Boolean (hence it
-// is a booleanLeaf).
-// TODO: non-primitive objects might be supported on the RHS in future.
-elArithmeticConstraintExpr: elArithmeticLeaf SYM_MATCHES '{' cInlineOrderedObject '}' ;
-
-elGeneralConstraintExpr: elSimpleTerminal SYM_MATCHES '{' cObjectMatcher '}' ;
-
-// --------------------------- Arithmetic operator expressions --------------------------
-
-//
-// Comparison expressions of arithmetic operands generating Boolean results
-//
-elArithmeticComparisonExpr: elArithmeticExpr elComparisonBinop elArithmeticExpr ;
-
-elComparisonBinop:
+elEqualityBinop:
       SYM_EQ
     | SYM_NE
-    | SYM_GT
+    ;
+
+elComparisonBinop:
+      SYM_GT
     | SYM_LT
     | SYM_LE
     | SYM_GE
     ;
 
-//
-// Expressions evaluating to values of arithmetic types, using standard precedence
-//
-elArithmeticExpr:
-      <assoc=right> elArithmeticExpr '^' elArithmeticExpr
-    | elArithmeticExpr ( '/' | SYM_ASTERISK | '%' ) elArithmeticExpr
-    | elArithmeticExpr ( '+' | '-' ) elArithmeticExpr
-    | elArithmeticLeaf
+elAddSubBinop:
+      '+'
+    | '-'
     ;
 
-// TODO: need to be able to plug in terminal to allow decision tables in expressions
-elArithmeticLeaf:
-      elArithmeticValue
-    | '(' elArithmeticExpr ')'
+elMultDivBinop:
+      '/'
+    | '*'
+    | '%'
+    ;
+
+//
+// ----------- Semantic and structural atoms -------------
+//
+elAtom:
+      booleanValue
+    | elArithmeticValue
+    | stringValue
+    | characterValue
+    | termCodeValue
+    | primitiveStructure
     | elValueGenerator
-    | dlSimpleCaseTable
     ;
 
 elArithmeticValue:
@@ -152,17 +166,7 @@ elArithmeticValue:
     | durationValue
     ;
 
-// -------------------- Equality operator expressions for other types ------------------------
 
-//
-// Compare any kind of objects
-//
-elObjectComparisonExpr: elSimpleTerminal elEqualityBinop elSimpleTerminal ;
-
-elEqualityBinop:
-    SYM_EQ
-  | SYM_NE
-  ;
 
 //
 // -------------------------- tuples -----------------------------
@@ -174,13 +178,16 @@ elTuple: '[' elExpression ( ',' elExpression )+ ']';
 // -------------------------- value-generating expressions -----------------------------
 //
 
-elTerminal:
-      elSimpleTerminal
-    | dlDecisionTable
-    ;
-
+//
+// A narrower terminal, used where only a leaf value (no operators) is syntactically valid,
+// e.g. decision-table branches and ternary results.
+//
 elSimpleTerminal:
-      primitiveObject
+      booleanValue
+    | elArithmeticValue
+    | stringValue
+    | termCodeValue
+    | primitiveStructure
     | elValueGenerator
     ;
 
@@ -210,18 +217,17 @@ elBareRef:
 elInstantiableRef:
       SYM_RESULT
     | elBoundVariableId
-    | elLocalVariableId
+    | elVariableId
     ;
 
 
 //
 // Scoped feature references. Has to have at least one scoping element, either a
-// class name in {} or else a baseRef name; then any number of bareRefs.
-// Will map to any EL_FEATURE_REF (scoped)
+// class name and then any number of bareRefs. Will map to any ElValueGenerator (scoped)
 //
 elScopedFeatureRef: elScoper elBareRef ;
 
-elScoper: ( '{' typeId '}' | elBareRef ) '.'  ( elBareRef '.' )* ;
+elScoper: ( typeId '.' )?  ( elBareRef '.' )+ ;
 
 //
 // A variable bound to a data source, lexical form '$xxxx'
@@ -229,59 +235,74 @@ elScoper: ( '{' typeId '}' | elBareRef ) '.'  ( elBareRef '.' )* ;
 //
 elBoundVariableId: BOUND_VARIABLE_ID ;
 
-elLocalVariableId: LC_ID ;
+//
+// A 'variable' reference could be to a property; parameter; local variable. The parser cannot know
+// which one, it depends on the context e.g. being in an invariant or being in a routine pre-condition
+// or statement.
+//
+elVariableId: elLcId ;
 
 elConstantId: UC_ID ;
 
 //
-// Function calls
+// Function calls: Build a BmmFunctionCall object
 //
-elFunctionCall: LC_ID ( '(' elExprList ')' )? ;
+elFunctionCall: elLcId '(' elArgsList? ')' ;
 
-elExprList: elExpression ( ',' elExpression )* ;
+elArgsList: elExpression ( ',' elExpression )* ;
 
 //
 // -------------------------- decision tables -----------------------------
 //
 
+// Ugly, but we need to allow certain keywords as routine names; the following
+// is a hard-wired list of names that will have been matched as keyowods, rather than
+// LC_ID
+elLcId:
+          LC_ID
+        | SYM_FOR_ALL
+        | SYM_THERE_EXISTS
+        | SYM_MATCHES
+        | SYM_ASSERT
+        | SYM_CARDINALITY
+        | SYM_EXISTENCE
+        | SYM_OCCURRENCES
+        ;
+
+//
+// The ternary form (dlBinaryChoice / 'cond ? a : b') is not part of this rule - see the note
+// on elAtom above; it is inlined directly into elExpr as #elExprTernary.
+//
 dlDecisionTable:
-      dlBinaryChoice
-    | dlCaseTable
+      dlCaseTable
     | dlConditionTable
     ;
 
 dlCaseTable:
-    | dlSimpleCaseTable
+      dlSimpleCaseTable
     | dlGeneralCaseTable
     ;
 
 //
 // condition chains (if/then statement equivalent)
-// choice in
+// when
 //   =========================================================
 //   er_positive and
 //   her2_negative and
-//   not ki67.in_range (#high):    #luminal_A,
+//   not ki67.in_range (#high) ->  #luminal_A,
 //   ---------------------------------------------------------
 //   er_positive and
 //   her2_negative and
-//   ki67.in_range (#high):        #luminal_B_HER2_negative,
+//   ki67.in_range (#high)     ->  #luminal_B_HER2_negative,
 //   ---------------------------------------------------------
-//   *:                            #none
+//   *                         ->  #none
 //   =========================================================
 //
-dlConditionTable: SYM_CHOICE SYM_IN BLOCK_DELIM ( dlConditionBranch ',' )+ ( dlConditionBranch | dlConditionDefaultBranch ) BLOCK_DELIM ;
+dlConditionTable: SYM_WHEN BLOCK_DELIM ( dlConditionBranch ',' )+ ( dlConditionBranch | dlConditionDefaultBranch ) BLOCK_DELIM ;
 
-dlConditionBranch: elBooleanExpr ':' elExpression ;
+dlConditionBranch: elExpression SYM_ARROW elExpression ;
 
-dlConditionDefaultBranch: SYM_ASTERISK ':' elExpression ;
-
-//
-// Binary-choice version of condition table, using old-school
-// C/Java syntax:
-// booleanExpr ? x : y ;
-//
-dlBinaryChoice:  elBooleanExpr '?' elSimpleTerminal ':' elSimpleTerminal ;
+dlConditionDefaultBranch: SYM_ASTERISK SYM_ARROW elExpression ;
 
 //
 // Case tables, e.g.:

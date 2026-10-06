@@ -13,6 +13,4 @@ import OpenehrIdsLexer, SymbolsLexer;
 // ------ get rid of whitespace inside lists and intervals ------
 WS : [ \t\r]+     -> channel(HIDDEN) ;
 
-// -------------------- symbols for lists ------------------------
-SYM_LIST_CONTINUE : '...' ;
 

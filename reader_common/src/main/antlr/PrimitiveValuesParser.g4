@@ -10,11 +10,16 @@ parser grammar PrimitiveValuesParser;
 options { tokenVocab=PrimitiveValuesLexer; }
 
 primitiveObject :
+      primitiveStructure
+    | primitiveValue
+    ;
+
+primitiveStructure :
       primitiveList
     | primitiveArray
     | primitiveSet
     | primitiveInterval
-    | primitiveValue
+    | primitiveMap
     ;
 
 primitiveValue :
@@ -30,11 +35,17 @@ primitiveValue :
     | durationValue
     ;
 
-primitiveList: '(' primitiveValues ')' ;
+primitiveList: '(' primitiveValues? ')' ;
 
-primitiveArray: '[' primitiveValues ']' ;
+primitiveArray: '[' primitiveValues? ']' ;
 
-primitiveSet: '{' primitiveValues '}' ;
+primitiveSet: '{' primitiveValues? '}' ;
+
+primitiveMap: '{' '[' primitiveMapEntry ( ',' primitiveMapEntry )* ']' '}' ;
+
+primitiveMapEntry: primitiveMapKey ':' primitiveObject ;
+
+primitiveMapKey: stringValue | integerValue | realValue ;
 
 primitiveValues :
       stringValues
@@ -42,7 +53,7 @@ primitiveValues :
     | realValues
     | booleanValues
     | characterValues
-    | termCodeListValue
+    | termCodeValues
     | dateValues
     | timeValues
     | dateTimeValues
@@ -58,7 +69,7 @@ primitiveInterval:
     | durationInterval
     ;
 
-stringValue : STRING ;
+stringValue : STRING | STRING_LIT ;
 stringValues : stringValue ( ',' stringValue )* ;
 
 integerValue : ( SYM_PLUS | SYM_MINUS )? ( INTEGER | SCI_INTEGER ) ;
@@ -128,8 +139,8 @@ durationIntervalRange :
 durationIntervals : durationInterval ( ',' durationInterval )* ;
 
 // new style term codes of form #xxxxx, #terminology_id::code
-termCodeValue : QUALIFIED_TERM_CODE_ID | LOCAL_TERM_CODE_ID ;
-termCodeListValue : termCodeValue ( ',' termCodeValue )* ;
+termCodeValue : QUALIFIED_TERM_CODE_ID | LOCAL_TERM_CODE_ID | QUALIFIED_TERM_CODE_REF | '[' ( ID_CODE | AT_CODE | AC_CODE ) ']' ;
+termCodeValues : termCodeValue ( ',' termCodeValue )* ;
 
 relop : SYM_LE | SYM_GE | SYM_GT | SYM_LT ;
 

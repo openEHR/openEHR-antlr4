@@ -22,6 +22,7 @@ WS       : [ \t\r]+     -> channel(HIDDEN) ;
 
 // --------- symbols ----------
 SYM_ASSIGNMENT: ':=' | '::=' ;
+SYM_INTERROGATION: '?' ;
 
 SYM_THEN     : 'then' | 'THEN' ;
 SYM_AND      : 'and' | 'AND' | '∧' ;

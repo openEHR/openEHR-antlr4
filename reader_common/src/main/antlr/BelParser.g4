@@ -42,7 +42,7 @@ binding: variableName SYM_ASSIGNMENT rawPath ;
 
 localAssignment: variableName SYM_ASSIGNMENT expression ;
 
-assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
+assertion: ( ( LC_ID | UC_ID ) ':' )? expression ;
 
 // ========================== EL Expressions ==========================
 
@@ -50,13 +50,7 @@ assertion: ( ( LC_ID | UC_ID ) ':' )? booleanExpr ;
 // Expressions are either value-generators, or operator expressions (containing value-generators)
 //
 expression:
-      valueRef
-    | operatorExpression
-    ;
-
-operatorExpression:
-      booleanExpr
-    | arithmeticExpr
+      elExpr
     ;
 
 // ------------------- Boolean-returning operator expressions --------------------
@@ -66,67 +60,46 @@ operatorExpression:
 // The equalityBinop ones are not strictly necessary, but allow the use
 // of booleanLeaf = true, which some people like
 //
-booleanExpr:
-      SYM_NOT booleanExpr
-    | booleanExpr SYM_AND booleanExpr
-    | booleanExpr SYM_XOR booleanExpr
-    | booleanExpr SYM_OR booleanExpr
-    | booleanExpr SYM_IMPLIES booleanExpr
-    | booleanLeaf equalityBinop booleanLeaf
-    | booleanLeaf
+elExpr:
+      <assoc=right> elExpr '^' elExpr                                  #elExprExp
+    | elExpr ( '/' | SYM_ASTERISK | '%' ) elExpr                        #elExprMultDiv
+    | elExpr ( '+' | '-' ) elExpr                                        #elExprAddSub
+    | elExpr SYM_MATCHES '{' cInlinePrimitiveObject '}'                   #elExprMatches
+    | elExpr elComparisonBinop elExpr                                      #elExprCompare
+    | SYM_NOT elExpr                                                        #elExprNot
+    | elExpr SYM_AND elExpr                                                  #elExprAnd
+    | elExpr SYM_XOR elExpr                                                   #elExprXor
+    | elExpr SYM_OR elExpr                                                     #elExprOr
+    | elExpr SYM_IMPLIES elExpr                                                 #elExprImplies
+    | SYM_FOR_ALL VARIABLE_ID ':' valueRef '|' elExpr                           #elExprForAll
+    | SYM_THERE_EXISTS VARIABLE_ID ':' valueRef '|' elExpr                       #elExprThereExists
+    | elExpr '?' elSimpleTerminal ':' elSimpleTerminal                             #elExprTernary
+    | elAtom                                                                        #elExprAtom
+    ;
+
+//
+// The usual binary comparison operators.
+//
+elComparisonBinop:
+      SYM_EQ
+    | SYM_NE
+    | SYM_GT
+    | SYM_LT
+    | SYM_LE
+    | SYM_GE
     ;
 
 //
 // Atomic Boolean-valued expression elements
 // TODO: SYM_EXISTS alternative to be replaced by defined() predicate
-booleanLeaf:
+elAtom:
       booleanValue
-    | forAllExpr
-    | thereExistsExpr
-    | constraintExpr
-    | '(' booleanExpr ')'
+    | arithmeticValue
+    | stringValue
+    | characterValue
+    | termCodeValue
     | SYM_EXISTS ( rawPath | variableSubPath )
-    | arithmeticComparisonExpr
-    | arithmeticEqualityExpr
-    | valueRef
-    ;
-
-//
-//  Universal and existential quantifier
-// TODO: 'in' probably isn't needed in the long term
-forAllExpr: SYM_FOR_ALL VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
-
-thereExistsExpr: SYM_THERE_EXISTS VARIABLE_ID ( ':' | 'in' ) valueRef '|'? booleanExpr ;
-
-// Constraint expressions
-// This provides a way of using one operator (matches) to compare a
-// value (LHS) with a value range (RHS). As per ADL, the value range
-// for ordered types like Integer, Date etc may be a single value,
-// a list of values, or a list of intervals, and in future, potentially
-// other comparators, including functions (e.g. divisible_by_N).
-//
-// For non-ordered types like String and Terminology_code, the RHS
-// is in other forms, e.g. regex for Strings.
-//
-// The matches operator can be used to generate a Boolean value that
-// may be used within an expression like any other Boolean (hence it
-// is a booleanLeaf).
-// TODO: non-primitive objects might be supported on the RHS in future.
-constraintExpr: arithmeticExpr SYM_MATCHES '{' cInlinePrimitiveObject '}' ;
-
-//
-// Expressions evaluating to arithmetic values, using standard precedence
-//
-arithmeticExpr:
-      <assoc=right> arithmeticExpr '^' arithmeticExpr
-    | arithmeticExpr ( '/' | '*' | '%' ) arithmeticExpr
-    | arithmeticExpr ( '+' | '-' ) arithmeticExpr
-    | arithmeticLeaf
-    ;
-
-arithmeticLeaf:
-      arithmeticValue
-    | '(' arithmeticExpr ')'
+    | '(' elExpr ')'
     | valueRef
     ;
 
@@ -140,27 +113,15 @@ arithmeticValue:
     ;
 
 //
-// Equality expression between any arithmetic value; precedence is
-// lowest, so only needed between leaves, since () will be needed for
-// larger expressions anyway
+// A narrower terminal, used where only a leaf value (no operators) is syntactically valid,
+// e.g. decision-table branches and ternary results.
 //
-arithmeticEqualityExpr: arithmeticExpr equalityBinop arithmeticExpr ;
-
-equalityBinop:
-      SYM_EQ
-    | SYM_NE
-    ;
-
-//
-// Relational expressions of arithmetic operands generating Boolean values
-//
-arithmeticComparisonExpr: arithmeticExpr relationalBinop arithmeticExpr ;
-
-relationalBinop:
-      SYM_GT
-    | SYM_LT
-    | SYM_LE
-    | SYM_GE
+elSimpleTerminal:
+      booleanValue
+    | arithmeticValue
+    | stringValue
+    | termCodeValue
+    | valueRef
     ;
 
 //

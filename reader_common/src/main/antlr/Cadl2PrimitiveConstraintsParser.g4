@@ -12,6 +12,8 @@ parser grammar Cadl2PrimitiveConstraintsParser;
 options { tokenVocab=Cadl2PrimitiveConstraintsLexer; }
 import PrimitiveValuesParser;
 
+// ------------ ADL Primitive type constraints -------------
+
 cInlinePrimitiveObject:
       cInlineOrderedObject
     | cString
@@ -32,32 +34,67 @@ cInlineDTemporalObject:
     | cDuration
     ;
 
+// ------------ Primitive type matchers -------------
+
+primitiveObjectMatcher:
+      orderedObjectMatcher
+    | stringMatcher
+    | terminologyCodeMatcher
+    | booleanMatcher
+    ;
+
+orderedObjectMatcher:
+      integerMatcher
+    | realMatcher
+    | temporalObjectMatcher
+    ;
+
+temporalObjectMatcher:
+      dateMatcher
+    | timeMatcher
+    | dateTimeMatcher
+    | durationMatcher
+    ;
+
+
 // ------------ Primitive type constraints -------------
 
-cBoolean: ( booleanValue | booleanValues ) assumedBooleanValue? ;
+cBoolean: booleanMatcher assumedBooleanValue? ;
+booleanMatcher: booleanValues ;
 assumedBooleanValue: ';' booleanValue ;
 
-cInteger: ( integerValue | integerValues | integerInterval | integerIntervals ) assumedIntegerValue? ;
+cInteger: integerMatcher assumedIntegerValue? ;
+integerMatcher: integerValues | integerIntervals ;
 assumedIntegerValue: ';' integerValue ;
 
-cReal: ( realValue | realValues | realInterval | realIntervals ) assumedRealValue? ;
+cReal: realMatcher assumedRealValue? ;
+realMatcher: realValues | realIntervals ;
 assumedRealValue: ';' realValue ;
 
-cDateTime: ( DATE_TIME_CONSTRAINT_PATTERN | dateTimeValue | dateTimeValues | dateTimeInterval | dateTimeIntervals ) assumedDateTimeValue? ;
+cDateTime: dateTimeMatcher assumedDateTimeValue? ;
+dateTimeMatcher: DATE_TIME_CONSTRAINT_PATTERN | dateTimeValues | dateTimeIntervals ;
 assumedDateTimeValue: ';' dateTimeValue ;
 
-cDate: ( DATE_CONSTRAINT_PATTERN | dateValue | dateValues | dateInterval | dateIntervals ) assumedDateValue? ;
+cDate: dateMatcher assumedDateValue? ;
+dateMatcher: DATE_CONSTRAINT_PATTERN | dateValues | dateIntervals ;
 assumedDateValue: ';' dateValue ;
 
-cTime: ( TIME_CONSTRAINT_PATTERN | timeValue | timeValues | timeInterval | timeIntervals ) assumedTimeValue? ;
+cTime: timeMatcher assumedTimeValue? ;
+timeMatcher: TIME_CONSTRAINT_PATTERN | timeValues | timeIntervals ;
 assumedTimeValue: ';' timeValue ;
 
-cDuration: ( DURATION_CONSTRAINT_PATTERN ( '/' ( durationInterval | durationValue ))?
-    | durationValue | durationValues | durationInterval | durationIntervals ) assumedDurationValue?
+// The inner `durationInterval | durationValue` here is a different, non-overlapping position
+// (gated behind DURATION_CONSTRAINT_PATTERN '/'), so it is unaffected by the above.
+cDuration: durationMatcher assumedDurationValue? ;
+durationMatcher:
+      DURATION_CONSTRAINT_PATTERN ( '/' ( durationInterval | durationValue ))?
+    | durationValues
+    | durationIntervals
     ;
 assumedDurationValue: ';' durationValue ;
 
-cString: ( stringValue | stringValues | DELIMITED_REGEX ) assumedStringValue? ;
+cString: stringMatcher assumedStringValue? ;
+stringMatcher: stringValues | DELIMITED_REGEX ;
 assumedStringValue: ';' stringValue ;
 
 // ADL2 term types: [ac3], [ac3; at5], [at5]
@@ -65,6 +102,8 @@ assumedStringValue: ';' stringValue ;
 // TPFP: the 3rd branch using IDs should be removed; the first two patterns are correct
 cTerminologyCode:
       '[' ( AC_CODE ( ';' AT_CODE )? | AT_CODE ) ']'
-    | LOCAL_TERM_CODE_ID ( ';' LOCAL_TERM_CODE_ID )?
-    | LOCAL_TERM_CODE_ID (',' LOCAL_TERM_CODE_ID)+
+    | LOCAL_TERM_CODE_ID
+    | LOCAL_TERM_CODE_ID (',' LOCAL_TERM_CODE_ID)+ ( ';' LOCAL_TERM_CODE_ID )?
     ;
+
+terminologyCodeMatcher: '[' ( AC_CODE | AT_CODE ) ']' | termCodeValues ;

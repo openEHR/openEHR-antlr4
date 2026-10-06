@@ -12,6 +12,7 @@ lexer grammar SymbolsLexer;
 // -------------------- special symbols ------------------------
 SYM_NAMESPACE_SEP: '::' ;
 SYM_DOUBLE_DOT   : '..' ;
+SYM_ARROW        : '->' ;
 
 // ------------------ logic & math symbols ---------------------
 SYM_LE : '<=' | '≤' ;
@@ -44,3 +45,6 @@ SYM_LBRACKET : '[';
 SYM_RBRACKET : ']';
 SYM_LCURLY   : '{' ;
 SYM_RCURLY   : '}' ;
+
+SYM_HASH   : '#' ;
+

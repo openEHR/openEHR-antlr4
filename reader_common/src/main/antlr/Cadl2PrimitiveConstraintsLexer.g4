@@ -47,11 +47,11 @@ REGEX_START_SLASH: '{/' -> type (SYM_LCURLY), mode(REGEX_SLASH);
 mode REGEX_CARET;
 REGEX_END_CARET: '^}' -> type (SYM_RCURLY), mode(DEFAULT_MODE);
 REGEX_SEMI_CARET: '^;' -> type (SYM_SEMI_COLON), mode(DEFAULT_MODE);
-DELIMITED_REGEX: CARET_REGEX_CHAR+ { setText ("^" + getText() + "^"); } ;
+DELIMITED_REGEX: CARET_REGEX_CHAR+ { text = "^" + text + "^"; } ;
 fragment CARET_REGEX_CHAR: ESCAPE_SEQ | '\\^' | ~[^\n\r] ;
 
 mode REGEX_SLASH;
 REGEX_END_SLASH: '/}' -> type (SYM_RCURLY), mode(DEFAULT_MODE);
 REGEX_SEMI_SLASH: '/;' -> type (SYM_SEMI_COLON), mode(DEFAULT_MODE);
-DELIMITED_REGEX_SLASH: SLASH_REGEX_CHAR+ { setText ("/" + getText() + "/"); } -> type (DELIMITED_REGEX) ;
+DELIMITED_REGEX_SLASH: SLASH_REGEX_CHAR+ { text = "/" + text + "/"; } -> type (DELIMITED_REGEX) ;
 fragment SLASH_REGEX_CHAR: ESCAPE_SEQ | '\\/' | ~[/\n\r] ;

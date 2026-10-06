@@ -37,9 +37,12 @@ fragment SECOND_DEC_SEP : '.' | ',' ;
 // TODO: the following will incorrectly match just 'P'
 ISO8601_DURATION : '-'?'P' (DIGIT+ [yY])? (DIGIT+ [mM])? (DIGIT+ [wW])? (DIGIT+[dD])? ('T' (DIGIT+[hH])? (DIGIT+[mM])? (DIGIT+ (SECOND_DEC_SEP DIGIT+)?[sS])?)? ;
 
-// --------------------- URIs --------------------
-// URI recogniser based on https://tools.ietf.org/html/rfc3986 and
+// --------------------- IRIs/URIs --------------------
+// IRI recogniser based on https://tools.ietf.org/html/rfc3987 and
 // http://www.w3.org/Addressing/URL/5_URI_BNF.html
+// The IRI standard allows native extended character set and glyphs,
+// which are translated to %-encoding for wire transmission
+//
 fragment URI : URI_SCHEME ':' URI_HIER_PART ( '?' URI_QUERY )? ('#' URI_FRAGMENT)? ;
 
 fragment URI_HIER_PART :
@@ -82,10 +85,31 @@ fragment URI_FRAGMENT : ( URI_PCHAR | '/' | '?' )* ;
 
 fragment URI_PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
 
-fragment URI_UNRESERVED : ALPHA_CHAR | DIGIT | '-' | '.' | '_' | '~' ;
+fragment URI_UNRESERVED : ALPHA_CHAR | DIGIT | UCSCHAR | '-' | '.' | '_' | '~' ;
 fragment URI_RESERVED   : URI_GEN_DELIMS | URI_SUB_DELIMS ;
 fragment URI_GEN_DELIMS : [:/?#[\]@] ;
 fragment URI_SUB_DELIMS : [!$&'()*+,;=] ;
+
+// RFC 3987 ucschar equivalent
+fragment UCSCHAR:
+      '\u00A0'..'\uD7FF'
+    | '\uF900'..'\uFDCF'
+    | '\uFDF0'..'\uFFEF'
+    | '\u{10000}'..'\u{1FFFD}'
+    | '\u{20000}'..'\u{2FFFD}'
+    | '\u{30000}'..'\u{3FFFD}'
+    | '\u{40000}'..'\u{4FFFD}'
+    | '\u{50000}'..'\u{5FFFD}'
+    | '\u{60000}'..'\u{6FFFD}'
+    | '\u{70000}'..'\u{7FFFD}'
+    | '\u{80000}'..'\u{8FFFD}'
+    | '\u{90000}'..'\u{9FFFD}'
+    | '\u{A0000}'..'\u{AFFFD}'
+    | '\u{B0000}'..'\u{BFFFD}'
+    | '\u{C0000}'..'\u{CFFFD}'
+    | '\u{D0000}'..'\u{DFFFD}'
+    | '\u{E1000}'..'\u{EFFFD}'
+    ;
 
 // ------------------ special values --------------
 
@@ -109,8 +133,16 @@ SCI_REAL    : REAL ( E_SUFFIX | P10_SUFFIX ) ;
 fragment E_SUFFIX : [eE][+-]? DIGIT+ ;
 fragment P10_SUFFIX : [ ]* 'x' [ ]* '10' [ ]* '^' [ ]* DIGIT+ ;
 
+
+// triple quoted strings, used for multiline text, and good for regexes
+// because no overloaded quoting needed. No interpretation is done.
+STRING_LIT: '"""' STRING_LIT_CHAR*? '"""';
 STRING : '"' STRING_CHAR*? '"' ;
-fragment STRING_CHAR : ~["\\] | ESCAPE_SEQ | UTF8CHAR ; // strings can be multi-line
+
+fragment STRING_CHAR : ~["\\] | ESCAPE_SEQ | UTF8CHAR ;
+
+// one or two double quotes in a row can occur, but not three
+fragment STRING_LIT_CHAR : '"' '"'? | ~'"' | UTF8CHAR ;
 
 CHARACTER : '\'' CHAR '\'' ;
 fragment CHAR : ~['\\\r\n] | ESCAPE_SEQ | UTF8CHAR  ;
