@@ -49,11 +49,14 @@ fragment PCT_ENCODED : '%' HEX_DIGIT HEX_DIGIT ;
 // ---------------------- Terminology ids and refs ---------------------
 fragment TERMINOLOGY_ID: NAME_ID | URI ;
 
-// ADL and ODIN-style term codes uses []; e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
 // New EL style uses #xxxx
 QUALIFIED_TERM_CODE_ID: '#' COMPACT_QUALIFIED_TERM_CODE ;
 LOCAL_TERM_CODE_ID: '#' TERM_CODE_STRING ;
+
+// ADL and ODIN-style term codes uses []; e.g. [ICD10AM(1998)::F23]; [ISO_639-1::en]
 QUALIFIED_TERM_CODE_REF: '[' COMPACT_QUALIFIED_TERM_CODE ']' ;
+
+// snomed::100092834 or snomed::100092834|angina| or snomed(2020-09-18)::100092834|angina|
 fragment COMPACT_QUALIFIED_TERM_CODE : TERM_CODE_STRING ( '(' TERM_CODE_STRING ')' )? '::' TERM_CODE_STRING ( '|' .+? '|' )? ;
 fragment TERM_CODE_STRING: TERM_CODE_CHAR+ ;
 fragment TERM_CODE_CHAR : ALPHANUM_US_HYP_CHAR | '.' ;

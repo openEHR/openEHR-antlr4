@@ -24,13 +24,13 @@ public class ElReader extends SyntaxReader<ElLexer, ElParser> {
     }
 
     protected void doParse(int lineOffset) {
-        ElParser.StatementBlockContext stmtBlock = parser.statementBlock();
+        ElParser.ElExpressionContext expr = parser.elExpression();
 
         // don't bother with traversal if artefact not well-formed
         if (errors.hasNoErrors()) {
             ParseTreeWalker walker = new ParseTreeWalker();
             ElParserBaseListener reader =  new ElParserBaseListener();
-            walker.walk (reader, stmtBlock);
+            walker.walk (reader, expr);
         }
     }
 
