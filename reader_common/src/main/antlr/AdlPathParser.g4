@@ -9,18 +9,24 @@ parser grammar AdlPathParser;
 options { tokenVocab=AdlPathLexer; }
 
 //
-// A path to a node in an archetype, which will potentially match
+// ADL paths can be recognised at lexer level, or this parser. The lexer is
+// useful for matching pathsin legacy archetypes, where they are allowed inline
+// in expressions, where the '/' character is also allowed. This parser can then
+// be used on the matched string.
+//
+// This parser can also be used directly in contexts where paths appearing inline
+// causes no ambiguity.
+//
+// Match a path to a node in an archetype, which will potentially match
 // one or more data items in runtime data
 //
-adlPath: ( '/' adlPathSegment )+ ;
-adlPathSegment : LC_ID ( '[' adlPathPredicate ']' )? ;
+adlPath: adlPathSegment+ ;
+adlPathSegment : '/' attributeId=LC_ID ( '[' adlPathPredicate ']' )? ;
 
 adlPathPredicate:
-      archetypeIdPredicate
+      archetypeIdPredicate=ARCHETYPE_REF
     | idCode
     ;
-
-archetypeIdPredicate: ARCHETYPE_REF ;
 
 idCode:
       AT_CODE
@@ -29,16 +35,7 @@ idCode:
     ;
 
 //
-// A path to a node in an archetype with further model-based
-// path, referring to structure not mentioned in the archetype
-//
-augmentedAdlPath: varName=LC_ID adlPath modelSubPath? ;
-
-//
 // A path within a type defined in the underlying reference model
 //
-modelPath: varName=LC_ID modelSubPath ;
-
-modelSubPath: modelPathSegment+ ;
-
-modelPathSegment: '/' attributeId=LC_ID ;
+rmRelPath: varName=LC_ID rmPathSegment+ ;
+rmPathSegment: '/' attributeId=LC_ID ;
